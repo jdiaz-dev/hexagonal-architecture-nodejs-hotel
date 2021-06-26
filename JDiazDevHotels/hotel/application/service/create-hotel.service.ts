@@ -6,8 +6,6 @@ import { CreateNewHotelUseCase } from '../port/in/create-new-hotel.use-case';
 import { HotelPersistenceAdapter } from '../../adapter/out/persistence/hotel/hotel-persistence.adapter';
 import { Hotel } from '../../adapter/out/persistence/hotel/hotel-mysql.database-entity';
 
-
-
 @Service()
 export class CreateHotelService implements CreateNewHotelUseCase {
     private createHotelPort:CreateHotelPort
@@ -18,8 +16,8 @@ export class CreateHotelService implements CreateNewHotelUseCase {
     async createNewHotel(command:CreateHotelCommand):Promise<Hotel>{
         const hotel = command.getHotel
         
-        const hotelCreaded = await this.createHotelPort.createHotel(hotel)
-        return hotelCreaded
+        const hotelCreated = await this.createHotelPort.createHotel(hotel)
+        return hotelCreated
     }
 
 }

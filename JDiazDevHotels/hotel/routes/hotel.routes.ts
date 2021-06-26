@@ -1,12 +1,16 @@
 import { Container } from 'typedi'
 import { Router } from 'express'
-import { HotelController } from '../adapter/in/web/create-user.controller'
+import { HotelController } from '../adapter/in/web/hotel.controller'
+import { TokenHelp } from '../../common/token/token-help'
 
+const tokenHelp = Container.get(TokenHelp)
 const userController = Container.get(HotelController)
 
 const router = Router()
 
-router.post('/', (req, res) => userController.createHotel(req, res))
+router.post('/', [
+    tokenHelp.validateJWT
+],  userController.createHotel)
 
 export default router
 

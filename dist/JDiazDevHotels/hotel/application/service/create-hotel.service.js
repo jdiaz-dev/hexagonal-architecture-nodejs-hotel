@@ -28,8 +28,8 @@ let CreateHotelService = class CreateHotelService {
     createNewHotel(command) {
         return __awaiter(this, void 0, void 0, function* () {
             const hotel = command.getHotel;
-            const hotelCreaded = yield this.createHotelPort.createHotel(hotel);
-            return hotelCreaded;
+            const hotelCreated = yield this.createHotelPort.createHotel(hotel);
+            return hotelCreated;
         });
     }
 };
