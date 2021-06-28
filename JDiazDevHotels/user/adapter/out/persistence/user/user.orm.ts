@@ -39,10 +39,17 @@ export class UserORM implements UserRepository {
     }
     async getUserWithEmail(email:string):Promise<UserDatabaseEntity|any>{
         const user = await UserDatabaseEntity.findOne({ where:{ email: email}})
-        return user 
+
+        if(!user) return null
+        return user.toJSON()  
     }
     async getuserWithPk(id:number):Promise<any>{
-        const user = await UserDatabaseEntity.findByPk(id)
-        return user 
+        const user = await UserDatabaseEntity.findByPk(id, {
+            include:'role',
+            attributes:{ exclude:['roleId']}   
+        })
+
+        if(!user) return null
+        return user.toJSON() 
     }
 }

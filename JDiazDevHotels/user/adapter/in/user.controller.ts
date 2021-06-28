@@ -35,7 +35,7 @@ export class UserController {
         const token = await this.loginUserUseCase.loginUser(command)
         res.json(token)
     }
-    createUser = async (req:Request, res:Response) => {
+    createUser = async (req:Request|any, res:Response) => {
         const { names, firstSurname, secondSurname, cellphone, email, role, password } = req.body
         const command = new CreateUserCommand(
             new UserEntity(
@@ -47,6 +47,8 @@ export class UserController {
                 role,
                 password)
         )
+
+        console.log(req.user)
         const user = await this.createNewUserUseCase.createNewUser(command)
         res.json(user)
     }

@@ -1,3 +1,3 @@
-export interface GetUserForTokenPort {
-    getUserForToken(id:number):any
+export interface CommonNeedUserFromUserBcontext {
+    getUser(id:number):any
 }

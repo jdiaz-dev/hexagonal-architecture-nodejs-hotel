@@ -25,10 +25,18 @@ let GetUserService = class GetUserService {
     constructor(userPersistenceAdapter) {
         this.findUserPort = userPersistenceAdapter;
     }
-    getUserForToken(id) {
+    getUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.findUserPort.findUserWithPk(id);
             return user;
+        });
+    }
+    checkIfIsAdmin(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const admin = yield this.findUserPort.findUserWithPk(id);
+            if (admin.role.nameRole !== 'owner')
+                return false;
+            return true;
         });
     }
 };

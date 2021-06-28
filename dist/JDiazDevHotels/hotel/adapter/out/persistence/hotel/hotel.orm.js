@@ -19,12 +19,24 @@ exports.HotelORM = void 0;
 const typedi_1 = require("typedi");
 const hotel_mysql_database_entity_1 = require("./hotel-mysql.database-entity");
 let HotelORM = class HotelORM {
-    saveHotel(_hotel) {
+    saveHotel(_hotel, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const hotel = new hotel_mysql_database_entity_1.Hotel(_hotel);
+            const hotel = new hotel_mysql_database_entity_1.HotelDatabaseEntity(_hotel);
             //const hotel = await Hotel.create(_hotel)
+            hotel.userId = userId;
             yield hotel.save();
             return hotel;
+        });
+    }
+    getHotel(hotelId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const hotel = yield hotel_mysql_database_entity_1.HotelDatabaseEntity.findByPk(hotelId, {
+                include: 'user',
+                attributes: { exclude: ['userId'] }
+            });
+            if (!hotel)
+                return null;
+            return hotel.toJSON();
         });
     }
 };

@@ -9,12 +9,21 @@ export class RoleDatabaseEntity extends Model{
     public id!:string
 
     @Column
-    private role!:string
+    public nameRole!:string
+
+    @Column
+    public state!:boolean
 }
 RoleDatabaseEntity.init(
     {
-        role:{
-            type:DataTypes.STRING
+        nameRole:{
+            type:DataTypes.STRING,
+            allowNull:false,
+        },
+        state:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false,
+            defaultValue:true
         }
     },
     {

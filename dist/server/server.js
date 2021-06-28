@@ -15,16 +15,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = require("body-parser");
-const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/routes/hotel.routes"));
-const users_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/users.routes"));
-const roles_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/roles.routes"));
 const connection_1 = require("../db/connection");
+const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/adapter/in/web/hotel/hotel.routes"));
+const room_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/adapter/in/web/room/room.routes"));
+const level_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/adapter/in/web/level/level.routes"));
+const roles_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/roles.routes"));
+const users_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/users.routes"));
 class Server {
     constructor() {
         this.paths = {
             hotel: '/jdev/hotel',
+            level: '/jdev/level',
+            roles: '/jdev/roles',
             users: '/jdev/users',
-            roles: '/jdev/roles/'
+            room: '/jdev/room',
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '8080';
@@ -56,8 +60,10 @@ class Server {
     }
     routes() {
         this.app.use(this.paths.hotel, hotel_routes_1.default);
-        this.app.use(this.paths.users, users_routes_1.default);
+        this.app.use(this.paths.level, level_routes_1.default);
         this.app.use(this.paths.roles, roles_routes_1.default);
+        this.app.use(this.paths.users, users_routes_1.default);
+        this.app.use(this.paths.room, room_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

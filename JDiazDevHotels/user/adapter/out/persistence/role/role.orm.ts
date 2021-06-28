@@ -8,14 +8,14 @@ export class RoleORM implements RoleRepository{
     async saveRole(_role:string):Promise<RoleDatabaseEntity>{
         const role = new RoleDatabaseEntity(
             {
-                role:_role
+                nameRole:_role
             }
         )
         await role.save()
         return role
     }
     async searchRole(_role:string):Promise<RoleDatabaseEntity|any>{
-        const role = await RoleDatabaseEntity.findOne({ where:{role:_role}})
+        const role = await RoleDatabaseEntity.findOne({ where:{nameRole:_role}})
         return role
     }
 }

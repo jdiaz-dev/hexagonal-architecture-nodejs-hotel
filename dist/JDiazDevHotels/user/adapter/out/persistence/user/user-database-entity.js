@@ -50,6 +50,10 @@ __decorate([
 ], UserDatabaseEntity.prototype, "state", void 0);
 __decorate([
     sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], UserDatabaseEntity.prototype, "roleId", void 0);
+__decorate([
+    sequelize_typescript_1.Column,
     __metadata("design:type", Date)
 ], UserDatabaseEntity.prototype, "createdAt", void 0);
 __decorate([
@@ -83,7 +87,8 @@ UserDatabaseEntity.init({
         allowNull: false
     },
     state: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
         defaultValue: true
     }
 }, {
@@ -94,12 +99,14 @@ role_database_entity_1.RoleDatabaseEntity.hasOne(UserDatabaseEntity, {
     foreignKey: {
         name: 'roleId',
         allowNull: false
-    }
+    },
+    //as:'role'
 });
 UserDatabaseEntity.belongsTo(role_database_entity_1.RoleDatabaseEntity, {
+    as: 'role',
     foreignKey: {
         name: 'roleId',
-        allowNull: false
-    }
+        allowNull: false,
+    },
 });
 //# sourceMappingURL=user-database-entity.js.map

@@ -52,13 +52,20 @@ let UserORM = class UserORM {
     getUserWithEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield user_database_entity_1.UserDatabaseEntity.findOne({ where: { email: email } });
-            return user;
+            if (!user)
+                return null;
+            return user.toJSON();
         });
     }
     getuserWithPk(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_database_entity_1.UserDatabaseEntity.findByPk(id);
-            return user;
+            const user = yield user_database_entity_1.UserDatabaseEntity.findByPk(id, {
+                include: 'role',
+                attributes: { exclude: ['roleId'] }
+            });
+            if (!user)
+                return null;
+            return user.toJSON();
         });
     }
 };

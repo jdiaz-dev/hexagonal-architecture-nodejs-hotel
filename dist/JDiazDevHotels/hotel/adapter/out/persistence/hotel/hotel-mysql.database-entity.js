@@ -9,34 +9,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Hotel = void 0;
+exports.HotelDatabaseEntity = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
 const sequelize_1 = require("sequelize");
 const connection_1 = require("../../../../../../db/connection");
-let Hotel = class Hotel extends sequelize_1.Model {
+const user_database_entity_1 = require("../../../../../user/adapter/out/persistence/user/user-database-entity");
+let HotelDatabaseEntity = class HotelDatabaseEntity extends sequelize_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], Hotel.prototype, "name", void 0);
+], HotelDatabaseEntity.prototype, "name", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], Hotel.prototype, "address", void 0);
-Hotel = __decorate([
+], HotelDatabaseEntity.prototype, "address", void 0);
+__decorate([
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], HotelDatabaseEntity.prototype, "userId", void 0);
+__decorate([
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Boolean)
+], HotelDatabaseEntity.prototype, "state", void 0);
+HotelDatabaseEntity = __decorate([
     sequelize_typescript_1.Table
-], Hotel);
-exports.Hotel = Hotel;
-Hotel.init({
+], HotelDatabaseEntity);
+exports.HotelDatabaseEntity = HotelDatabaseEntity;
+HotelDatabaseEntity.init({
     name: {
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
     },
     address: {
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
+    state: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
     }
 }, {
     tableName: "hotels",
     sequelize: connection_1.db,
+});
+user_database_entity_1.UserDatabaseEntity.hasOne(HotelDatabaseEntity, {
+    foreignKey: {
+        name: 'userId',
+        allowNull: false
+    }
+});
+HotelDatabaseEntity.belongsTo(user_database_entity_1.UserDatabaseEntity, {
+    as: 'user',
+    foreignKey: {
+        name: 'userId',
+        allowNull: false
+    }
 });
 /* export const Hotel = db.define('Hotel', {
     name:{

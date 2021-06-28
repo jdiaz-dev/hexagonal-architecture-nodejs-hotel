@@ -22,14 +22,24 @@ __decorate([
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], RoleDatabaseEntity.prototype, "role", void 0);
+], RoleDatabaseEntity.prototype, "nameRole", void 0);
+__decorate([
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Boolean)
+], RoleDatabaseEntity.prototype, "state", void 0);
 RoleDatabaseEntity = __decorate([
     sequelize_typescript_1.Table
 ], RoleDatabaseEntity);
 exports.RoleDatabaseEntity = RoleDatabaseEntity;
 RoleDatabaseEntity.init({
-    role: {
-        type: sequelize_1.DataTypes.STRING
+    nameRole: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    state: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
     }
 }, {
     sequelize: connection_1.db,

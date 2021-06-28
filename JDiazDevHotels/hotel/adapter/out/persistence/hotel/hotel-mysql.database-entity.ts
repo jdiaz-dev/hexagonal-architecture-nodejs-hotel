@@ -1,24 +1,37 @@
 import { Table, Column } from 'sequelize-typescript'
 import { DataTypes, Model } from 'sequelize'
 import { db as sequelize } from '../../../../../../db/connection'
+import { UserDatabaseEntity } from '../../../../../user/adapter/out/persistence/user/user-database-entity'
 
 @Table
-export class Hotel extends Model {
+export class HotelDatabaseEntity extends Model {
 
     @Column
     public name!: string
 
     @Column
     public address!: string
+    
+    @Column
+    public userId!:number
 
+    @Column
+    public state!:boolean
 }
-Hotel.init(
+HotelDatabaseEntity.init(
     {
         name: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull:false
         },
         address: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull:false
+        },
+        state:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false,
+            defaultValue:true
         }
     },
     {
@@ -26,6 +39,21 @@ Hotel.init(
         sequelize,
     }
 )
+UserDatabaseEntity.hasOne(HotelDatabaseEntity, { 
+    foreignKey:{
+        name:'userId',
+        allowNull:false
+    }
+})
+HotelDatabaseEntity.belongsTo(UserDatabaseEntity, { 
+    as:'user',
+    foreignKey:{
+        name:'userId',
+        allowNull:false
+    }
+})
+ 
+
 
 /* export const Hotel = db.define('Hotel', {
     name:{

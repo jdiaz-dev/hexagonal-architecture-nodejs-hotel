@@ -22,7 +22,7 @@ let RoleORM = class RoleORM {
     saveRole(_role) {
         return __awaiter(this, void 0, void 0, function* () {
             const role = new role_database_entity_1.RoleDatabaseEntity({
-                role: _role
+                nameRole: _role
             });
             yield role.save();
             return role;
@@ -30,7 +30,7 @@ let RoleORM = class RoleORM {
     }
     searchRole(_role) {
         return __awaiter(this, void 0, void 0, function* () {
-            const role = yield role_database_entity_1.RoleDatabaseEntity.findOne({ where: { role: _role } });
+            const role = yield role_database_entity_1.RoleDatabaseEntity.findOne({ where: { nameRole: _role } });
             return role;
         });
     }

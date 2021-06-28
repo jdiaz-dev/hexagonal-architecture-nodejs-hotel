@@ -30,6 +30,9 @@ export class UserDatabaseEntity extends Model {
 
     @Column
     public state!:boolean
+
+    @Column
+    public roleId!:number
     
     @Column
     public readonly createdAt!: Date;
@@ -63,7 +66,8 @@ UserDatabaseEntity.init(
 
         },
         state:{
-            type:DataTypes.STRING,
+            type:DataTypes.BOOLEAN,
+            allowNull:false,
             defaultValue:true
         }
     },
@@ -76,11 +80,16 @@ RoleDatabaseEntity.hasOne(UserDatabaseEntity, {
     foreignKey:{
         name:'roleId',
         allowNull:false
-    }
- });
+    },
+    //as:'role'
+
+})
 UserDatabaseEntity.belongsTo(RoleDatabaseEntity, { 
+    as:'role',
     foreignKey:{
         name:'roleId',
-        allowNull:false
-    }
+        allowNull:false,
+        
+    },
+    
 })

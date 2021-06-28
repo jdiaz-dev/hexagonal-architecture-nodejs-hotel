@@ -35,6 +35,7 @@ let UserController = class UserController {
         this.createUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { names, firstSurname, secondSurname, cellphone, email, role, password } = req.body;
             const command = new create_user_command_1.CreateUserCommand(new user_1.UserEntity(names, firstSurname, secondSurname, cellphone, email, role, password));
+            console.log(req.user);
             const user = yield this.createNewUserUseCase.createNewUser(command);
             res.json(user);
         });

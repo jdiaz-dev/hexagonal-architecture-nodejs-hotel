@@ -1,7 +1,8 @@
-import { Hotel } from "./hotel-mysql.database-entity";
+import { HotelDatabaseEntity } from "./hotel-mysql.database-entity";
 
 export interface HotelRepository {
-    saveHotel(data:any):Promise<Hotel>   
+    saveHotel(data:any, userId:number):Promise<HotelDatabaseEntity>
+    getHotel(hotelId:number):Promise<HotelDatabaseEntity|any>   
 }
 
 

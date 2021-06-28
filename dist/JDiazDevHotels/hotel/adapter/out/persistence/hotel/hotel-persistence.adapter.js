@@ -25,19 +25,21 @@ let HotelPersistenceAdapter = class HotelPersistenceAdapter {
     constructor(hotelORM) {
         this.hotelRepository = hotelORM;
     }
-    createHotel(dataHotel) {
+    createHotel(dataHotel, userId) {
         return __awaiter(this, void 0, void 0, function* () {
             const hotel = {
                 name: dataHotel.name,
                 address: dataHotel.address
             };
-            const hotelCreated = yield this.hotelRepository.saveHotel(hotel);
+            const hotelCreated = yield this.hotelRepository.saveHotel(hotel, userId);
             return hotelCreated;
         });
     }
-    createRole() {
-    }
-    createUser() {
+    findHotel(hotelId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const hotel = yield this.hotelRepository.getHotel(hotelId);
+            return hotel;
+        });
     }
 };
 HotelPersistenceAdapter = __decorate([
