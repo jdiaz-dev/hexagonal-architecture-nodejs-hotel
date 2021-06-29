@@ -1,7 +1,7 @@
 import { Column, Table } from "sequelize-typescript";
 import { DataTypes, Model } from "sequelize";
-import { db as sequelize} from "../../../../../../db/connection";
-import { HotelDatabaseEntity } from "../hotel/hotel-mysql.database-entity";
+import { db as sequelize} from "../../../../../../../db/connection";
+import { HotelDatabaseEntity } from "../../hotel/hotel-mysql.database-entity";
 
 @Table
 export class RoomCategoryDatabaseEntity extends Model{

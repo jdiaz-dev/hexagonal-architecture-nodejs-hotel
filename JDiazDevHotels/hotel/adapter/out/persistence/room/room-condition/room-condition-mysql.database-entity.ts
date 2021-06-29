@@ -1,18 +1,18 @@
 import { Table, Column } from "sequelize-typescript";
 import { Model, DataTypes } from "sequelize";
-import { db as sequelize } from "../../../../../../db/connection";
+import { db as sequelize } from "../../../../../../../db/connection";
 
 @Table
 export class RoomConditionDatabaseEntity extends Model{
     @Column
-    public condition!:string
+    public nameCondition!:string
 
     @Column
     public state!:boolean
 }
 RoomConditionDatabaseEntity.init(
     {
-        condition:{
+        nameCondition:{
             type:DataTypes.STRING,
             allowNull:false
         },

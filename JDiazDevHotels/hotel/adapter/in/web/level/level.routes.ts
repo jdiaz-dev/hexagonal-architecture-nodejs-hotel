@@ -17,4 +17,14 @@ router.post('/:hotelId', [
     validateFields
 ],levelController.createLevel)
 
+router.get('/:hotelId', [
+    tokenHelper.validateJWT,
+    validateFields
+],levelController.getLevelsOfHotel)
+
+router.get('/level/:hotelLevelId', [
+    tokenHelper.validateJWT,
+    validateFields
+],levelController.getLevelOfHotel)
+
 export default router

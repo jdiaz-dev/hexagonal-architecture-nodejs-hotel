@@ -1,3 +1,3 @@
 export interface GetHotelRequest {
-    getHotel():Promise<any>
+    getHotel(id:number):Promise<any>
 }

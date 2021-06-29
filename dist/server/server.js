@@ -25,10 +25,10 @@ class Server {
     constructor() {
         this.paths = {
             hotel: '/jdev/hotel',
-            level: '/jdev/level',
+            levels: '/jdev/levels',
             roles: '/jdev/roles',
             users: '/jdev/users',
-            room: '/jdev/room',
+            rooms: '/jdev/rooms',
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '8080';
@@ -60,10 +60,10 @@ class Server {
     }
     routes() {
         this.app.use(this.paths.hotel, hotel_routes_1.default);
-        this.app.use(this.paths.level, level_routes_1.default);
+        this.app.use(this.paths.levels, level_routes_1.default);
         this.app.use(this.paths.roles, roles_routes_1.default);
         this.app.use(this.paths.users, users_routes_1.default);
-        this.app.use(this.paths.room, room_routes_1.default);
+        this.app.use(this.paths.rooms, room_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

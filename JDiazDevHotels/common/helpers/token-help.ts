@@ -2,15 +2,15 @@ import { Request, Response, NextFunction} from 'express'
 import { Service } from 'typedi'
 import { verify } from 'jsonwebtoken'
 
-import { CommonNeedUserFromUserBcontext } from '../ports/out/get-user-for-token.port';
+import { CommonNeedUserFromUserBcontextPort } from '../ports/out/common-need-user-from-user-bcontext.port';
 import { GetUserService } from '../../user/application/service/users/get-user.service';
 
 @Service()
 export class TokenHelper {
-    private commonNeedUserFromUserBcontext:CommonNeedUserFromUserBcontext
+    private commonNeedUserFromUserBcontextPort:CommonNeedUserFromUserBcontextPort
 
     constructor(getUserService:GetUserService){
-        this.commonNeedUserFromUserBcontext = getUserService
+        this.commonNeedUserFromUserBcontextPort = getUserService
 
         this.validateJWT = this.validateJWT.bind(this)
     }
@@ -28,7 +28,7 @@ export class TokenHelper {
         try {
             
             const payload:any = verify(token, process.env.SECRETORPRIVATEKEY || 'jdevhotels')
-            const user = await this.commonNeedUserFromUserBcontext.getUser(payload.id)
+            const user = await this.commonNeedUserFromUserBcontextPort.getUser(payload.id)
     
             if(!user){
                 return res.status(401).json({ //401 : to authorized to make a specific action
@@ -43,7 +43,7 @@ export class TokenHelper {
             }
             //req.uid = uid //adiing uid to request
             req.user = user
-            console.log('-----------------', req.user.id)
+            
         } catch (error) {
             console.log(error)
             return res.status(401).json({

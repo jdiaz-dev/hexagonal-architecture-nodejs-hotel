@@ -39,6 +39,7 @@ HotelDatabaseEntity.hasOne(LevelDatabaseEntity, {
     }
 })
 LevelDatabaseEntity.belongsTo(HotelDatabaseEntity, { 
+    as:'hotel',
     foreignKey:{
         name:'hotelId',
         allowNull:false

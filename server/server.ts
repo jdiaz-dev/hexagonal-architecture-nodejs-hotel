@@ -17,10 +17,10 @@ export default class Server {
     private port:string
     private paths = {
         hotel:'/jdev/hotel',
-        level:'/jdev/level',
+        levels:'/jdev/levels',
         roles:'/jdev/roles',
         users:'/jdev/users',
-        room:'/jdev/room',
+        rooms:'/jdev/rooms',
     }
 
     constructor(){
@@ -54,10 +54,10 @@ export default class Server {
     }
     routes(){
         this.app.use(this.paths.hotel, hotelRoutes)
-        this.app.use(this.paths.level, levelRoutes)
+        this.app.use(this.paths.levels, levelRoutes)
         this.app.use(this.paths.roles, rolesRoutes)
         this.app.use(this.paths.users, userRoutes)
-        this.app.use(this.paths.room, roomRoutes)
+        this.app.use(this.paths.rooms, roomRoutes)
     }
     listen(){
         this.app.listen( this.port, () => {
