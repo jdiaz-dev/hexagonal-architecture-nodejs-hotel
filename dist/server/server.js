@@ -16,9 +16,9 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = require("body-parser");
 const connection_1 = require("../db/connection");
-const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/adapter/in/web/hotel/hotel.routes"));
+const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes"));
 const room_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/adapter/in/web/room/room.routes"));
-const level_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/adapter/in/web/level/level.routes"));
+const level_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes"));
 const roles_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/roles.routes"));
 const users_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/users.routes"));
 class Server {

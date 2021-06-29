@@ -1,18 +1,18 @@
 import { Request, Response } from 'express'
 import { Service } from "typedi";
 
-import { CreateNewRoomCategoryRequest } from '../../../../application/port/in/room/room-category/create-new-room-category.request';
-import { CreateRoomCategorySerice } from '../../../../application/service/room/room-category/create-room-category.service';
-import { CreateNewRoomCondtionRequest } from '../../../../application/port/in/room/room-condition/create-new-room-condition.request';
-import { CreateRoomConditionService } from '../../../../application/service/room/room-condition/create-room-condition.service';
-import { CreateNewRoomRequest } from '../../../../application/port/in/room/room/create-new-room.request';
-import { CreateAndUpdateRoomService } from './../../../../application/service/room/room/create-room.service';
-import { CreateNewRoomCommand } from '../../../../application/port/in/room/room/create-new-room.command';
-import { RoomData } from './../../../../domain/room-data';
-import { RoomEntity } from '../../../../domain/room';
-import { GetRoomsRequest } from './../../../../application/port/in/room/room/get-rooms.request';
-import { GetRoomsService } from './../../../../application/service/room/room/get-roooms.service';
-import { UpdateTheRoomRequest } from './../../../../application/port/in/room/room/update-the-room-request';
+import { CreateNewRoomCategoryRequest } from '../../../../../rooms/room-category/application/ports/in/create-new-room-category.request';
+import { CreateRoomCategorySerice } from '../../../../../rooms/room-category/application/services/create-room-category.service';
+import { CreateNewRoomCondtionRequest } from '../../../../../rooms/room-condition/application/ports/in/create-new-room-condition.request';
+import { CreateRoomConditionService } from '../../../../../rooms/room-condition/application/services/create-room-condition.service';
+import { CreateNewRoomRequest } from '../../../../../rooms/room/application/ports/in/create-new-room.request';
+import { CreateAndUpdateRoomService } from '../../../../../rooms/room/application/services/create-room.service';
+import { CreateNewRoomCommand } from '../../../../../rooms/room/application/ports/in/create-new-room.command';
+import { RoomData } from '../../../../../rooms/room/domain/room-data';
+import { RoomEntity } from '../../../../../rooms/room/domain/room';
+import { GetRoomsRequest } from '../../../../../rooms/room/application/ports/in/get-rooms.request';
+import { GetRoomsService } from '../../../../../rooms/room/application/services/get-roooms.service';
+import { UpdateTheRoomRequest } from '../../../../../rooms/room/application/ports/in/update-the-room-request';
 
 @Service()
 export class RoomController {

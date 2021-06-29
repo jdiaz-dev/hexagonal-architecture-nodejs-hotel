@@ -4,7 +4,7 @@ import { CommonNeedUserFromUserBcontextPort } from './../ports/out/common-need-u
 import { CommonNeedHotelFromHotelBcontextPort } from './../ports/out/common-need-hotel-from-hotel-bcontext.port';
 
 import { GetUserService } from './../../user/application/service/users/get-user.service';
-import { GetHotelService } from './../../hotel/application/service/hotel/get-hotel.service';
+import { GetHotelService } from '../../hotel/hotels/application/services/get-hotel.service';
 import { ValidateUserWithHotelPort } from './../ports/in/validateUserWithHotel.port';
 
 @Service()

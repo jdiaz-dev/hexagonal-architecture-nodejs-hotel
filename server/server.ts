@@ -4,9 +4,9 @@ import { urlencoded, json } from 'body-parser'
 
 import { db as sequelize } from '../db/connection'
 
-import hotelRoutes from '../JDiazDevHotels/hotel/adapter/in/web/hotel/hotel.routes'
+import hotelRoutes from '../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes'
 import roomRoutes from '../JDiazDevHotels/hotel/adapter/in/web/room/room.routes'
-import levelRoutes from '../JDiazDevHotels/hotel/adapter/in/web/level/level.routes'
+import levelRoutes from '../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes'
 import rolesRoutes from '../JDiazDevHotels/user/routes/roles.routes'
 import userRoutes from '../JDiazDevHotels/user/routes/users.routes'
 

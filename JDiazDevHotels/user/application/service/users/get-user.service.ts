@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import { CommonNeedUserFromUserBcontextPort } from '../../../../common/ports/out/common-need-user-from-user-bcontext.port';
 import { FindUserPort } from './../../ports/out/user/find-user.port';
 import { UserPersistenceAdapter } from './../../../adapter/out/persistence/user/user-persistence.adapter';
-import { HotelBcontextNeedUserFromUserBcontext } from '../../../../hotel/application/port/out/hotel/hotel-bcontext-need-user-from-user-bcontext';
+import { HotelBcontextNeedUserFromUserBcontext } from '../../../../hotel/hotels/application/ports/out/hotel-bcontext-need-user-from-user-bcontext';
 
 @Service()
 export class GetUserService implements 
