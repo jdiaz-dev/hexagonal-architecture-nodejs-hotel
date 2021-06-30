@@ -1,9 +1,10 @@
 import { Service } from "typedi";
-import { GetLevelPort } from './../ports/out/get-level.port';
-import { LevelORM } from './../../adapter/out/persistence/level.orm';
+
+
 import { LevelPersistenceAdpater } from './../../adapter/out/persistence/level-persistence.adapter';
 import { GetLevelForRoomDomain } from './../../../../rooms/room/application/ports/out/other-domain/get-level-for-room-domain';
 import { RoomDomainEntity } from "../../../../rooms/room/domain/room";
+import { GetLevelPort } from "../ports/out/get-level.port";
 
 @Service()
 export class GetRoomLevelService implements GetLevelForRoomDomain {
@@ -17,3 +18,4 @@ export class GetRoomLevelService implements GetLevelForRoomDomain {
         return new RoomDomainEntity(level.hotelId)
     }
 }
+

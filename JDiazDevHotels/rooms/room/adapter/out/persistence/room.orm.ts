@@ -24,23 +24,7 @@ export class RoomORM implements RoomRepository {
             return error
         }
     }
-    async updateRoom(roomData:any, roomId:number):Promise<any>{
-        try {
-            const room:any = await RoomDatabaseEntity.findByPk(roomId)
-            room.name = roomData.name
-            room.price = roomData.price
-            room.details = roomData.details
-            room.levelId = roomData.levelId
-            room.categoryId = roomData.categoryId
-            room.conditionId = roomData.conditionId
-            await room.save()
-
-            return room
-        } catch (error) {
-            console.log('-------------------', error)
-            return error
-        }
-    }
+    
     async getRoom(roomId:number):Promise<any>{
         const room = await RoomDatabaseEntity.findByPk(roomId)
         return room
@@ -77,6 +61,23 @@ export class RoomORM implements RoomRepository {
             })
     
             return rooms
+        } catch (error) {
+            console.log('-------------------', error)
+            return error
+        }
+    }
+    async updateRoom(roomData:any, roomId:number):Promise<any>{
+        try {
+            const room:any = await RoomDatabaseEntity.findByPk(roomId)
+            room.name = roomData.name
+            room.price = roomData.price
+            room.details = roomData.details
+            room.levelId = roomData.levelId
+            room.categoryId = roomData.categoryId
+            room.conditionId = roomData.conditionId
+            await room.save()
+
+            return room
         } catch (error) {
             console.log('-------------------', error)
             return error

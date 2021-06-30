@@ -14,15 +14,29 @@ const router = Router()
 router.post('/:hotelId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
-    check('name', 'Name for level is required').not().isEmpty(),
+    check('nameLevel', 'Name for level is required').not().isEmpty(),
     validateFields
-],levelController.createLevel)
+], levelController.createLevel)
 
 router.get('/:hotelId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
     validateFields
-],levelController.getLevelsOfHotel)
+], levelController.getLevelsOfHotel)
+
+router.put('/:hotelId/:levelId', [
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    check('nameLevel', 'Name for level is required').not().isEmpty(),
+    validateFields
+], levelController.upateLevel)
+
+router.delete('/:hotelId/:levelId', [
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    validateFields
+], levelController.removeLevel)
+
 
 /* router.get('/level/:hotelLevelId', [
     coommonMiddlewares.validateJWT,

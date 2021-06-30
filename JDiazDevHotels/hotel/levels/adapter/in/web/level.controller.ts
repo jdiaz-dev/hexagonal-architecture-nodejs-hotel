@@ -1,46 +1,63 @@
 import { Request, Response } from 'express'
 import { Service } from "typedi";
 import { CreateNewHotelLevelRequest } from '../../../application/ports/in/create-new-hotel-level.request';
-import { CreateHotelLevelService } from '../../../application/services/create-hotel-level.service';
+import { CreateAndUpdateHotelLevelService } from '../../../application/services/create-hotel-level.service';
 import { GetHotelLevelsRequest } from '../../../application/ports/in/get-hotel-levels-request';
 import { GetHotelLevelsService } from '../../../application/services/get-hotel-levels.service';
-import { GetHotelLevelRequest } from '../../../application/ports/in/get-hotel-level.request';
+import { UpdateTheHotelLevelRequest } from './../../../application/ports/in/update-the-hote-level.request';
+import { HotelLevelCommand } from '../../../application/ports/in/hotel-level.command';
+import { RemoveHotelLevelRequest } from './../../../application/ports/in/remove-hotel-level.request';
+import { RemoveHotelLevelService } from './../../../application/services/remove-hotel.level.service';
 
 @Service()
 export class LevelController {
     private createNewHotelLevelRequest:CreateNewHotelLevelRequest
+    private updateTheHotelLevelRequest:UpdateTheHotelLevelRequest
     private getHotelLevelsRequest:GetHotelLevelsRequest
-    private getHotelLevelRequest:GetHotelLevelRequest
+    private removeHotelLevelRequest:RemoveHotelLevelRequest
 
     constructor(
-        createHotelLevelService:CreateHotelLevelService,
+        createAndUpdateHotelLevelService:CreateAndUpdateHotelLevelService,
         getHotelLevelsService:GetHotelLevelsService,
+        removeHotelLevelService:RemoveHotelLevelService
     ){
-        this.createNewHotelLevelRequest = createHotelLevelService 
+        this.createNewHotelLevelRequest = createAndUpdateHotelLevelService 
+        this.updateTheHotelLevelRequest = createAndUpdateHotelLevelService
+        this.removeHotelLevelRequest = removeHotelLevelService
         this.getHotelLevelsRequest = getHotelLevelsService
-        this.getHotelLevelRequest = getHotelLevelsService
         
     }
     createLevel = async (req:Request|any, res:Response ) => {
-        const { name } = req.body
+        const { nameLevel } = req.body
         const { hotelId } = req.params
 
-        const newLevel = await this.createNewHotelLevelRequest.createNewLevel(name, parseInt(hotelId), parseInt(req.user.id)) 
+        const newLevel = await this.createNewHotelLevelRequest.createNewLevel(nameLevel, parseInt(hotelId)) 
+        res.json(newLevel)
+    }
+    upateLevel = async (req:Request|any, res:Response ) => {
+        const { nameLevel } = req.body
+        const { hotelId, levelId } = req.params
+
+        const newLevel = await this.updateTheHotelLevelRequest.updateTheHotelLevel(
+            nameLevel, 
+            parseInt(levelId), 
+            new HotelLevelCommand(parseInt(hotelId))
+        ) 
         res.json(newLevel)
     }
     getLevelsOfHotel = async(req:Request|any, res:Response) => { 
         const { hotelId } = req.params
 
-        const levels = await this.getHotelLevelsRequest.getLevelsOfHotel(parseInt(req.user.id), parseInt(hotelId))
+        const levels = await this.getHotelLevelsRequest.getLevelsOfHotel( parseInt(hotelId) )
         res.json(levels)
-
     }
-    /* getLevelOfHotel = async(req:Request|any, res:Response) => { 
-        const { hotelLevelId } = req.params
+    removeLevel = async (req:Request|any, res:Response ) => {
+        const { nameLevel } = req.body
+        const { hotelId, levelId } = req.params
 
-        const levels = await this.getHotelLevelRequest.getLevelOfHotel(hotelLevelId)
-        res.json(levels)
-
-    } */
+        const levelRemoved = await this.removeHotelLevelRequest.removeTheHotelLevel(
+            parseInt(levelId), new HotelLevelCommand(parseInt(hotelId)))
+        res.json(levelRemoved)
+    }
 
 }

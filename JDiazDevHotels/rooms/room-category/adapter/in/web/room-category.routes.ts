@@ -18,4 +18,24 @@ router.post('/:hotelId', [
     validateFields
 ], roomCategoryController.createRoomCategory )
 
+router.get('/:hotelId', [
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    validateFields
+], roomCategoryController.getRoomCategories )
+
+router.put('/:hotelId/:roomCategoryId', [
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    check('nameCategory', 'Name for room category is required').not().isEmpty(),
+    validateFields
+], roomCategoryController.updateRoomCategory )
+
+router.delete('/:hotelId/:roomCategoryId', [
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    validateFields
+], roomCategoryController.removeRoomCategory )
+
+
 export default router

@@ -3,43 +3,43 @@ import { Service } from "typedi";
 import { CreateNewHotelLevelRequest } from '../ports/in/create-new-hotel-level.request';
 import { CreateLevelPort } from '../ports/out/create-level.port';
 import { LevelPersistenceAdpater } from '../../adapter/out/persistence/level-persistence.adapter';
-import { GetHotelPort } from "../../../hotels/application/ports/out/get-hotel.port";
-import { HotelPersistenceAdapter } from '../../../hotels/adapters/out/persistence/hotel-persistence.adapter';
-import { ValidateUserWithHotelPort } from '../../../../common/ports/in/validateUserWithHotel.port';
-import { CommonValidator } from '../../../../common/validators/database-validator';
+import { UpdateLevelPort } from './../ports/out/update-level.port';
+import { UpdateTheHotelLevelRequest } from './../ports/in/update-the-hote-level.request';
+import { LevelDomainEntity } from "../../domain/level";
+import { GetLevelModeledPort } from "../ports/out/get-level-modeled.port";
+import { HotelLevelCommand } from "../ports/in/hotel-level.command";
 
 @Service()
-export class CreateHotelLevelService implements CreateNewHotelLevelRequest {
+export class CreateAndUpdateHotelLevelService implements 
+        CreateNewHotelLevelRequest,
+        UpdateTheHotelLevelRequest {
     private createLevelPort:CreateLevelPort
-    private getHotelPort:GetHotelPort
-    private validateUserWithHotelPort:ValidateUserWithHotelPort
+    private updateLevelPort:UpdateLevelPort
+    private getLevelModeledPort:GetLevelModeledPort
 
     constructor(
         levelPersistenceAdpater:LevelPersistenceAdpater,
-        hotelPersistenceAdapter:HotelPersistenceAdapter,
-
-        //common validator
-        commonValidator:CommonValidator
     ){
         this.createLevelPort = levelPersistenceAdpater
-        this.getHotelPort = hotelPersistenceAdapter
+        this.updateLevelPort = levelPersistenceAdpater
+        this.getLevelModeledPort = levelPersistenceAdpater
 
-        //common validator
-        this.validateUserWithHotelPort = commonValidator
     }
-    async createNewLevel(nameLevel:string, hotelId:number, clientId:number):Promise<any>{
-
-        const hotel = await this.getHotelPort.findHotel(hotelId)
-
-        if(!hotel)
-        return { message: 'This hotel does not exists' }
-        
-        const validation = await this.validateUserWithHotelPort.checkIfHotelBelongsToClientApp(clientId, hotelId)
-
-        if(!validation)
-        return { message: 'It is impossible to assign an level for this hotel' }
-        
-        const level = await this.createLevelPort.createLevel(nameLevel, hotel.id)
+    async createNewLevel(nameLevel:string, hotelId:number):Promise<any>{
+        const level = await this.createLevelPort.createLevel(nameLevel, hotelId)
         return level
     }
+
+    async updateTheHotelLevel(nameLevel:string, levelId:number, command:HotelLevelCommand):Promise<any>{
+
+        const level:LevelDomainEntity = await this.getLevelModeledPort.getLevelModeledToDomain(levelId)
+        if(!level.checkIfLevelBelongsToHotel(command.getHotelId)){
+            return { message: 'You cannot update this level'}
+        }
+
+        const levelUpdated = await this.updateLevelPort.updateLevel(nameLevel, levelId)
+        return levelUpdated
+    }
+
 }
+

@@ -1,5 +1,9 @@
-export class LevelEntity {
+export class LevelDomainEntity {
     constructor(
-        private level:string
+        private hotelId:number
     ){}
+    checkIfLevelBelongsToHotel(hotelId:number){
+        if(this.hotelId !== hotelId) return false
+        return true 
+    }
 }

@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { RoomDomainEntity } from "../../../room/domain/room";
 import { GetRoomCategoryForRoomDomain } from './../../../room/application/ports/out/other-domain/get-room-category-for-room-domain';
-import { GetRoomCategoryPort } from './../ports/out/get-room-category.port';
+import { GetRoomCategoryPort } from '../ports/out/self-domain/get-room-category.port';
 import { RoomCategoryPersistenceAdapter } from './../../adapter/out/persistence/room-category-persistence.adapter';
 
 @Service()
