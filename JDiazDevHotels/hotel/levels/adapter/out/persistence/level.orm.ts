@@ -26,8 +26,8 @@ export class LevelORM implements LevelRepository{
             }})
         return levels
     }
-    async getLevel(hotelLevelId:number):Promise<any>{
-        const level = await LevelDatabaseEntity.findByPk(hotelLevelId)
+    async getLevel(levelId:number):Promise<any>{
+        const level = await LevelDatabaseEntity.findByPk(levelId)
         return level
     }
 }

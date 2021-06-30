@@ -8,59 +8,90 @@ import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapter/
 @Service()
 export class RoomORM implements RoomRepository {
     async createRoom(roomData:any, hotelId:number):Promise<any>{
-        const room = new RoomDatabaseEntity()
-        room.name = roomData.name
-        room.price = roomData.price
-        room.details = roomData.details
-        room.levelId = roomData.levelId
-        room.categoryId = roomData.categoryId
-        room.conditionId = roomData.conditionId
-        room.state = true
-        await room.save()
-        return room
+        try {
+            const room = new RoomDatabaseEntity()
+            room.name = roomData.name
+            room.price = roomData.price
+            room.details = roomData.details
+            room.levelId = roomData.levelId
+            room.categoryId = roomData.categoryId
+            room.conditionId = roomData.conditionId
+            room.state = true
+            await room.save()
+            return room
+        } catch (error) {
+            console.log('-------------------', error)
+            return error
+        }
     }
     async updateRoom(roomData:any, roomId:number):Promise<any>{
-        const room:any = await RoomDatabaseEntity.findByPk(roomId)
-        room.name = roomData.name
-        room.price = roomData.price
-        room.details = roomData.details
-        room.levelId = roomData.levelId
-        room.categoryId = roomData.categoryId
-        room.conditionId = roomData.conditionId
-        await room.save()
+        try {
+            const room:any = await RoomDatabaseEntity.findByPk(roomId)
+            room.name = roomData.name
+            room.price = roomData.price
+            room.details = roomData.details
+            room.levelId = roomData.levelId
+            room.categoryId = roomData.categoryId
+            room.conditionId = roomData.conditionId
+            await room.save()
 
+            return room
+        } catch (error) {
+            console.log('-------------------', error)
+            return error
+        }
+    }
+    async getRoom(roomId:number):Promise<any>{
+        const room = await RoomDatabaseEntity.findByPk(roomId)
         return room
     }
     async getRooms(levelId:number):Promise<any>{
-        const rooms:any = RoomDatabaseEntity.findAll({
-            where:{levelId:levelId},
-            include:[
-                { 
-                    model:LevelDatabaseEntity, 
-                    as:'level', 
-                    attributes: {exclude:['createdAt', 'updatedAt', 'state'] }
-                }, 
-                { 
-                    model:RoomCategoryDatabaseEntity, 
-                    as:'category',
-                    attributes: {exclude:['createdAt', 'updatedAt', 'state'] }
-                }, 
-                { 
-                    model:RoomConditionDatabaseEntity, 
-                    as:'condition',
-                    attributes: {exclude:['createdAt', 'updatedAt', 'state'] }
-                }
-            ],
-            attributes:{ exclude:[
-                'levelId', 
-                'categoryId', 
-                'conditionId', 
-                'createdAt', 
-                'updatedAt',
-                'state',            
-            ]}
-        })
+        try {
+            const rooms:any = RoomDatabaseEntity.findAll({
+                where:{ levelId:levelId, state:true },
+                include:[
+                    { 
+                        model:LevelDatabaseEntity, 
+                        as:'level', 
+                        attributes: {exclude:['createdAt', 'updatedAt', 'state'] }
+                    }, 
+                    { 
+                        model:RoomCategoryDatabaseEntity, 
+                        as:'category',
+                        attributes: {exclude:['createdAt', 'updatedAt', 'state'] }
+                    }, 
+                    { 
+                        model:RoomConditionDatabaseEntity, 
+                        as:'condition',
+                        attributes: {exclude:['createdAt', 'updatedAt', 'state'] }
+                    }
+                ],
+                attributes:{ exclude:[
+                    'levelId', 
+                    'categoryId', 
+                    'conditionId', 
+                    'createdAt', 
+                    'updatedAt',
+                    'state',            
+                ]}
+            })
+    
+            return rooms
+        } catch (error) {
+            console.log('-------------------', error)
+            return error
+        }
+    }
+    async removeRoom(roomId:number):Promise<any>{
+        try {
+            const room:any = await RoomDatabaseEntity.findByPk(roomId)
+            room.state = false
+            await room.save()
 
-        return rooms
+            return room
+        } catch (error) {
+            console.log('-------------------', error)
+            return error
+        }
     }
 }

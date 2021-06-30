@@ -1,9 +1,6 @@
-import { RoomData } from "./room-data"
-
-export class RoomEntity {
+export class RoomDomainEntity {
     constructor(
-        private roomData:RoomData,
-        private hotelId:number
+        private hotelId:number|null
     ){}
     checkIfRoomLevelBelognsToHotel(hotelId:number):boolean{
         if(hotelId !== this.hotelId) return false
@@ -17,16 +14,8 @@ export class RoomEntity {
         if(!condition) return false
         return true
     }
-    get getRoomData():RoomData{
-        return this.roomData
-    }
-    get getHoteId():number{
+    get getHoteId(){
         return this.hotelId
-    }
-    /* static createRoomEntity(roomData:RoomData, hotelId:number){
-        return new RoomEntity(roomData, hotelId)
-    } */
-
-    
+    }  
 
 }

@@ -6,7 +6,7 @@ import { LevelPersistenceAdpater } from '../../adapter/out/persistence/level-per
 import { GetHotelPort } from "../../../hotels/application/ports/out/get-hotel.port";
 import { HotelPersistenceAdapter } from '../../../hotels/adapters/out/persistence/hotel-persistence.adapter';
 import { ValidateUserWithHotelPort } from '../../../../common/ports/in/validateUserWithHotel.port';
-import { DatabaseValidator } from '../../../../common/validators/database-validator';
+import { CommonValidator } from '../../../../common/validators/database-validator';
 
 @Service()
 export class CreateHotelLevelService implements CreateNewHotelLevelRequest {
@@ -18,14 +18,14 @@ export class CreateHotelLevelService implements CreateNewHotelLevelRequest {
         levelPersistenceAdpater:LevelPersistenceAdpater,
         hotelPersistenceAdapter:HotelPersistenceAdapter,
 
-        //database validator
-        databaseValidator:DatabaseValidator
+        //common validator
+        commonValidator:CommonValidator
     ){
         this.createLevelPort = levelPersistenceAdpater
         this.getHotelPort = hotelPersistenceAdapter
 
-        //database validator
-        this.validateUserWithHotelPort = databaseValidator
+        //common validator
+        this.validateUserWithHotelPort = commonValidator
     }
     async createNewLevel(nameLevel:string, hotelId:number, clientId:number):Promise<any>{
 
@@ -34,7 +34,7 @@ export class CreateHotelLevelService implements CreateNewHotelLevelRequest {
         if(!hotel)
         return { message: 'This hotel does not exists' }
         
-        const validation = await this.validateUserWithHotelPort.isValidUserWithHotel(clientId, hotelId)
+        const validation = await this.validateUserWithHotelPort.checkIfHotelBelongsToClientApp(clientId, hotelId)
 
         if(!validation)
         return { message: 'It is impossible to assign an level for this hotel' }

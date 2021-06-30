@@ -3,28 +3,31 @@ import { check } from "express-validator";
 import Container from "typedi";
 
 import { LevelController } from './level.controller';
-import { validateFields } from "../../../../../common/helpers/validate-fields";
-import { TokenHelper } from "../../../../../common/helpers/token-help";
+import { validateFields } from "../../../../../common/middlewares/validate-fields";
+import { CommonMiddlwares } from "../../../../../common/middlewares/common-middlewares";
 
-const tokenHelper = Container.get(TokenHelper)
+const coommonMiddlewares = Container.get(CommonMiddlwares)
 
 const levelController = Container.get(LevelController)
 const router = Router()
 
 router.post('/:hotelId', [
-    tokenHelper.validateJWT,
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
     check('name', 'Name for level is required').not().isEmpty(),
     validateFields
 ],levelController.createLevel)
 
 router.get('/:hotelId', [
-    tokenHelper.validateJWT,
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
     validateFields
 ],levelController.getLevelsOfHotel)
 
-router.get('/level/:hotelLevelId', [
-    tokenHelper.validateJWT,
+/* router.get('/level/:hotelLevelId', [
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
     validateFields
 ],levelController.getLevelOfHotel)
-
+ */
 export default router

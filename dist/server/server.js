@@ -16,19 +16,26 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = require("body-parser");
 const connection_1 = require("../db/connection");
-const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes"));
-const room_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/adapter/in/web/room/room.routes"));
-const level_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes"));
-const roles_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/roles.routes"));
 const users_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/users.routes"));
+const roles_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/roles.routes"));
+const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes"));
+const level_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes"));
+const room_routes_1 = __importDefault(require("../JDiazDevHotels/rooms/room-condition/adapter/in/web/room.routes"));
+const room_category_routes_1 = __importDefault(require("../JDiazDevHotels/rooms/room-category/adapter/in/web/room-category.routes"));
+const room_routes_2 = __importDefault(require("../JDiazDevHotels/rooms/room/adapter/in/web/room.routes"));
 class Server {
     constructor() {
         this.paths = {
-            hotel: '/jdev/hotel',
-            levels: '/jdev/levels',
+            //users
             roles: '/jdev/roles',
             users: '/jdev/users',
+            //hotels
+            hotel: '/jdev/hotel',
+            levels: '/jdev/levels',
+            //rooms
             rooms: '/jdev/rooms',
+            roomCategories: '/jdev/room-categories',
+            roomCondition: '/jdev/room-condition',
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '8080';
@@ -59,11 +66,16 @@ class Server {
         this.app.use(body_parser_1.json());
     }
     routes() {
+        //users
+        this.app.use(this.paths.users, users_routes_1.default);
+        this.app.use(this.paths.roles, roles_routes_1.default);
+        //hotel
         this.app.use(this.paths.hotel, hotel_routes_1.default);
         this.app.use(this.paths.levels, level_routes_1.default);
-        this.app.use(this.paths.roles, roles_routes_1.default);
-        this.app.use(this.paths.users, users_routes_1.default);
-        this.app.use(this.paths.rooms, room_routes_1.default);
+        //rooms
+        this.app.use(this.paths.rooms, room_routes_2.default);
+        this.app.use(this.paths.roomCategories, room_category_routes_1.default);
+        this.app.use(this.paths.roomCondition, room_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

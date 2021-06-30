@@ -1,5 +1,6 @@
-import { CreateNewRoomCommand } from "./create-new-room.command";
+import { RoomData } from "../../services/room-data";
+import { RoomCommand } from "./room.command";
 
 export interface UpdateTheRoomRequest {
-    updateTheRoom(command:CreateNewRoomCommand):Promise<any>
+    updateTheRoom(command:RoomCommand, roomData:RoomData):Promise<any>
 }

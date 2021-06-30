@@ -8,7 +8,7 @@ import { GetHotelService } from '../../hotel/hotels/application/services/get-hot
 import { ValidateUserWithHotelPort } from './../ports/in/validateUserWithHotel.port';
 
 @Service()
-export class DatabaseValidator implements ValidateUserWithHotelPort {
+export class CommonValidator implements ValidateUserWithHotelPort {
     private commonNeedUserFromUserBcontext:CommonNeedUserFromUserBcontextPort
     private commonNeedHotelFromHotelBcontextPort:CommonNeedHotelFromHotelBcontextPort
 
@@ -19,7 +19,7 @@ export class DatabaseValidator implements ValidateUserWithHotelPort {
         this.commonNeedUserFromUserBcontext = getUserService
         this.commonNeedHotelFromHotelBcontextPort = getHotelService
     }
-    async isValidUserWithHotel(userId:number, hotelId:number):Promise<boolean>{
+    async checkIfHotelBelongsToClientApp(userId:number, hotelId:number):Promise<boolean>{
         const user = await this.commonNeedUserFromUserBcontext.getUser(userId)
         const hotel = await this.commonNeedHotelFromHotelBcontextPort.getHotel(hotelId)
 
@@ -28,8 +28,6 @@ export class DatabaseValidator implements ValidateUserWithHotelPort {
         }
         return true
     }
-
-
 
 }
 

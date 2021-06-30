@@ -4,7 +4,7 @@ import { CreateNewHotelLevelRequest } from '../../../application/ports/in/create
 import { CreateHotelLevelService } from '../../../application/services/create-hotel-level.service';
 import { GetHotelLevelsRequest } from '../../../application/ports/in/get-hotel-levels-request';
 import { GetHotelLevelsService } from '../../../application/services/get-hotel-levels.service';
-import { GetHotelLevelRequest } from '../../../application/ports/in/gel-hotel-level.request';
+import { GetHotelLevelRequest } from '../../../application/ports/in/get-hotel-level.request';
 
 @Service()
 export class LevelController {
@@ -31,16 +31,16 @@ export class LevelController {
     getLevelsOfHotel = async(req:Request|any, res:Response) => { 
         const { hotelId } = req.params
 
-        const levels = await this.getHotelLevelsRequest.getLevelsOfHotel(hotelId)
+        const levels = await this.getHotelLevelsRequest.getLevelsOfHotel(parseInt(req.user.id), parseInt(hotelId))
         res.json(levels)
 
     }
-    getLevelOfHotel = async(req:Request|any, res:Response) => { 
+    /* getLevelOfHotel = async(req:Request|any, res:Response) => { 
         const { hotelLevelId } = req.params
 
         const levels = await this.getHotelLevelRequest.getLevelOfHotel(hotelLevelId)
         res.json(levels)
 
-    }
+    } */
 
 }

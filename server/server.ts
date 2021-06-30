@@ -4,23 +4,32 @@ import { urlencoded, json } from 'body-parser'
 
 import { db as sequelize } from '../db/connection'
 
-import hotelRoutes from '../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes'
-import roomRoutes from '../JDiazDevHotels/hotel/adapter/in/web/room/room.routes'
-import levelRoutes from '../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes'
-import rolesRoutes from '../JDiazDevHotels/user/routes/roles.routes'
 import userRoutes from '../JDiazDevHotels/user/routes/users.routes'
+import rolesRoutes from '../JDiazDevHotels/user/routes/roles.routes'
 
+import hotelRoutes from '../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes'
+import levelRoutes from '../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes'
 
+import roomConditionRoutes from '../JDiazDevHotels/rooms/room-condition/adapter/in/web/room.routes'
+import roomCategoryRoutes from '../JDiazDevHotels/rooms/room-category/adapter/in/web/room-category.routes'
+import roomRoutes from '../JDiazDevHotels/rooms/room/adapter/in/web/room.routes'
 
 export default class Server {
     private app:Application
     private port:string
     private paths = {
-        hotel:'/jdev/hotel',
-        levels:'/jdev/levels',
+        //users
         roles:'/jdev/roles',
         users:'/jdev/users',
+
+        //hotels
+        hotel:'/jdev/hotel',
+        levels:'/jdev/levels',
+
+        //rooms
         rooms:'/jdev/rooms',
+        roomCategories:'/jdev/room-categories',
+        roomCondition:'/jdev/room-condition',
     }
 
     constructor(){
@@ -53,11 +62,18 @@ export default class Server {
         this.app.use( json() )
     }
     routes(){
+        //users
+        this.app.use(this.paths.users, userRoutes)
+        this.app.use(this.paths.roles, rolesRoutes)
+
+        //hotel
         this.app.use(this.paths.hotel, hotelRoutes)
         this.app.use(this.paths.levels, levelRoutes)
-        this.app.use(this.paths.roles, rolesRoutes)
-        this.app.use(this.paths.users, userRoutes)
+
+        //rooms
         this.app.use(this.paths.rooms, roomRoutes)
+        this.app.use(this.paths.roomCategories, roomCategoryRoutes)
+        this.app.use(this.paths.roomCondition, roomConditionRoutes)
     }
     listen(){
         this.app.listen( this.port, () => {

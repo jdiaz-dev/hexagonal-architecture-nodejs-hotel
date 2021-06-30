@@ -5,11 +5,13 @@ import { LevelRepository } from './level.repository';
 import { GetHotelLevelsPort } from "../../../application/ports/out/get-hotel-levels.port";
 
 import { LevelORM } from './level.orm';
+import { GetLevelPort } from './../../../application/ports/out/get-level.port';
 
 @Service()
 export class LevelPersistenceAdpater implements 
         CreateLevelPort,
-        GetHotelLevelsPort {
+        GetHotelLevelsPort,
+        GetLevelPort {
     private levelRepository:LevelRepository
     
     constructor(levelORM:LevelORM){

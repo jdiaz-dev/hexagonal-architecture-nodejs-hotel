@@ -3,16 +3,16 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 
 import { HotelController } from './hotel.controller'
-import { TokenHelper } from '../../../../../common/helpers/token-help'
-import { validateFields } from '../../../../../common/helpers/validate-fields';
+import { CommonMiddlwares } from '../../../../../common/middlewares/common-middlewares'
+import { validateFields } from '../../../../../common/middlewares/validate-fields';
 
-const tokenHelper = Container.get(TokenHelper)
+const coommonMiddlewares = Container.get(CommonMiddlwares)
 const userController = Container.get(HotelController)
 
 const router = Router()
 
 router.post('/:clientId', [
-    tokenHelper.validateJWT,
+    coommonMiddlewares.validateJWT,
     check('name', 'hotel name is required').not().isEmpty(),
     check('address', 'address hotel is required').not().isEmpty(),
     validateFields

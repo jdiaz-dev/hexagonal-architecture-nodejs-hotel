@@ -1,17 +1,22 @@
 import { Service } from "typedi";
-import { RoomData } from "../../../domain/room-data";
-import { CreateRoomPort } from '../../../application/ports/out/create-room.port';
+
+import { RoomData } from "../../../application/services/room-data";
+import { CreateRoomPort } from '../../../application/ports/out/self-domain/create-room.port';
 import { RoomRepository } from './room.repository';
 import { RoomORM } from './room.orm';
-import { RoomDatabaseEntity } from "./room-mysql.database-entity";
-import { GetRoomsPort } from '../../../application/ports/out/get-rooms.port';
-import { UpdateRoomPort } from '../../../application/ports/out/update-room.port';
+import { GetRoomsPort } from '../../../application/ports/out/self-domain/get-rooms.port';
+import { UpdateRoomPort } from '../../../application/ports/out/self-domain/update-room.port';
+import { RemoveRoomPort } from '../../../application/ports/out/self-domain/remove-room.port';
+import { GetRoomModelToDomainPort } from "../../../application/ports/out/self-domain/get-room-modeled.ports";
+import { RoomWithLevelEntity } from './../../../domain/room-with-level';
 
 @Service()
 export class RoomPersistenceAdapter implements 
         CreateRoomPort,
         UpdateRoomPort,
-        GetRoomsPort {
+        GetRoomModelToDomainPort,
+        GetRoomsPort,
+        RemoveRoomPort {
     private roomRepository:RoomRepository
 
     constructor(roomORM:RoomORM){
@@ -43,9 +48,17 @@ export class RoomPersistenceAdapter implements
         const room = await this.roomRepository.updateRoom(_roomData, roomId)
         return room
     }
+    async getRoomModeledToDomain(roomId:number):Promise<RoomWithLevelEntity>{
+        const room = await this.roomRepository.getRoom(roomId)
+        return new RoomWithLevelEntity(room.levelId)
+    }
     async getRooms(levelId:number):Promise<any>{
         const rooms = await this.roomRepository.getRooms(levelId)
         return rooms
+    }
+    async removeRoom(roomId:number):Promise<any>{
+        const room = await this.roomRepository.removeRoom(roomId)
+        return room
     }
 
 }

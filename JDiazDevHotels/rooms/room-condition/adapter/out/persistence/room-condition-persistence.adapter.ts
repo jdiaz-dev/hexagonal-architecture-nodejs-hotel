@@ -20,7 +20,7 @@ export class RoomConditionPersistenceAdapter implements
         const roomCondtion = await this.roomConditionRepository.saveRoomCondition(nameCondition)
         return roomCondtion
     }
-    async getRoomCondtion(roomConditionId:number):Promise<any>{
+    async getRoomCondition(roomConditionId:number):Promise<any>{
         const roomCondition = await this.roomConditionRepository.getRoomCondtion(roomConditionId)
         return roomCondition
     }

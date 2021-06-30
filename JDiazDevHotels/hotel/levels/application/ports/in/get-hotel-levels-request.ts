@@ -1,3 +1,3 @@
 export interface GetHotelLevelsRequest {
-    getLevelsOfHotel(hotelId:number):Promise<any>
+    getLevelsOfHotel(clientAppId:number, hotelId:number):Promise<any>
 }
