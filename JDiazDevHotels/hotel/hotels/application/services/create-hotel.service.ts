@@ -1,7 +1,7 @@
 import { Service } from 'typedi'
 
 //from another Bcontext
-import { GetUserService } from '../../../../user/application/service/users/get-user.service';
+import { GetUserService } from '../../../../users/application/service/users/get-user.service';
 
 
 import { CreateHotelPort } from '../ports/out/create-hotel.port';

@@ -4,8 +4,10 @@ import { urlencoded, json } from 'body-parser'
 
 import { db as sequelize } from '../db/connection'
 
-import userRoutes from '../JDiazDevHotels/user/routes/users.routes'
-import rolesRoutes from '../JDiazDevHotels/user/routes/roles.routes'
+import userRoutes from '../JDiazDevHotels/users/routes/users.routes'
+import productRoutes from '../JDiazDevHotels/products/adapter/in/web/product.routes'
+import clientRoutes from '../JDiazDevHotels/clients/adapter/in/web/client.routes'
+import rolesRoutes from '../JDiazDevHotels/users/routes/roles.routes'
 
 import hotelRoutes from '../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes'
 import levelRoutes from '../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes'
@@ -21,6 +23,7 @@ export default class Server {
         //users
         roles:'/jdev/roles',
         users:'/jdev/users',
+        clients:'/jdev/clients',
 
         //hotels
         hotel:'/jdev/hotel',
@@ -30,6 +33,9 @@ export default class Server {
         rooms:'/jdev/rooms',
         roomCategories:'/jdev/room-categories',
         roomCondition:'/jdev/room-condition',
+
+        //products
+        products:'/jdev/products'
     }
 
     constructor(){
@@ -65,6 +71,7 @@ export default class Server {
         //users
         this.app.use(this.paths.users, userRoutes)
         this.app.use(this.paths.roles, rolesRoutes)
+        this.app.use(this.paths.clients, clientRoutes)
 
         //hotel
         this.app.use(this.paths.hotel, hotelRoutes)
@@ -74,6 +81,10 @@ export default class Server {
         this.app.use(this.paths.rooms, roomRoutes)
         this.app.use(this.paths.roomCategories, roomCategoryRoutes)
         this.app.use(this.paths.roomCondition, roomConditionRoutes)
+        
+        //products
+        this.app.use(this.paths.products, productRoutes)
+        
     }
     listen(){
         this.app.listen( this.port, () => {

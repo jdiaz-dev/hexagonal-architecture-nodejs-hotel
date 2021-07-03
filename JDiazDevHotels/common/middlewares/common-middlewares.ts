@@ -3,7 +3,7 @@ import { Service } from 'typedi'
 import { verify } from 'jsonwebtoken'
 
 import { CommonNeedUserFromUserBcontextPort } from '../ports/out/common-need-user-from-user-bcontext.port';
-import { GetUserService } from '../../user/application/service/users/get-user.service';
+import { GetUserService } from '../../users/application/service/users/get-user.service';
 import { CommonNeedHotelFromHotelBcontextPort } from './../ports/out/common-need-hotel-from-hotel-bcontext.port';
 import { GetHotelService } from '../../hotel/hotels/application/services/get-hotel.service';
 

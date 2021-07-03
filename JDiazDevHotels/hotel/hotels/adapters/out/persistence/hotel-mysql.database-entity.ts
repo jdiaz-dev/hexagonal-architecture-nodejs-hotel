@@ -1,7 +1,7 @@
 import { Table, Column } from 'sequelize-typescript'
 import { DataTypes, Model } from 'sequelize'
 import { db as sequelize } from '../../../../../../db/connection'
-import { UserDatabaseEntity } from '../../../../../user/adapter/out/persistence/user/user-database-entity'
+import { UserDatabaseEntity } from '../../../../../users/adapter/out/persistence/user/user-database-entity'
 
 @Table
 export class HotelDatabaseEntity extends Model {

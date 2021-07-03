@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { CommonNeedUserFromUserBcontextPort } from './../ports/out/common-need-user-from-user-bcontext.port';
 import { CommonNeedHotelFromHotelBcontextPort } from './../ports/out/common-need-hotel-from-hotel-bcontext.port';
 
-import { GetUserService } from './../../user/application/service/users/get-user.service';
+import { GetUserService } from '../../users/application/service/users/get-user.service';
 import { GetHotelService } from '../../hotel/hotels/application/services/get-hotel.service';
 import { ValidateUserWithHotelPort } from './../ports/in/validateUserWithHotel.port';
 

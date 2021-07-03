@@ -16,8 +16,10 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = require("body-parser");
 const connection_1 = require("../db/connection");
-const users_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/users.routes"));
-const roles_routes_1 = __importDefault(require("../JDiazDevHotels/user/routes/roles.routes"));
+const users_routes_1 = __importDefault(require("../JDiazDevHotels/users/routes/users.routes"));
+const product_routes_1 = __importDefault(require("../JDiazDevHotels/products/adapter/in/web/product.routes"));
+const client_routes_1 = __importDefault(require("../JDiazDevHotels/clients/adapter/in/web/client.routes"));
+const roles_routes_1 = __importDefault(require("../JDiazDevHotels/users/routes/roles.routes"));
 const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes"));
 const level_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/levels/adapter/in/web/level.routes"));
 const room_routes_1 = __importDefault(require("../JDiazDevHotels/rooms/room-condition/adapter/in/web/room.routes"));
@@ -29,6 +31,7 @@ class Server {
             //users
             roles: '/jdev/roles',
             users: '/jdev/users',
+            clients: '/jdev/clients',
             //hotels
             hotel: '/jdev/hotel',
             levels: '/jdev/levels',
@@ -36,6 +39,8 @@ class Server {
             rooms: '/jdev/rooms',
             roomCategories: '/jdev/room-categories',
             roomCondition: '/jdev/room-condition',
+            //products
+            products: '/jdev/products'
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '8080';
@@ -69,6 +74,7 @@ class Server {
         //users
         this.app.use(this.paths.users, users_routes_1.default);
         this.app.use(this.paths.roles, roles_routes_1.default);
+        this.app.use(this.paths.clients, client_routes_1.default);
         //hotel
         this.app.use(this.paths.hotel, hotel_routes_1.default);
         this.app.use(this.paths.levels, level_routes_1.default);
@@ -76,6 +82,8 @@ class Server {
         this.app.use(this.paths.rooms, room_routes_2.default);
         this.app.use(this.paths.roomCategories, room_category_routes_1.default);
         this.app.use(this.paths.roomCondition, room_routes_1.default);
+        //products
+        this.app.use(this.paths.products, product_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

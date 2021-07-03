@@ -23,6 +23,7 @@ export class HotelController {
 
         res.json(hotelCreated)
     }
+    
 } 
 
 
