@@ -9,6 +9,7 @@ import { UpdateRoomPort } from '../../../application/ports/out/self-domain/updat
 import { RemoveRoomPort } from '../../../application/ports/out/self-domain/remove-room.port';
 import { GetRoomModelToDomainPort } from "../../../application/ports/out/self-domain/get-room-modeled.ports";
 import { RoomWithLevelEntity } from './../../../domain/room-with-level';
+import { GetRoomPort } from './../../../application/ports/out/self-domain/get-room.port';
 
 @Service()
 export class RoomPersistenceAdapter implements 
@@ -16,6 +17,7 @@ export class RoomPersistenceAdapter implements
         UpdateRoomPort,
         GetRoomModelToDomainPort,
         GetRoomsPort,
+        GetRoomPort,
         RemoveRoomPort {
     private roomRepository:RoomRepository
 
@@ -58,6 +60,10 @@ export class RoomPersistenceAdapter implements
     }
     async removeRoom(roomId:number):Promise<any>{
         const room = await this.roomRepository.removeRoom(roomId)
+        return room
+    }
+    async getRoom(roomId:number):Promise<any>{
+        const room = await this.roomRepository.getRoom(roomId)
         return room
     }
 

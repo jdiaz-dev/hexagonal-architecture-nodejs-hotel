@@ -6,6 +6,7 @@ import { HotelPersistenceAdapter } from '../../adapters/out/persistence/hotel-pe
 import { GetHotelForRoomCategoryDomain } from '../../../../rooms/room-category/application/ports/out/other-domain/get-hotel-for-room-category-domain';
 import { GetHotelForClientDomain } from "../../../../clients/application/ports/out/other-domain/get-hotel-for-client-domain";
 import { GetHotelForProductDomain } from "../../../../products/application/ports/out/other-domain/get-product-for-product-domain";
+import { GetHotelForCashDomain } from "../../../../cash/application/ports/out/other-domain/get-hotel-for-cash-domain";
 
 @Service()
 export class GetHotelService implements 
@@ -13,7 +14,8 @@ export class GetHotelService implements
         CommonNeedHotelFromHotelBcontextPort,
         GetHotelForRoomCategoryDomain,
         GetHotelForClientDomain,
-        GetHotelForProductDomain {
+        GetHotelForProductDomain,
+        GetHotelForCashDomain {
 
     private getHotelPort:GetHotelPort
 
@@ -33,6 +35,10 @@ export class GetHotelService implements
         return hotel
     }
     async getHotelForProductDomain(hotelId: number): Promise<any>{
+        const hotel = await this.getHotelPort.findHotel(hotelId)
+        return hotel
+    }
+    async getHotelForCashDomain(hotelId:number):Promise<any>{
         const hotel = await this.getHotelPort.findHotel(hotelId)
         return hotel
     }

@@ -25,6 +25,8 @@ const level_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/levels/a
 const room_routes_1 = __importDefault(require("../JDiazDevHotels/rooms/room-condition/adapter/in/web/room.routes"));
 const room_category_routes_1 = __importDefault(require("../JDiazDevHotels/rooms/room-category/adapter/in/web/room-category.routes"));
 const room_routes_2 = __importDefault(require("../JDiazDevHotels/rooms/room/adapter/in/web/room.routes"));
+const cash_routes_1 = __importDefault(require("../JDiazDevHotels/cash/adapter/in/web/cash.routes"));
+const housting_routes_1 = __importDefault(require("../JDiazDevHotels/housting/adapter/in/web/housting.routes"));
 class Server {
     constructor() {
         this.paths = {
@@ -40,7 +42,9 @@ class Server {
             roomCategories: '/jdev/room-categories',
             roomCondition: '/jdev/room-condition',
             //products
-            products: '/jdev/products'
+            products: '/jdev/products',
+            cash: '/jdev/cash',
+            housting: '/jdev/housting',
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '8080';
@@ -84,6 +88,8 @@ class Server {
         this.app.use(this.paths.roomCondition, room_routes_1.default);
         //products
         this.app.use(this.paths.products, product_routes_1.default);
+        this.app.use(this.paths.cash, cash_routes_1.default);
+        this.app.use(this.paths.housting, housting_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
