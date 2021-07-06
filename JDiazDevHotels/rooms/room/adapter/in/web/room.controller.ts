@@ -11,6 +11,8 @@ import { RoomCommand } from "../../../application/ports/in/room.command";
 import { RemoveTheRoomRequest } from './../../../application/ports/in/remove-the-room.request';
 import { RemoveRoomService } from './../../../application/services/remove-room.service';
 import { RoomWithLevelCommand } from "../../../application/ports/in/room-with-level.domain";
+import { UpdateCondtionOfRoomRequest } from './../../../application/ports/in/update-condition-of-room.request';
+import { UpdateConditionOfRoomService } from './../../../application/services/update-condition-of-room.service';
 
 @Service()
 export class RoomController {
@@ -18,16 +20,19 @@ export class RoomController {
     private updateTheRoomRequest:UpdateTheRoomRequest
     private getRoomsRequest:GetRoomsRequest
     private removeTheRoomRequest:RemoveTheRoomRequest
+    private updateConditionOfRoomRequest:UpdateCondtionOfRoomRequest
 
     constructor(
         createAndUpdateRoomService:CreateAndUpdateRoomService,
         getRoomsService:GetRoomsService,
-        removeRoomService:RemoveRoomService
+        removeRoomService:RemoveRoomService,
+        updateConditionOfRoomService:UpdateConditionOfRoomService
     ){
         this.createNewRoomRequest = createAndUpdateRoomService
         this.updateTheRoomRequest = createAndUpdateRoomService
         this.getRoomsRequest = getRoomsService
         this.removeTheRoomRequest = removeRoomService 
+        this.updateConditionOfRoomRequest = updateConditionOfRoomService
     }
     createRoom = async(req:Request|any, res:Response) => {
         const { name, price, details } = req.body
@@ -73,4 +78,14 @@ export class RoomController {
         )
         res.json(roomRemoved) 
     }
+    updateConditionOfRoom = async (req:Request|any, res:Response) => {
+        const { roomId, roomConditionId } = req.params
+
+        const roomRemoved = await this.updateConditionOfRoomRequest.updateTheCondtionOfRoom(
+            parseInt(roomId),
+            parseInt(roomConditionId)
+        )
+        res.json(roomRemoved) 
+    }
+
 }

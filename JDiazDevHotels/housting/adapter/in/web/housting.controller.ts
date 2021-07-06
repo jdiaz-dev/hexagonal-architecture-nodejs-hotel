@@ -9,6 +9,10 @@ import { DataHousting } from "../../../application/services/data-housting";
 import { GetHoustingRequest } from './../../../application/ports/in/get-housting-request';
 import { GetHoustingService } from './../../../application/services/get-housting.service';
 import { HoustingCommand } from "../../../application/ports/in/housting.command";
+import { UpdateMoneyPaidService } from './../../../application/services/update-money-paid.service';
+import { UpdateMoneyPaidUseCase } from './../../../application/ports/in/update-money-paid-use-case';
+import { FinishHoustingUseCase } from './../../../application/ports/in/finish-housting';
+import { UpdateFinishHoustingService } from '../../../application/services/update-finish-housting.service';
 
 dayjs.extend(utc)
 
@@ -16,13 +20,19 @@ dayjs.extend(utc)
 export class HoustingController {
     private createHoustingRequest:CreateHoustingRequest
     private getHoustingRequest:GetHoustingRequest
+    private updateMoneyPaidUseCase:UpdateMoneyPaidUseCase
+    private finishHoustingUseCase:FinishHoustingUseCase
     
     constructor(
         createHoustingService:CreateHoustingService,
-        getHoustingService:GetHoustingService
+        getHoustingService:GetHoustingService,
+        updateMoneyPaidService:UpdateMoneyPaidService,
+        updateFinishHoustingService:UpdateFinishHoustingService
     ){
         this.createHoustingRequest = createHoustingService
         this.getHoustingRequest = getHoustingService
+        this.updateMoneyPaidUseCase = updateMoneyPaidService
+        this.finishHoustingUseCase = updateFinishHoustingService
     }
     createHousting = async (req:Request, res:Response) => {
         const { cashId, clientId, roomId } = req.params
@@ -41,14 +51,31 @@ export class HoustingController {
         res.json(newHousting)
     }
     getHousting = async (req:Request, res:Response) => {
-        const { houstingId, cashId, clientId, roomId } = req.params
+        const { houstingId } = req.params
 
-        const housting = await this.getHoustingRequest.getTheHousting(
-            parseInt(houstingId),
-            new HoustingCommand(parseInt(cashId), parseInt(clientId), parseInt(roomId)))
+        const housting = await this.getHoustingRequest.getTheHousting( parseInt(houstingId) )
             
         res.json(housting)
     }
+    updateMoneyPaid = async (req:Request, res:Response) => {
+        const { houstingId } = req.params
+        const { moneyToAdd } = req.body
 
+        const newMoneyPaid = await this.updateMoneyPaidUseCase.updateMoneyPaid( 
+            parseInt(houstingId), 
+            parseInt(moneyToAdd) 
+        )
+            
+        res.json(newMoneyPaid)
+    }
+    updateFinish = async (req:Request, res:Response) => {
+        const { houstingId } = req.params
+
+        const houstingFinished = await this.finishHoustingUseCase.finishHousting( 
+            parseInt(houstingId)
+        )
+            
+        res.json(houstingFinished)
+    }
 
 }

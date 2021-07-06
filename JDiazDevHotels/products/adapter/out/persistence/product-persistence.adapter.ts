@@ -7,12 +7,14 @@ import { GetProductModeledPort } from "../../../application/ports/out/self-domai
 import { ProductDomianEntity } from "../../../domain/product";
 import { UpdateProductPort } from './../../../application/ports/out/self-domain/update-product';
 import { RemoveProductPort } from "../../../application/ports/out/self-domain/remove-product.port";
+import { GetProductPort } from './../../../application/ports/out/self-domain/get-product.port';
 
 @Service()
 export class ProductPersistenceAdapter implements 
         CreateProductPort,
         GetProductsPort,
         GetProductModeledPort,
+        GetProductPort,
         UpdateProductPort,
         RemoveProductPort {
     constructor(private productORM:ProductORM){}
@@ -24,6 +26,10 @@ export class ProductPersistenceAdapter implements
     async getProducts(hotelId:number):Promise<any>{
         const products = await this.productORM.getProducts(hotelId)
         return products
+    }
+    async getProduct(productId:number):Promise<any>{
+        const product = await this.productORM.getProduct(productId)
+        return product
     }
     async getProductModeled(productId:number):Promise<ProductDomianEntity>{
         const product = await this.productORM.getProduct(productId)

@@ -18,6 +18,7 @@ const body_parser_1 = require("body-parser");
 const connection_1 = require("../db/connection");
 const users_routes_1 = __importDefault(require("../JDiazDevHotels/users/routes/users.routes"));
 const product_routes_1 = __importDefault(require("../JDiazDevHotels/products/adapter/in/web/product.routes"));
+const product_sale_routes_1 = __importDefault(require("../JDiazDevHotels/product-sales/adapter/in/web/product-sale.routes"));
 const client_routes_1 = __importDefault(require("../JDiazDevHotels/clients/adapter/in/web/client.routes"));
 const roles_routes_1 = __importDefault(require("../JDiazDevHotels/users/routes/roles.routes"));
 const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/hotel/hotels/adapters/in/web/hotel.routes"));
@@ -43,6 +44,7 @@ class Server {
             roomCondition: '/jdev/room-condition',
             //products
             products: '/jdev/products',
+            productSales: '/jdev/product-sales',
             cash: '/jdev/cash',
             housting: '/jdev/housting',
         };
@@ -88,6 +90,7 @@ class Server {
         this.app.use(this.paths.roomCondition, room_routes_1.default);
         //products
         this.app.use(this.paths.products, product_routes_1.default);
+        this.app.use(this.paths.productSales, product_sale_routes_1.default);
         this.app.use(this.paths.cash, cash_routes_1.default);
         this.app.use(this.paths.housting, housting_routes_1.default);
     }

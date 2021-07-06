@@ -2,8 +2,8 @@ import { Container } from 'typedi'
 import { Router } from 'express'
 import { check } from 'express-validator'
 
-import { CommonMiddlwares } from '../../../../common/middlewares/common-middlewares'
-import { validateFields } from '../../../../common/middlewares/validate-fields';
+import { CommonMiddlwares } from './../../../../common/middlewares/common-middlewares'
+import { validateFields } from './../../../../common/middlewares/validate-fields';
 import { ProductController } from './product.controller';
 
 const coommonMiddlewares = Container.get(CommonMiddlwares)

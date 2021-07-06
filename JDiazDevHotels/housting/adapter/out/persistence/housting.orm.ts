@@ -31,4 +31,29 @@ export class HoustingORM implements HoustingRepository {
             console.log('---------------', error)
         }
     }
+    async updateMoneyPaid(houstingId:number, newMoney:number):Promise<any>{
+        try {
+            const housting:any = await HoustingDataBaseEntity.findByPk(houstingId)
+            housting.moneyPaid =  newMoney 
+            await housting.save()
+
+            return housting
+
+        } catch (error) {
+            console.log('---------------', error)
+        }
+    }
+    async updateFinish(houstingId:number):Promise<any>{
+        try {
+            const housting:any = await HoustingDataBaseEntity.findByPk(houstingId)
+            housting.finished = true 
+            await housting.save()
+
+            return housting
+
+        } catch (error) {
+            console.log('---------------', error)
+        }
+    }
+
 }

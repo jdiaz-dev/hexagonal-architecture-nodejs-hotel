@@ -5,12 +5,16 @@ import { HoustingORM } from './housting.orm';
 import { GetHoustingPort } from './../../../application/ports/out/self-domain/get-housting.port';
 import { GetHoustingModeledPort } from "../../../application/ports/out/self-domain/get-housting-modeled";
 import { HoustingDomainEntity } from "../../../domain/housting";
+import { UpdateMoneyPaidPort } from './../../../application/ports/out/self-domain/update-money-paid.port';
+import { UpdateFinishPort } from './../../../application/ports/out/self-domain/update-finish.port';
 
 @Service()
 export class HoustingPersistenceAdapter implements
         CreateHoustingPort, 
         GetHoustingPort, 
-        GetHoustingModeledPort{
+        GetHoustingModeledPort, 
+        UpdateMoneyPaidPort, 
+        UpdateFinishPort {
     
     constructor(private houstingORM:HoustingORM){}
     
@@ -25,5 +29,13 @@ export class HoustingPersistenceAdapter implements
     async getHoustingModeled(houstingId:number):Promise<HoustingDomainEntity>{
         const housting = await this.houstingORM.getHousting(houstingId)
         return new HoustingDomainEntity(housting.cashId, housting.clientId, housting.roomId)
+    }
+    async updateMoneyPaid(houstingId:number, newMoney:number):Promise<any> {
+        const housting = await this.houstingORM.updateMoneyPaid(houstingId, newMoney)
+        return housting
+    }
+    async updateFinish(houstingId:number):Promise<any>{
+        const housting = await this.houstingORM.updateFinish(houstingId)
+        return housting
     }
 }

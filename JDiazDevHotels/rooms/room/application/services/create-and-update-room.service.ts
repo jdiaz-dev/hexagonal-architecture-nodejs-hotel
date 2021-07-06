@@ -12,7 +12,6 @@ import { GetRoomLevelService } from './../../../../hotel/levels/application/serv
 import { GetRoomCategoryForRoomDomain } from "../ports/out/other-domain/get-room-category-for-room-domain";
 import { GetRoomCategoryService } from "../../../room-category/application/services/get-room-category.service";
 import { GetRoomConditionService } from './../../../room-condition/application/services/get-room-condition.service';
-import { GetRoomConditionForRoomDomain } from './../ports/out/other-domain/get-room-condition-for-room-domain';
 
 @Service()
 export class CreateAndUpdateRoomService implements 
@@ -22,8 +21,6 @@ export class CreateAndUpdateRoomService implements
     //other domains     
     private getLevelForRoomDomain:GetLevelForRoomDomain        
     private getRoomCategoryForRoomDomain:GetRoomCategoryForRoomDomain
-    private getRoomConditionForRoomDomain:GetRoomConditionForRoomDomain
-
 
     //self domain ports
     private createRoomPort:CreateRoomPort
@@ -42,7 +39,6 @@ export class CreateAndUpdateRoomService implements
         //other domains 
         this.getLevelForRoomDomain = getRoomLevelService
         this.getRoomCategoryForRoomDomain = getRoomCategoryService
-        this.getRoomConditionForRoomDomain = getRoomConditionService
 
         //self domain ports
         this.createRoomPort = roomPersistenceAdapter
@@ -70,11 +66,6 @@ export class CreateAndUpdateRoomService implements
 
         if( ! roomDomain2.checkIfRoomCategoryBelongsToHotel(command.getHotelId) ){
             return { message: 'This category does not belongs to this hotel '}
-        }
-
-        const roomCondition = await this.getRoomConditionForRoomDomain.getRoomConditionForRoomDomain(roomData.getConditionId)
-        if( ! roomCondition){
-            return { message: 'This category room condition does not exists '}
         }
 
         let room

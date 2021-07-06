@@ -19,7 +19,7 @@ export class CommonMiddlwares {
         this.commonNeedUserFromUserBcontextPort = getUserService
         this.commonNeedHotelFromHotelBcontextPort = getHotelService
 
-        this.validateJWT = this.validateJWT.bind(this)
+        //this.validateJWT = this.validateJWT.bind(this)
     }
 
     validateJWT = async (req:Request|any, res:Response, next:NextFunction) => {

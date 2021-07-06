@@ -10,7 +10,7 @@ export const generateJWT = (user:object|any) => { //uid : user identifier
 
             // to sign a token
         jwt.sign( payload, (process.env.SECRETORPRIVATEKEY || 'jdevhotels') as string, {
-            expiresIn:'1d' // to expire in 1 day
+            expiresIn:'4d' // to expire in 1 day
         }, (err, token) => { //callback
             if(err){
                 console.log(err)

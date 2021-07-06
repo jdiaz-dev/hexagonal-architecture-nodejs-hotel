@@ -4,4 +4,6 @@ export interface RoomRepository {
     getRoom(roomId:number):Promise<any>
     getRooms(levelId:number):Promise<any>
     removeRoom(roomId:number):Promise<any>
+    updateConditionOfRoom(roomId:number, conditionId:number):Promise<any>
+
 }

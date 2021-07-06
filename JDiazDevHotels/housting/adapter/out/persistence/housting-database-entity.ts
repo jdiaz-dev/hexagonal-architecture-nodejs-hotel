@@ -63,6 +63,8 @@ HoustingDataBaseEntity.init(
         },
         finished:{
             type:DataTypes.BOOLEAN,
+            defaultValue:false,
+            allowNull:false
         },
  
     },
@@ -120,4 +122,3 @@ HoustingDataBaseEntity.belongsTo(CashDatabaseEntity, {
         allowNull:false
     }
 })
-

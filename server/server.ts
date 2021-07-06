@@ -6,6 +6,9 @@ import { db as sequelize } from '../db/connection'
 
 import userRoutes from '../JDiazDevHotels/users/routes/users.routes'
 import productRoutes from '../JDiazDevHotels/products/adapter/in/web/product.routes'
+import productSaleRoutes from '../JDiazDevHotels/product-sales/adapter/in/web/product-sale.routes'
+
+
 import clientRoutes from '../JDiazDevHotels/clients/adapter/in/web/client.routes'
 
 import rolesRoutes from '../JDiazDevHotels/users/routes/roles.routes'
@@ -40,6 +43,7 @@ export default class Server {
 
         //products
         products:'/jdev/products',
+        productSales:'/jdev/product-sales',
         cash:'/jdev/cash',
         housting:'/jdev/housting',
 
@@ -91,6 +95,7 @@ export default class Server {
         
         //products
         this.app.use(this.paths.products, productRoutes)
+        this.app.use(this.paths.productSales, productSaleRoutes)
         this.app.use(this.paths.cash, cashRoutes)
         this.app.use(this.paths.housting, houstingRoutes)
         
@@ -102,5 +107,4 @@ export default class Server {
     }
 
 }
-
 

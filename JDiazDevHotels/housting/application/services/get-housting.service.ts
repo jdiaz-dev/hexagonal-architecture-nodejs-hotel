@@ -6,9 +6,12 @@ import { HoustingPersistenceAdapter } from './../../adapter/out/persistence/hous
 import { HoustingDomainEntity } from "../../domain/housting";
 import { HoustingCommand } from "../ports/in/housting.command";
 import { GetHoustingPort } from './../ports/out/self-domain/get-housting.port';
+import { GetHoustingModeledForMiddleware } from './../../adapter/in/web/interfaces/get-housting-modeled-for-middleware';
 
 @Service()
-export class GetHoustingService implements GetHoustingRequest{
+export class GetHoustingService implements 
+        GetHoustingRequest, 
+        GetHoustingModeledForMiddleware {
     private getHoustingModeledPort:GetHoustingModeledPort
     private getHoustingPort:GetHoustingPort
 
@@ -16,21 +19,14 @@ export class GetHoustingService implements GetHoustingRequest{
         this.getHoustingModeledPort = houstingPersistenceAdapter 
         this.getHoustingPort = houstingPersistenceAdapter 
     }
-    async getTheHousting(houstingId:number, command:HoustingCommand):Promise<any>{
-        const houstingModeled:HoustingDomainEntity = await this.getHoustingModeledPort.getHoustingModeled(houstingId) 
-
-        if( ! houstingModeled.checkIfCashBelongsToHousting(command.getCashId) ){
-            return { message: 'You cannot access to this housting, problem with cash'}
-        }
-
-        if( ! houstingModeled.checkIfClientBelongsToHousting(command.getClientId) ){
-            return { message: 'You cannot access to this housting, problem with client'}
-        }
-
-        if( ! houstingModeled.checkIfRoomBelongsToHousting(command.getRoomId) ){
-            return { message: 'You cannot access to this housting, problem with room'}
-        }
+    async getTheHousting(houstingId:number):Promise<any>{
         const housting = await this.getHoustingPort.getHousting(houstingId)
         return housting
     }
+    async getHoustingModeledForMiddleware(houstingId:number):Promise<any>{
+        const houstingModeled:HoustingDomainEntity = await this.getHoustingModeledPort.getHoustingModeled(houstingId) 
+
+        return houstingModeled
+    }
+
 }
