@@ -11,11 +11,12 @@ export class GetProductsSaledService implements GetProductSalesToSaleReportDomai
     constructor(productSalePersistenceAdapter:ProductSalePersistenceAdapter){
         this.getProductsSaledPort = productSalePersistenceAdapter
     }
-    async getProductSalesToSaleReportDomain(houstingId:number):Promise<any>{
+    async getProductSalesToSaleReportDomain(houstingId:number):Promise<MoneySpentDomainEntity|boolean>{
         const productsSaled:any[] = await this.getProductsSaledPort.getProductsSaled(houstingId)
 
-        const moneyOfSetProducts = new MoneySpentDomainEntity()
+        if( !productsSaled) return false
 
+        const moneyOfSetProducts = new MoneySpentDomainEntity()
         for(let x = 0; x < productsSaled.length; x++){
             moneyOfSetProducts.collectiontMoneySpent.push(productsSaled[x].totalPrice)
         }

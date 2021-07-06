@@ -15,4 +15,13 @@ export class SaleReportORM implements SaleReportRepository{
             console.log('-----------------', error)
         }
     }
+    async getSaleReport(houstingId:number):Promise<any>{
+        try {
+            const saleReport = await SaleReportDatabaseEntity.findOne({ where:{ houstigId:houstingId }})
+            return saleReport
+            
+        } catch (error) {
+            console.log('-----------------', error)
+        }
+    }
 }

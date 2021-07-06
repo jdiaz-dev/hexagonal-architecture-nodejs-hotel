@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
 @Service()
-export class HoustingReportORM {
+export class anyORM {
     
 }
