@@ -3,122 +3,120 @@ import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from "../../../../../db/connection";
 import { CashDatabaseEntity } from "../../../../cash/adapter/out/persistence/cash-database-entity";
 import { ClientDatabaseEntity } from './../../../../clients/adapter/out/persistence/client-database-entity';
-import { RoomDatabaseEntity } from './../../../../rooms/room/adapter/out/persistence/room-mysql.database-entity';
+import { RoomDatabaseEntity } from '../../../../configuration-hotel/room/adapter/out/persistence/room-mysql.database-entity';
 
 @Table
 export class HoustingDataBaseEntity extends Model {
-    
-    @Column
-    price!:number
 
     @Column
-    moneyPaid!:number
+    price!: number
 
     @Column
-    entryDate!:string
+    moneyPaid!: number
 
     @Column
-    outputDate!:number
+    entryDate!: string
 
     @Column
-    houstingTime!:number
+    outputDate!: number
 
     @Column
-    lateApplied!:boolean
+    houstingTime!: number
 
     @Column
-    cashId!:number
+    lateApplied!: boolean
 
     @Column
-    clientId!:number
+    cashId!: number
 
     @Column
-    roomId!:number
+    clientId!: number
 
-    
+    @Column
+    roomId!: number
 
 }
 HoustingDataBaseEntity.init(
     {
-        price:{
-            type:DataTypes.INTEGER,
-            allowNull:false
+        price: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
-        moneyPaid:{
-            type:DataTypes.INTEGER,
-            allowNull:false
+        moneyPaid: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
-        entryDate:{
-            type:DataTypes.DATE,
-            allowNull:false
+        entryDate: {
+            type: DataTypes.DATE,
+            allowNull: false
         },
-        outputDate:{
-            type:DataTypes.DATE,
+        outputDate: {
+            type: DataTypes.DATE,
         },
-        houstingTime:{
-            type:DataTypes.TIME,
+        houstingTime: {
+            type: DataTypes.TIME,
         },
-        lateApplied:{
-            type:DataTypes.BOOLEAN,
+        lateApplied: {
+            type: DataTypes.BOOLEAN,
         },
-        finished:{
-            type:DataTypes.BOOLEAN,
-            defaultValue:false,
-            allowNull:false
+        finished: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
         },
- 
+
     },
     {
         sequelize,
-        tableName:'houstings'
+        tableName: 'houstings'
 
     }
 )
 
 //client 
 ClientDatabaseEntity.hasOne(HoustingDataBaseEntity, {
-    foreignKey:{
-        name:'clientId',
-        allowNull:false
+    foreignKey: {
+        name: 'clientId',
+        allowNull: false
     }
-    
+
 })
 HoustingDataBaseEntity.belongsTo(ClientDatabaseEntity, {
-    as:'client',
-    foreignKey:{
-        name:'clientId',
-        allowNull:false
+    as: 'client',
+    foreignKey: {
+        name: 'clientId',
+        allowNull: false
     }
 })
 
 //room
 RoomDatabaseEntity.hasOne(HoustingDataBaseEntity, {
-    foreignKey:{
-        name:'roomId',
-        allowNull:false
+    foreignKey: {
+        name: 'roomId',
+        allowNull: false
     }
-    
+
 })
 HoustingDataBaseEntity.belongsTo(RoomDatabaseEntity, {
-    as:'room',
-    foreignKey:{
-        name:'roomId',
-        allowNull:false
+    as: 'room',
+    foreignKey: {
+        name: 'roomId',
+        allowNull: false
     }
 })
 
 //cash
 CashDatabaseEntity.hasOne(HoustingDataBaseEntity, {
-    foreignKey:{
-        name:'cashId',
-        allowNull:false
+    foreignKey: {
+        name: 'cashId',
+        allowNull: false
     }
-    
+
 })
 HoustingDataBaseEntity.belongsTo(CashDatabaseEntity, {
-    as:'cash',
-    foreignKey:{
-        name:'cashId',
-        allowNull:false
+    as: 'cash',
+    foreignKey: {
+        name: 'cashId',
+        allowNull: false
     }
 })

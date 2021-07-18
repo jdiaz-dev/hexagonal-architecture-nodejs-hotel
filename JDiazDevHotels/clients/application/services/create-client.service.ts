@@ -4,24 +4,24 @@ import { CreateNewClientRequest } from "../ports/in/create-new-client-request";
 import { CreateClientPort } from '../ports/out/self-domain/create-client.port';
 import { DataClient } from "./data-client";
 import { GetHotelForClientDomain } from './../ports/out/other-domain/get-hotel-for-client-domain';
-import { GetHotelService } from "../../../hotel/hotels/application/services/get-hotel.service";
+import { GetHotelService } from "../../../managament/hotels/application/services/get-hotel.service";
 
 
 @Service()
-export class CreateClientService implements CreateNewClientRequest{
+export class CreateClientService implements CreateNewClientRequest {
     //other domains
-    private getHotelForClientDomain:GetHotelForClientDomain
-    
-    private createClientPort:CreateClientPort
+    private getHotelForClientDomain: GetHotelForClientDomain
+
+    private createClientPort: CreateClientPort
 
 
     constructor(
         //other domains
-        getHotelService:GetHotelService,
+        getHotelService: GetHotelService,
 
         //self ports
-        clientPersistenceAdapter:ClientPersistenceAdapter
-    ){
+        clientPersistenceAdapter: ClientPersistenceAdapter
+    ) {
         //other domains
         this.getHotelForClientDomain = getHotelService
 
@@ -29,11 +29,11 @@ export class CreateClientService implements CreateNewClientRequest{
         this.createClientPort = clientPersistenceAdapter
     }
 
-    async createNewClient(hotelId:number, dataClient:DataClient):Promise<any>{
+    async createNewClient(hotelId: number, dataClient: DataClient): Promise<any> {
         const hotel = await this.getHotelForClientDomain.getHotelForClientDomain(hotelId)
 
-        if( !hotel ){
-            return { message: 'Immposible create this client, the hotel does not registered'}
+        if (!hotel) {
+            return { message: 'Immposible create this client, the hotel does not registered' }
         }
 
         const client = await this.createClientPort.createClient(hotelId, dataClient)
