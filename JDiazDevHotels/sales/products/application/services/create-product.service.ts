@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { ProductPersistenceAdapter } from "../../adapter/out/persistence/product-persistence.adapter";
+import { ProductPersistenceAdapter } from "../../infraestructure/out/persistence/product-persistence.adapter";
 import { CreateProductRequest } from "../ports/in/create-product.request";
 import { GetHotelForProductDomain } from "../ports/out/other-domain/get-product-for-product-domain";
 import { GetHotelService } from '../../../../managament/hotels/application/services/get-hotel.service';

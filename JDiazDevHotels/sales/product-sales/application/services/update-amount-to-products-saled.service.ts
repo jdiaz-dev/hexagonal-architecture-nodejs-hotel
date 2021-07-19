@@ -3,7 +3,7 @@ import { UpdateAmountToProductSaledUseCase } from '../ports/in/update-amount-to-
 import { GetProductModeledForProductSaleDomain } from '../ports/out/other-domain/get-product-modeled-for-product-sale-domain';
 
 import { GetProductSaledPort } from '../ports/out/self-domain/get-product-sale.port';
-import { ProductSalePersistenceAdapter } from '../../adapter/out/persistence/product-sale-persistence.adapter';
+import { ProductSalePersistenceAdapter } from '../../infraestructure/out/persistence/product-sale-persistence.adapter';
 import { ProductSaleDomainEntity } from '../../domain/products-saled';
 import { UpdateAmountToProductSaledPort } from '../ports/out/self-domain/update-amount-to-product-saled.port';
 import { GetProductService } from "../../../products/application/services/get-product.service";

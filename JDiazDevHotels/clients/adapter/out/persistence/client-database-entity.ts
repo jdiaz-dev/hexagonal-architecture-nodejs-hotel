@@ -1,6 +1,6 @@
 import { Column, Table } from "sequelize-typescript";
 import { DataTypes, Model } from 'sequelize';
-import { HotelDatabaseEntity } from "../../../../managament/hotels/adapters/out/persistence/hotel-mysql.database-entity";
+import { HotelDatabaseEntity } from "../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity";
 import { db as sequelize } from "../../../../../db/connection";
 
 @Table

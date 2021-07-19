@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { CreateProductSaledRequest } from "../ports/in/create-product-saled.request";
 import { DataProductSaled } from "./product-saled-data";
 import { CreateProductSalePort } from '../ports/out/self-domain/create-product-saled';
-import { ProductSalePersistenceAdapter } from '../../adapter/out/persistence/product-sale-persistence.adapter';
+import { ProductSalePersistenceAdapter } from '../../infraestructure/out/persistence/product-sale-persistence.adapter';
 import { GetProductService } from '../../../products/application/services/get-product.service';
 import { GetProductModeledForProductSaleDomain } from '../ports/out/other-domain/get-product-modeled-for-product-sale-domain';
 import { ProductSaleDomainEntity } from '../../domain/products-saled';

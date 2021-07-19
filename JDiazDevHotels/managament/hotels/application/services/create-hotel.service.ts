@@ -1,14 +1,14 @@
 import { Service } from 'typedi'
 
 //from another Bcontext
-import { GetUserService } from '../../../users/users/application/services/get-user.service';
+import { GetUserService } from '../../../users/application/services/get-user.service';
 
 
 import { CreateHotelPort } from '../ports/out/create-hotel.port';
 import { CreateHotelCommand } from '../ports/in/create-hotel.command';
 import { CreateNewHotelRequest } from '../ports/in/create-new-hotel.request';
-import { HotelPersistenceAdapter } from '../../adapters/out/persistence/hotel-persistence.adapter';
-import { HotelDatabaseEntity } from '../../adapters/out/persistence/hotel-mysql.database-entity';
+import { HotelPersistenceAdapter } from '../../infraestucture/out/persistence/hotel-persistence.adapter';
+import { HotelDatabaseEntity } from '../../infraestucture/out/persistence/hotel-mysql.database-entity';
 import { HotelBcontextNeedUserFromUserBcontext } from '../ports/out/hotel-bcontext-need-user-from-user-bcontext';
 
 @Service()

@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
-import { ProductPersistenceAdapter } from "../../adapter/out/persistence/product-persistence.adapter";
+import { ProductPersistenceAdapter } from "../../infraestructure/out/persistence/product-persistence.adapter";
 import { DataProduct } from "./data-product";
 import { UpdateProductRequest } from '../ports/in/update-product.request';
 import { GetProductModeledPort } from "../ports/out/self-domain/get-product-modeled.port";

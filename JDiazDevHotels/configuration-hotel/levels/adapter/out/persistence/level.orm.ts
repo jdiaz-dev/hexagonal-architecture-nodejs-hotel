@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 
 import { LevelRepository } from './level.repository';
 import { LevelDatabaseEntity } from './level-mysql.database-entity';
-import { HotelDatabaseEntity } from '../../../../../managament/hotels/adapters/out/persistence/hotel-mysql.database-entity';
+import { HotelDatabaseEntity } from '../../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity';
 
 @Service()
 export class LevelORM implements LevelRepository {

@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { FinishPaymentProductSaledUseCase } from "../ports/in/finish-payment-product-saled-use-case";
 import { UpdateProductSaledPayedPort } from '../ports/out/self-domain/upate-product-saled-payed.port';
-import { ProductSalePersistenceAdapter } from '../../adapter/out/persistence/product-sale-persistence.adapter';
+import { ProductSalePersistenceAdapter } from '../../infraestructure/out/persistence/product-sale-persistence.adapter';
 
 @Service()
 export class UpdatePaymentProductSaledService implements FinishPaymentProductSaledUseCase {

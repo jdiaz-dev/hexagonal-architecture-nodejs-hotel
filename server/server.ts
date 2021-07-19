@@ -4,21 +4,22 @@ import { urlencoded, json } from 'body-parser'
 
 import { db as sequelize } from '../db/connection'
 
-import userRoutes from '../JDiazDevHotels/managament/users/users/adapter/in/users.routes'
-import productRoutes from '../JDiazDevHotels/sales/products/adapter/in/web/product.routes'
-import productSaleRoutes from '../JDiazDevHotels/sales/product-sales/adapter/in/web/product-sale.routes'
+import userRoutes from '../JDiazDevHotels/managament/users/infraestructure/in/users.routes'
+import productRoutes from '../JDiazDevHotels/sales/products/infraestructure/in/web/product.routes'
+import productSaleRoutes from '../JDiazDevHotels/sales/product-sales/infraestructure/in/web/product-sale.routes'
 
 
 import clientRoutes from '../JDiazDevHotels/clients/adapter/in/web/client.routes'
 
-import rolesRoutes from '../JDiazDevHotels/managament/users/roles/adapter/in/roles.routes'
+import rolesRoutes from '../JDiazDevHotels/managament/roles/infraestructure/in/roles.routes'
 
-import hotelRoutes from '../JDiazDevHotels/managament/hotels/adapters/in/web/hotel.routes'
+import hotelRoutes from '../JDiazDevHotels/managament/hotels/infraestucture/in/web/hotel.routes'
 import levelRoutes from '../JDiazDevHotels/configuration-hotel/levels/adapter/in/web/level.routes'
 
 import roomConditionRoutes from '../JDiazDevHotels/configuration-hotel/room-condition/adapter/in/web/room.routes'
 import roomCategoryRoutes from '../JDiazDevHotels/configuration-hotel/room-categories/adapter/in/web/room-category.routes'
 import roomRoutes from '../JDiazDevHotels/configuration-hotel/room/adapter/in/web/room.routes'
+
 
 import cashRoutes from '../JDiazDevHotels/cash/adapter/in/web/cash.routes'
 import houstingRoutes from '../JDiazDevHotels/housting/adapter/in/web/housting.routes'

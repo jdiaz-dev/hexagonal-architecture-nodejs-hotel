@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { GetProductsSaledPort } from '../ports/out/self-domain/get-products-saled.port';
-import { ProductSalePersistenceAdapter } from '../../adapter/out/persistence/product-sale-persistence.adapter';
+import { ProductSalePersistenceAdapter } from '../../infraestructure/out/persistence/product-sale-persistence.adapter';
 import { GetProductSalesToSaleReportDomain } from '../../../../reports/sale-reports/application/ports/out/other-domains/get-product-sales-to-sale-report-domain';
 import { MoneySpentDomainEntity } from "../../../../reports/sale-reports/domain/money-spent";
 
