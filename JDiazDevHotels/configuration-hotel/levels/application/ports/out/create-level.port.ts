@@ -1,3 +1,3 @@
 export interface CreateLevelPort {
-    createLevel(nameLevel:string, hotelId:number):Promise<any>
+    createLevel(numberLevel: number, nameLevel: string, hotelId: number): Promise<any>
 }

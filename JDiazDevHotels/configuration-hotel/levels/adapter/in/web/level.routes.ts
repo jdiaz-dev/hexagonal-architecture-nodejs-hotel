@@ -14,6 +14,7 @@ const router = Router()
 router.post('/:hotelId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    check('numberLevel', 'Number for level is required').not().isEmpty(),
     check('nameLevel', 'Name for level is required').not().isEmpty(),
     validateFields
 ], levelController.createLevel)
@@ -27,6 +28,7 @@ router.get('/:hotelId', [
 router.put('/:hotelId/:levelId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    check('numberLevel', 'Number for level is required').not().isEmpty(),
     check('nameLevel', 'Name for level is required').not().isEmpty(),
     validateFields
 ], levelController.upateLevel)

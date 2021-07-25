@@ -6,9 +6,10 @@ import { HotelDatabaseEntity } from '../../../../../managament/hotels/infraestuc
 
 @Service()
 export class LevelORM implements LevelRepository {
-    async saveLevel(nameLevel: string, hotelId: number): Promise<any> {
+    async saveLevel(numberLevel: number, nameLevel: string, hotelId: number): Promise<any> {
         try {
             const level = new LevelDatabaseEntity()
+            level.number = numberLevel
             level.name = nameLevel
             level.hotelId = hotelId
             await level.save()
@@ -21,14 +22,17 @@ export class LevelORM implements LevelRepository {
         try {
             const levels = await LevelDatabaseEntity.findAll({
                 where: { hotelId: hotelId, state: true },
-                include: {
+                /* include: {
                     model: HotelDatabaseEntity,
                     as: 'hotel',
                     attributes: { exclude: ['createdAt', 'updatedAt', 'state'] }
-                },
+                }, */
                 attributes: {
                     exclude: ['hotelId', 'createdAt', 'updatedAt', 'state']
-                }
+                },
+                order: [
+                    ['number', 'ASC']
+                ]
             })
             return levels
         } catch (error) {
@@ -43,9 +47,14 @@ export class LevelORM implements LevelRepository {
             console.log('------------', error)
         }
     }
-    async updateLevel(nameLevel: string, levelId: number): Promise<any> {
+    async updateLevel(numberLevel: number, nameLevel: string, levelId: number): Promise<any> {
         try {
-            const level: any = await LevelDatabaseEntity.findByPk(levelId)
+            const level: any = await LevelDatabaseEntity.findByPk(levelId, {
+                attributes: {
+                    exclude: ['hotelId', 'state', 'createdAt']
+                }
+            })
+            level.number = numberLevel
             level.name = nameLevel
             await level.save()
 

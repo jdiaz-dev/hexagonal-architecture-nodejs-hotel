@@ -3,8 +3,8 @@ import { RoomCategoryDatabaseEntity } from "./room-category-mysql.database-entit
 import { RoomCategoryRepository } from './room-category.repository';
 
 @Service()
-export class RoomCategoryORM implements RoomCategoryRepository{
-    async saveRoomCategory(nameCategory:string, hotelId:number):Promise<any>{
+export class RoomCategoryORM implements RoomCategoryRepository {
+    async saveRoomCategory(nameCategory: string, hotelId: number): Promise<any> {
         try {
             const roomCategory = new RoomCategoryDatabaseEntity()
             roomCategory.category = nameCategory
@@ -16,7 +16,7 @@ export class RoomCategoryORM implements RoomCategoryRepository{
             console.log('-----------------', error)
         }
     }
-    async getRoomCategory(roomCategoryId:number):Promise<any>{
+    async getRoomCategory(roomCategoryId: number): Promise<any> {
         try {
             const roomCategory = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
             return roomCategory
@@ -24,19 +24,20 @@ export class RoomCategoryORM implements RoomCategoryRepository{
             console.log('-----------------', error)
         }
     }
-    async getRoomCategories(hotelId:number):Promise<any>{
+    async getRoomCategories(hotelId: number): Promise<any> {
         try {
-            const roomCategories = await RoomCategoryDatabaseEntity.findAll( 
-                {where:{hotelId: hotelId, state:true}} 
-            )
+            const roomCategories = await RoomCategoryDatabaseEntity.findAll({
+                where: { hotelId: hotelId, state: true },
+                attributes: ['id', 'category']
+            })
             return roomCategories
         } catch (error) {
             console.log('-----------------', error)
         }
     }
-    async updateCategoryRoom(nameCategory:string, roomCategoryId:number):Promise<any>{
+    async updateCategoryRoom(nameCategory: string, roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory:any = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
+            const roomCategory: any = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
             roomCategory.category = nameCategory
             await roomCategory.save()
 
@@ -45,9 +46,9 @@ export class RoomCategoryORM implements RoomCategoryRepository{
             console.log('-----------------', error)
         }
     }
-    async removeRoomCategory(roomCategoryId:number):Promise<any>{
+    async removeRoomCategory(roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory:any = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
+            const roomCategory: any = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
             roomCategory.state = false
             await roomCategory.save()
 

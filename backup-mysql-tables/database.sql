@@ -28,3 +28,6 @@ CREATE TABLE users(
 )ENGINE=InnoDb;
 
 UPDATE users SET state=1 WHERE id=1; 
+
+/* add column to levels */
+ALTER TABLE levels ADD COLUMN number INT(10) UNSIGNED NOT NULL AFTER id;

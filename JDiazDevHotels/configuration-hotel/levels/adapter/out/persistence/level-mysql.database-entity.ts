@@ -6,6 +6,9 @@ import { db as sequelize } from '../../../../../../db/connection';
 export class LevelDatabaseEntity extends Model {
 
     @Column
+    public number!: number
+
+    @Column
     public name!: string
 
     @Column
@@ -17,6 +20,10 @@ export class LevelDatabaseEntity extends Model {
 }
 LevelDatabaseEntity.init(
     {
+        number: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false

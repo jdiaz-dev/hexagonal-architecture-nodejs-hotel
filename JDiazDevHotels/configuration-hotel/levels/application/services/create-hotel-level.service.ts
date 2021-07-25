@@ -25,19 +25,19 @@ export class CreateAndUpdateHotelLevelService implements
         this.getLevelModeledPort = levelPersistenceAdpater
 
     }
-    async createNewLevel(nameLevel: string, hotelId: number): Promise<any> {
-        const level = await this.createLevelPort.createLevel(nameLevel, hotelId)
+    async createNewLevel(numberLevel: number, nameLevel: string, hotelId: number): Promise<any> {
+        const level = await this.createLevelPort.createLevel(numberLevel, nameLevel, hotelId)
         return level
     }
 
-    async updateTheHotelLevel(nameLevel: string, levelId: number, command: HotelLevelCommand): Promise<any> {
+    async updateTheHotelLevel(numberLevel: number, nameLevel: string, levelId: number, command: HotelLevelCommand): Promise<any> {
 
         const level: LevelDomainEntity = await this.getLevelModeledPort.getLevelModeledToDomain(levelId)
         if (!level.checkIfLevelBelongsToHotel(command.getHotelId)) {
             return { message: 'You cannot update this level' }
         }
 
-        const levelUpdated = await this.updateLevelPort.updateLevel(nameLevel, levelId)
+        const levelUpdated = await this.updateLevelPort.updateLevel(numberLevel, nameLevel, levelId)
         return levelUpdated
     }
 

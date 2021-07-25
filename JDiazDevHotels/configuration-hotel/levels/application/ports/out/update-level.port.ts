@@ -1,3 +1,3 @@
 export interface UpdateLevelPort {
-    updateLevel(nameLevel:string, levelId:number):Promise<any>
+    updateLevel(numberLevel: number, nameLevel: string, levelId: number): Promise<any>
 }

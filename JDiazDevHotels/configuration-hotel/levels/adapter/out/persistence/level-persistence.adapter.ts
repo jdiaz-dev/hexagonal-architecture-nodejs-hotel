@@ -24,8 +24,8 @@ export class LevelPersistenceAdpater implements
     constructor(levelORM: LevelORM) {
         this.levelRepository = levelORM
     }
-    async createLevel(nameLevel: string, hotelId: number): Promise<any> {
-        const level = await this.levelRepository.saveLevel(nameLevel, hotelId)
+    async createLevel(numberLevel: number, nameLevel: string, hotelId: number): Promise<any> {
+        const level = await this.levelRepository.saveLevel(numberLevel, nameLevel, hotelId)
         return level
     }
     async getLevels(hotelId: number): Promise<any> {
@@ -40,8 +40,8 @@ export class LevelPersistenceAdpater implements
         const level = await this.levelRepository.getLevel(hotelLevelId)
         return new LevelDomainEntity(level.hotelId)
     }
-    async updateLevel(nameLevel: string, levelId: number): Promise<any> {
-        const level = await this.levelRepository.updateLevel(nameLevel, levelId)
+    async updateLevel(numberLevel: number, nameLevel: string, levelId: number): Promise<any> {
+        const level = await this.levelRepository.updateLevel(numberLevel, nameLevel, levelId)
         return level
     }
     async removeHotelLevel(levelId: number): Promise<any> {

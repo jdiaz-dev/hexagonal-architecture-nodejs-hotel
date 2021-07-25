@@ -28,17 +28,18 @@ export class LevelController {
 
     }
     createLevel = async (req: Request | any, res: Response) => {
-        const { nameLevel } = req.body
+        const { numberLevel, nameLevel } = req.body
         const { hotelId } = req.params
 
-        const newLevel = await this.createNewHotelLevelRequest.createNewLevel(nameLevel, parseInt(hotelId))
+        const newLevel = await this.createNewHotelLevelRequest.createNewLevel(numberLevel, nameLevel, parseInt(hotelId))
         res.json(newLevel)
     }
     upateLevel = async (req: Request | any, res: Response) => {
-        const { nameLevel } = req.body
+        const { numberLevel, nameLevel } = req.body
         const { hotelId, levelId } = req.params
 
         const newLevel = await this.updateTheHotelLevelRequest.updateTheHotelLevel(
+            numberLevel,
             nameLevel,
             parseInt(levelId),
             new HotelLevelCommand(parseInt(hotelId))
@@ -52,7 +53,6 @@ export class LevelController {
         res.json(levels)
     }
     removeLevel = async (req: Request | any, res: Response) => {
-        const { nameLevel } = req.body
         const { hotelId, levelId } = req.params
 
         const levelRemoved = await this.removeHotelLevelRequest.removeTheHotelLevel(
