@@ -46,6 +46,7 @@ export class GetRoomsService implements GetRoomsRequest {
         return rooms
     }
     async getAllRooms(hotelId: number): Promise<any> {
-
+        const rooms = await this.getRoomsPort.getAllRooms(hotelId)
+        return rooms
     }
 }

@@ -69,7 +69,14 @@ export class RoomORM implements RoomRepository {
         }
     }
     async getAllRooms(hotelId: number): Promise<any> {
-
+        try {
+            const rooms = await Room.findAll({
+                where: { hotelId: hotelId }
+            })
+            return rooms
+        } catch (error) {
+            console.log('-------------------', error)
+        }
     }
     async updateRoom(roomData: any, roomId: number): Promise<any> {
         try {

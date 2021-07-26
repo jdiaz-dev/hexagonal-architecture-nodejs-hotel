@@ -13,11 +13,6 @@ const roomMiddlewares = Container.get(RoomMiddlewares)
 const roomController = Container.get(RoomController)
 const router = Router()
 
-router.get('/:hotelId/:levelId', [
-    coommonMiddlewares.validateJWT,
-    coommonMiddlewares.checkIfHotelBelongsToClientApp,
-    validateFields
-], roomController.getRoomsByLevel)
 
 router.post('/:hotelId/:levelId/:categoryId/:roomConditionId', [
     coommonMiddlewares.validateJWT,
@@ -29,6 +24,16 @@ router.post('/:hotelId/:levelId/:categoryId/:roomConditionId', [
     validateFields
 ], roomController.createRoom)
 
+router.get('/:hotelId/:levelId', [
+    coommonMiddlewares.validateJWT,
+    coommonMiddlewares.checkIfHotelBelongsToClientApp,
+    validateFields
+], roomController.getRoomsByLevel)
+
+router.get('/:hotelId', [
+    coommonMiddlewares.validateJWT,
+    validateFields
+], roomController.getAllRooms)
 
 //put
 router.put('/:hotelId/:levelId/:categoryId/:roomId', [

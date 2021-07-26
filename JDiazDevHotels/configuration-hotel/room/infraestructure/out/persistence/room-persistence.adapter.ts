@@ -61,7 +61,8 @@ export class RoomPersistenceAdapter implements
         return rooms
     }
     async getAllRooms(hotelId: number): Promise<any> {
-
+        const rooms = await this.roomRepository.getAllRooms(hotelId)
+        return rooms
     }
     async removeRoom(roomId: number): Promise<any> {
         const room = await this.roomRepository.removeRoom(roomId)
