@@ -8,7 +8,7 @@ import { CreateHotelPort } from '../ports/out/create-hotel.port';
 import { CreateHotelCommand } from '../ports/in/create-hotel.command';
 import { CreateNewHotelRequest } from '../ports/in/create-new-hotel.request';
 import { HotelPersistenceAdapter } from '../../infraestucture/out/persistence/hotel-persistence.adapter';
-import { HotelDatabaseEntity } from '../../infraestucture/out/persistence/hotel-mysql.database-entity';
+import { Hotel } from '../../infraestucture/out/persistence/hotel.model';
 import { HotelBcontextNeedUserFromUserBcontext } from '../ports/out/hotel-bcontext-need-user-from-user-bcontext';
 
 @Service()
@@ -23,7 +23,7 @@ export class CreateHotelService implements CreateNewHotelRequest {
         this.createHotelPort = hotelPersistenceAdapter
         this.hotelBcontextNeedUserFromUserBcontext = getUserService
     }
-    async createNewHotel(command: CreateHotelCommand, clientId: number, id: number): Promise<HotelDatabaseEntity | any> {
+    async createNewHotel(command: CreateHotelCommand, clientId: number, id: number): Promise<Hotel | any> {
 
         const adminRole: boolean = await this.hotelBcontextNeedUserFromUserBcontext.checkIfIsAdmin(id)
 

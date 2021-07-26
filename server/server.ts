@@ -14,11 +14,11 @@ import clientRoutes from '../JDiazDevHotels/clients/adapter/in/web/client.routes
 import rolesRoutes from '../JDiazDevHotels/managament/roles/infraestructure/in/roles.routes'
 
 import hotelRoutes from '../JDiazDevHotels/managament/hotels/infraestucture/in/web/hotel.routes'
-import levelRoutes from '../JDiazDevHotels/configuration-hotel/levels/adapter/in/web/level.routes'
+import levelRoutes from '../JDiazDevHotels/configuration-hotel/levels/infraestructure/in/web/level.routes'
 
-import roomConditionRoutes from '../JDiazDevHotels/configuration-hotel/room-condition/adapter/in/web/room.routes'
-import roomCategoryRoutes from '../JDiazDevHotels/configuration-hotel/room-categories/adapter/in/web/room-category.routes'
-import roomRoutes from '../JDiazDevHotels/configuration-hotel/room/adapter/in/web/room.routes'
+import roomConditionRoutes from '../JDiazDevHotels/configuration-hotel/room-condition/infraestructure/in/web/room.routes'
+import roomCategoryRoutes from '../JDiazDevHotels/configuration-hotel/room-categories/infraestructure/in/web/room-category.routes'
+import roomRoutes from '../JDiazDevHotels/configuration-hotel/room/infraestructure/in/web/room.routes'
 
 
 import cashRoutes from '../JDiazDevHotels/cash/adapter/in/web/cash.routes'

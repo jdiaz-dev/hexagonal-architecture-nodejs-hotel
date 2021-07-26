@@ -4,7 +4,7 @@ import { db as sequelize } from '../../../../../../db/connection'
 import { UserDatabaseEntity } from '../../../../users/infraestructure/out/user-database-entity'
 
 @Table
-export class HotelDatabaseEntity extends Model {
+export class Hotel extends Model {
 
     @Column
     public name!: string
@@ -18,7 +18,7 @@ export class HotelDatabaseEntity extends Model {
     @Column
     public state!: boolean
 }
-HotelDatabaseEntity.init(
+Hotel.init(
     {
         name: {
             type: DataTypes.STRING,
@@ -39,13 +39,13 @@ HotelDatabaseEntity.init(
         sequelize,
     }
 )
-UserDatabaseEntity.hasOne(HotelDatabaseEntity, {
+UserDatabaseEntity.hasOne(Hotel, {
     foreignKey: {
         name: 'userId',
         allowNull: false
     }
 })
-HotelDatabaseEntity.belongsTo(UserDatabaseEntity, {
+Hotel.belongsTo(UserDatabaseEntity, {
     as: 'user',
     foreignKey: {
         name: 'userId',

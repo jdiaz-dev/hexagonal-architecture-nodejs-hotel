@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { CreateRoomCategoryRequest } from '../ports/in/create-room-category.request';
 import { CreateRoomCategoryPort } from "../ports/out/self-domain/create-room-category.port";
-import { RoomCategoryPersistenceAdapter } from "../../adapter/out/persistence/room-category-persistence.adapter";
+import { RoomCategoryPersistenceAdapter } from "../../infraestructure/out/persistence/room-category-persistence.adapter";
 import { RoomCategoryCommand } from "../ports/in/room-category.command";
 import { RoomCategoryDomainEntity } from "../../domain/room-category";
 import { GetRoomCategoryModeledPort } from '../ports/out/self-domain/get-room-category-modeled.port';

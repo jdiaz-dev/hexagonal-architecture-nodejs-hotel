@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 
 import { GetHotelLevelsPort } from '../ports/out/get-hotel-levels.port';
-import { LevelPersistenceAdpater } from '../../adapter/out/persistence/level-persistence.adapter';
+import { LevelPersistenceAdpater } from '../../infraestructure/out/persistence/level-persistence.adapter';
 
 import { GetHotelLevelsRequest } from "../ports/in/get-hotel-levels-request";
 import { ValidateUserWithHotelPort } from "../../../../common/ports/in/validateUserWithHotel.port";
@@ -12,18 +12,18 @@ import { LevelDomainEntity } from "../../domain/level";
 
 @Service()
 export class GetHotelLevelsService implements GetHotelLevelsRequest {
-    private getLevelsPort:GetHotelLevelsPort
-    private getLevelModeledPort:GetLevelModeledPort
-        
+    private getLevelsPort: GetHotelLevelsPort
+    private getLevelModeledPort: GetLevelModeledPort
+
     constructor(
-        levelPersistenceAdpater:LevelPersistenceAdpater,
-    ){
+        levelPersistenceAdpater: LevelPersistenceAdpater,
+    ) {
         this.getLevelsPort = levelPersistenceAdpater
         this.getLevelModeledPort = levelPersistenceAdpater
 
     }
-    async getLevelsOfHotel(hotelId:number):Promise<any> {
-        
+    async getLevelsOfHotel(hotelId: number): Promise<any> {
+
         const levels = await this.getLevelsPort.getLevels(hotelId)
         return levels
     }

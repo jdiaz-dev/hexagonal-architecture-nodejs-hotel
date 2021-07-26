@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 
 
-import { LevelPersistenceAdpater } from '../../adapter/out/persistence/level-persistence.adapter';
+import { LevelPersistenceAdpater } from '../../infraestructure/out/persistence/level-persistence.adapter';
 import { GetLevelForRoomDomain } from '../../../room/application/ports/out/other-domain/get-level-for-room-domain';
 import { RoomDomainEntity } from "../../../room/domain/room";
 import { GetLevelPort } from "../ports/out/get-level.port";

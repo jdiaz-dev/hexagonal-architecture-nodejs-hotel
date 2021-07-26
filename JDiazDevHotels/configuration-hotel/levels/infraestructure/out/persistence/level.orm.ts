@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 
 import { LevelRepository } from './level.repository';
 import { Level } from './level.model';
-import { HotelDatabaseEntity } from '../../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity';
+import { Hotel } from '../../../../../managament/hotels/infraestucture/out/persistence/hotel.model';
 
 @Service()
 export class LevelORM implements LevelRepository {
@@ -23,7 +23,7 @@ export class LevelORM implements LevelRepository {
             const levels = await Level.findAll({
                 where: { hotelId: hotelId, state: true },
                 /* include: {
-                    model: HotelDatabaseEntity,
+                    model: Hotel,
                     as: 'hotel',
                     attributes: { exclude: ['createdAt', 'updatedAt', 'state'] }
                 }, */

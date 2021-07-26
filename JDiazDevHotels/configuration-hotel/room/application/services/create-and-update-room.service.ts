@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { CreateNewRoomRequest } from '../ports/in/create-new-room.request';
 import { RoomCommand } from '../ports/in/room.command';
 import { CreateRoomPort } from '../ports/out/self-domain/create-room.port';
-import { RoomPersistenceAdapter } from '../../adapter/out/persistence/room-persistence.adapter';
+import { RoomPersistenceAdapter } from '../../infraestructure/out/persistence/room-persistence.adapter';
 import { UpdateTheRoomRequest } from '../ports/in/update-the-room-request';
 import { UpdateRoomPort } from '../ports/out/self-domain/update-room.port';
 import { RoomData } from "./room-data";

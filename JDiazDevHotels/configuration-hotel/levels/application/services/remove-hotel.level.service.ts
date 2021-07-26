@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { LevelPersistenceAdpater } from "../../adapter/out/persistence/level-persistence.adapter";
+import { LevelPersistenceAdpater } from "../../infraestructure/out/persistence/level-persistence.adapter";
 import { LevelDomainEntity } from "../../domain/level";
 import { HotelLevelCommand } from "../ports/in/hotel-level.command";
 import { GetLevelModeledPort } from "../ports/out/get-level-modeled.port";

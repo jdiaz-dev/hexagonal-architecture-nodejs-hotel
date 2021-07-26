@@ -3,7 +3,7 @@ import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from "../../../../../db/connection";
 import { CashDatabaseEntity } from "../../../../cash/adapter/out/persistence/cash-database-entity";
 import { ClientDatabaseEntity } from './../../../../clients/adapter/out/persistence/client-database-entity';
-import { Room } from '../../../../configuration-hotel/room/adapter/out/persistence/room.model';
+import { Room } from '../../../../configuration-hotel/room/infraestructure/out/persistence/room.model';
 
 @Table
 export class HoustingDataBaseEntity extends Model {

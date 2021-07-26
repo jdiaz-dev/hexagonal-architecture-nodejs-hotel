@@ -1,7 +1,7 @@
 import { CreateHotelCommand } from './create-hotel.command';
-import { HotelDatabaseEntity } from '../../../infraestucture/out/persistence/hotel-mysql.database-entity';
+import { Hotel } from '../../../infraestucture/out/persistence/hotel.model';
 
 //include owner
 export interface CreateNewHotelRequest {
-    createNewHotel(command: CreateHotelCommand, clientId: any, id: number): Promise<HotelDatabaseEntity | any>
+    createNewHotel(command: CreateHotelCommand, clientId: any, id: number): Promise<Hotel | any>
 }

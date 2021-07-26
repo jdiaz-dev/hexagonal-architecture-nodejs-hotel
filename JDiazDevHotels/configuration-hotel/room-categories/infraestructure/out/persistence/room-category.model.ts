@@ -1,7 +1,7 @@
 import { Column, Table } from "sequelize-typescript";
 import { DataTypes, Model } from "sequelize";
 import { db as sequelize } from "../../../../../../db/connection";
-import { HotelDatabaseEntity } from "../../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity";
+import { Hotel } from "../../../../../managament/hotels/infraestucture/out/persistence/hotel.model";
 
 @Table
 export class RoomCategory extends Model {
@@ -39,13 +39,13 @@ RoomCategory.init(
         tableName: 'room_categories'
     }
 )
-HotelDatabaseEntity.hasOne(RoomCategory, {
+Hotel.hasOne(RoomCategory, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false
     }
 })
-RoomCategory.belongsTo(HotelDatabaseEntity, {
+RoomCategory.belongsTo(Hotel, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false

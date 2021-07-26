@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { CreateNewHotelLevelRequest } from '../ports/in/create-new-hotel-level.request';
 import { CreateLevelPort } from '../ports/out/create-level.port';
-import { LevelPersistenceAdpater } from '../../adapter/out/persistence/level-persistence.adapter';
+import { LevelPersistenceAdpater } from '../../infraestructure/out/persistence/level-persistence.adapter';
 import { UpdateLevelPort } from '../ports/out/update-level.port';
 import { UpdateTheHotelLevelRequest } from '../ports/in/update-the-hote-level.request';
 import { LevelDomainEntity } from "../../domain/level";

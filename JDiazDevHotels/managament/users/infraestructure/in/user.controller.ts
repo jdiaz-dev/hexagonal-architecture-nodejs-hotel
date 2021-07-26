@@ -47,7 +47,6 @@ export class UserController {
                 role,
                 password)
         )
-
         console.log(req.user)
         const user = await this.createNewUserUseCase.createNewUser(command)
         res.json(user)

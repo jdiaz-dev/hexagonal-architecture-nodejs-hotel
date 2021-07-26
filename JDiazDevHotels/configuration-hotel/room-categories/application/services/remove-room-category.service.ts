@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { RemoveRoomCategoryRequest } from '../ports/in/remove-room-category.request';
 import { RemoveRoomCategoryPort } from '../ports/out/self-domain/remove-room-categoy.port';
-import { RoomCategoryPersistenceAdapter } from '../../adapter/out/persistence/room-category-persistence.adapter';
+import { RoomCategoryPersistenceAdapter } from '../../infraestructure/out/persistence/room-category-persistence.adapter';
 import { RoomCategoryCommand } from "../ports/in/room-category.command";
 import { RoomCategoryDomainEntity } from "../../domain/room-category";
 import { GetRoomCategoryModeledPort } from "../ports/out/self-domain/get-room-category-modeled.port";

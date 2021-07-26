@@ -4,7 +4,7 @@ import { CreateHotelPort } from '../../../application/ports/out/create-hotel.por
 import { GetHotelByUserIdPort } from '../../../application/ports/out/get-hotel-by-user-id.port';
 import { GetHotelPort } from '../../../application/ports/out/get-hotel.port';
 import { HotelEntity } from '../../../domain/hotel';
-import { HotelDatabaseEntity } from './hotel-mysql.database-entity';
+import { Hotel } from './hotel.model';
 import { HotelORM } from './hotel.orm';
 import { HotelRepository } from './hotel.repository';
 
@@ -18,7 +18,7 @@ export class HotelPersistenceAdapter implements
     constructor(hotelORM: HotelORM) {
         this.hotelRepository = hotelORM
     }
-    async createHotel(dataHotel: HotelEntity, userId: number): Promise<HotelDatabaseEntity> {
+    async createHotel(dataHotel: HotelEntity, userId: number): Promise<Hotel> {
 
         const hotel = {
             name: dataHotel.name,

@@ -5,7 +5,7 @@ import { RemoveTheRoomRequest } from '../ports/in/remove-the-room.request';
 import { RoomCommand } from "../ports/in/room.command";
 import { GetLevelForRoomDomain } from "../ports/out/other-domain/get-level-for-room-domain";
 import { RemoveRoomPort } from '../ports/out/self-domain/remove-room.port';
-import { RoomPersistenceAdapter } from '../../adapter/out/persistence/room-persistence.adapter';
+import { RoomPersistenceAdapter } from '../../infraestructure/out/persistence/room-persistence.adapter';
 import { GetRoomsPort } from '../ports/out/self-domain/get-rooms.port';
 import { GetRoomModelToDomainPort } from '../ports/out/self-domain/get-room-modeled.ports';
 import { RoomWithLevelCommand } from '../ports/in/room-with-level.domain';

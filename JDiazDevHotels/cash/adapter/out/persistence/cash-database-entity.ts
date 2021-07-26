@@ -2,7 +2,7 @@ import { Column, Table } from "sequelize-typescript";
 import { DataTypes, Model } from 'sequelize';
 
 import { db as sequelize } from "../../../../../db/connection";
-import { HotelDatabaseEntity } from "../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity";
+import { Hotel } from "../../../../managament/hotels/infraestucture/out/persistence/hotel.model";
 
 @Table
 export class CashDatabaseEntity extends Model {
@@ -47,13 +47,13 @@ CashDatabaseEntity.init(
         tableName: 'cashes'
     }
 )
-HotelDatabaseEntity.hasOne(CashDatabaseEntity, {
+Hotel.hasOne(CashDatabaseEntity, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false
     }
 })
-CashDatabaseEntity.belongsTo(HotelDatabaseEntity, {
+CashDatabaseEntity.belongsTo(Hotel, {
     as: 'hotel',
     foreignKey: {
         name: 'hotelId',

@@ -1,18 +1,20 @@
 import { Service } from "typedi";
 import { Room } from "./room.model";
 import { RoomRepository } from './room.repository';
-import { Level } from '../../../../levels/adapter/out/persistence/level.model';
-import { RoomCategory } from '../../../../room-categories/adapter/out/persistence/room-category.model';
-import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapter/out/persistence/room-condition-mysql.database-entity';
+import { Level } from '../../../../levels/infraestructure/out/persistence/level.model';
+import { RoomCategory } from '../../../../room-categories/infraestructure/out/persistence/room-category.model';
+import { RoomConditionDatabaseEntity } from '../../../../room-condition/infraestructure/out/persistence/room-condition-mysql.database-entity';
 
 @Service()
 export class RoomORM implements RoomRepository {
     async createRoom(roomData: any, hotelId: number): Promise<any> {
+        console.log('-----data', roomData)
         try {
             const room = new Room()
             room.name = roomData.name
             room.price = roomData.price
             room.details = roomData.details
+            room.hotelId = hotelId
             room.levelId = roomData.levelId
             room.categoryId = roomData.categoryId
             room.conditionId = roomData.conditionId

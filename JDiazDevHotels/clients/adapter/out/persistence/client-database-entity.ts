@@ -1,6 +1,6 @@
 import { Column, Table } from "sequelize-typescript";
 import { DataTypes, Model } from 'sequelize';
-import { HotelDatabaseEntity } from "../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity";
+import { Hotel } from "../../../../managament/hotels/infraestucture/out/persistence/hotel.model";
 import { db as sequelize } from "../../../../../db/connection";
 
 @Table
@@ -56,13 +56,13 @@ ClientDatabaseEntity.init(
         sequelize
     }
 )
-HotelDatabaseEntity.hasOne(ClientDatabaseEntity, {
+Hotel.hasOne(ClientDatabaseEntity, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false
     }
 })
-ClientDatabaseEntity.belongsTo(HotelDatabaseEntity, {
+ClientDatabaseEntity.belongsTo(Hotel, {
     as: 'hotel',
     foreignKey: {
         name: 'hotelId',

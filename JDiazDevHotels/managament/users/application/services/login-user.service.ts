@@ -33,11 +33,17 @@ export class LoginUserService implements LoginUserUseCase {
             return { message: 'Invalid password' }
         }
 
-        const hotel = await this.getHotelForUsersDomain.getHotelForUsersDomain(user.id)
+        let hotel = undefined
+        const emailOwner = 'admin@admin.com'
+        console.log('------------user', user, emailOwner)
+        if (user.email !== emailOwner) {
+            hotel = await this.getHotelForUsersDomain.getHotelForUsersDomain(user.id)
+
+        }
         const token = await generateJWT(user)
         return {
             token,
-            hotelId: hotel.id
+            hotelId: hotel !== undefined ? hotel.id : 'wellcome jonathan'
         }
     }
 }

@@ -1,9 +1,10 @@
 import { Column, Table } from "sequelize-typescript";
 import { Model, DataTypes } from "sequelize";
 import { db as sequelize } from "../../../../../../db/connection";
-import { Level } from '../../../../levels/adapter/out/persistence/level.model';
-import { RoomCategory } from "../../../../room-categories/adapter/out/persistence/room-category.model";
-import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapter/out/persistence/room-condition-mysql.database-entity';
+import { Level } from '../../../../levels/infraestructure/out/persistence/level.model';
+import { RoomCategory } from "../../../../room-categories/infraestructure/out/persistence/room-category.model";
+import { RoomConditionDatabaseEntity } from '../../../../room-condition/infraestructure/out/persistence/room-condition-mysql.database-entity';
+import { Hotel } from "../../../../../managament/hotels/infraestucture/out/persistence/hotel.model";
 
 
 @Table
@@ -17,6 +18,9 @@ export class Room extends Model {
 
     @Column
     details!: string
+
+    @Column
+    hotelId!: number
 
     @Column
     levelId!: number
@@ -56,6 +60,21 @@ Room.init(
         tableName: 'rooms'
     }
 )
+
+//hotelId
+Hotel.hasOne(Room, {
+    foreignKey: {
+        name: 'hotelId',
+        allowNull: false
+    },
+})
+Room.belongsTo(Hotel, {
+    as: 'hotel',
+    foreignKey: {
+        name: 'hotelId',
+        allowNull: false
+    },
+})
 
 //levelId
 Level.hasOne(Room, {

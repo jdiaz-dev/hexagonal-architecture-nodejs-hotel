@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { RoomPersistenceAdapter } from "../../adapter/out/persistence/room-persistence.adapter";
+import { RoomPersistenceAdapter } from "../../infraestructure/out/persistence/room-persistence.adapter";
 
 import { GetRoomForHoustingDomain } from '../../../../housting/application/ports/out/other-domain/get-room-for-housting-domain';
 import { GetRoomPort } from '../ports/out/self-domain/get-room.port';

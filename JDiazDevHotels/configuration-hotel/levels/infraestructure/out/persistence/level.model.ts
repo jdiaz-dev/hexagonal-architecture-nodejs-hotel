@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { Column } from 'sequelize-typescript';
-import { HotelDatabaseEntity } from '../../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity';
+import { Hotel } from '../../../../../managament/hotels/infraestucture/out/persistence/hotel.model';
 import { db as sequelize } from '../../../../../../db/connection';
 
 export class Level extends Model {
@@ -39,13 +39,13 @@ Level.init(
         sequelize,
     }
 )
-HotelDatabaseEntity.hasOne(Level, {
+Hotel.hasOne(Level, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false
     }
 })
-Level.belongsTo(HotelDatabaseEntity, {
+Level.belongsTo(Hotel, {
     as: 'hotel',
     foreignKey: {
         name: 'hotelId',

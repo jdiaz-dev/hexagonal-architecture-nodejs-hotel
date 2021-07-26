@@ -19,7 +19,7 @@ router.get('/:hotelId/:levelId', [
     validateFields
 ], roomController.getRoomsByLevel)
 
-router.post('/:hotelId/:levelId/:categoryId', [
+router.post('/:hotelId/:levelId/:categoryId/:roomConditionId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
     roomMiddlewares.checkIfRoomConditionExists,

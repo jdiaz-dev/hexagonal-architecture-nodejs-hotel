@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { GetRoomsRequest } from '../ports/in/get-rooms.request';
 import { GetRoomsPort } from '../ports/out/self-domain/get-rooms.port';
-import { RoomPersistenceAdapter } from '../../adapter/out/persistence/room-persistence.adapter';
+import { RoomPersistenceAdapter } from '../../infraestructure/out/persistence/room-persistence.adapter';
 import { RoomCommand } from "../ports/in/room.command";
 
 import { GetLevelForRoomDomain } from "../ports/out/other-domain/get-level-for-room-domain";
@@ -45,7 +45,7 @@ export class GetRoomsService implements GetRoomsRequest {
         const rooms = await this.getRoomsPort.getRoomsByLevel(levelId)
         return rooms
     }
-    async getAllRooms(hotelId:number):Promise<any>{
-        
+    async getAllRooms(hotelId: number): Promise<any> {
+
     }
 }
