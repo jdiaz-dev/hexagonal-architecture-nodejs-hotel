@@ -3,7 +3,7 @@ import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from "../../../../../db/connection";
 import { CashDatabaseEntity } from "../../../../cash/adapter/out/persistence/cash-database-entity";
 import { ClientDatabaseEntity } from './../../../../clients/adapter/out/persistence/client-database-entity';
-import { RoomDatabaseEntity } from '../../../../configuration-hotel/room/adapter/out/persistence/room-mysql.database-entity';
+import { Room } from '../../../../configuration-hotel/room/adapter/out/persistence/room.model';
 
 @Table
 export class HoustingDataBaseEntity extends Model {
@@ -90,14 +90,14 @@ HoustingDataBaseEntity.belongsTo(ClientDatabaseEntity, {
 })
 
 //room
-RoomDatabaseEntity.hasOne(HoustingDataBaseEntity, {
+Room.hasOne(HoustingDataBaseEntity, {
     foreignKey: {
         name: 'roomId',
         allowNull: false
     }
 
 })
-HoustingDataBaseEntity.belongsTo(RoomDatabaseEntity, {
+HoustingDataBaseEntity.belongsTo(Room, {
     as: 'room',
     foreignKey: {
         name: 'roomId',

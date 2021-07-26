@@ -17,7 +17,7 @@ router.get('/:hotelId/:levelId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
     validateFields
-], roomController.getRooms )
+], roomController.getRoomsByLevel)
 
 router.post('/:hotelId/:levelId/:categoryId', [
     coommonMiddlewares.validateJWT,
@@ -27,7 +27,7 @@ router.post('/:hotelId/:levelId/:categoryId', [
     check('price', 'Price for room is required').not().isEmpty(),
     check('details', 'Details for room is required').not().isEmpty(),
     validateFields
-], roomController.createRoom )
+], roomController.createRoom)
 
 
 //put
@@ -38,14 +38,14 @@ router.put('/:hotelId/:levelId/:categoryId/:roomId', [
     check('price', 'Price for room is required').not().isEmpty(),
     check('details', 'Details for room is required').not().isEmpty(),
     validateFields
-], roomController.updateRoom )
+], roomController.updateRoom)
 
 router.put('/:hotelId/:roomId/:roomConditionId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
     roomMiddlewares.checkIfRoomConditionExists,
     validateFields
-], roomController.updateConditionOfRoom )
+], roomController.updateConditionOfRoom)
 
 
 //delete
@@ -53,6 +53,6 @@ router.delete('/:hotelId/:levelId/:roomId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
     validateFields
-], roomController.removeRoom )
+], roomController.removeRoom)
 
 export default router

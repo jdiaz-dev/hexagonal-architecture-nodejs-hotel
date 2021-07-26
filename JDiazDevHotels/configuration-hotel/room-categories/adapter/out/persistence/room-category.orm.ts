@@ -1,13 +1,14 @@
 import { Service } from "typedi";
-import { RoomCategoryDatabaseEntity } from "./room-category-mysql.database-entity";
+import { RoomCategory } from "./room-category.model";
 import { RoomCategoryRepository } from './room-category.repository';
 
 @Service()
 export class RoomCategoryORM implements RoomCategoryRepository {
-    async saveRoomCategory(nameCategory: string, hotelId: number): Promise<any> {
+    async saveRoomCategory(nameCategory: string, price: number, hotelId: number): Promise<any> {
         try {
-            const roomCategory = new RoomCategoryDatabaseEntity()
+            const roomCategory = new RoomCategory()
             roomCategory.category = nameCategory
+            roomCategory.price = price
             roomCategory.hotelId = hotelId
             await roomCategory.save()
 
@@ -18,7 +19,7 @@ export class RoomCategoryORM implements RoomCategoryRepository {
     }
     async getRoomCategory(roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
+            const roomCategory = await RoomCategory.findByPk(roomCategoryId)
             return roomCategory
         } catch (error) {
             console.log('-----------------', error)
@@ -26,19 +27,21 @@ export class RoomCategoryORM implements RoomCategoryRepository {
     }
     async getRoomCategories(hotelId: number): Promise<any> {
         try {
-            const roomCategories = await RoomCategoryDatabaseEntity.findAll({
+            const roomCategories = await RoomCategory.findAll({
                 where: { hotelId: hotelId, state: true },
-                attributes: ['id', 'category']
+                attributes: ['id', 'category', 'price'],
+                order: [['price', 'DESC']]
             })
             return roomCategories
         } catch (error) {
             console.log('-----------------', error)
         }
     }
-    async updateCategoryRoom(nameCategory: string, roomCategoryId: number): Promise<any> {
+    async updateCategoryRoom(nameCategory: string, price: number, roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory: any = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
+            const roomCategory: any = await RoomCategory.findByPk(roomCategoryId)
             roomCategory.category = nameCategory
+            roomCategory.price = price
             await roomCategory.save()
 
             return roomCategory
@@ -48,7 +51,7 @@ export class RoomCategoryORM implements RoomCategoryRepository {
     }
     async removeRoomCategory(roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory: any = await RoomCategoryDatabaseEntity.findByPk(roomCategoryId)
+            const roomCategory: any = await RoomCategory.findByPk(roomCategoryId)
             roomCategory.state = false
             await roomCategory.save()
 

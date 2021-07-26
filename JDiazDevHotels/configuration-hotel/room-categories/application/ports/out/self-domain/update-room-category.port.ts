@@ -1,3 +1,3 @@
 export interface UpdateRoomCategoryPort {
-    updateCategoryRoom(nameCategory:string, roomCategoryId:number):Promise<any>
+    updateCategoryRoom(nameCategory: string, price: number, roomCategoryId: number): Promise<any>
 }

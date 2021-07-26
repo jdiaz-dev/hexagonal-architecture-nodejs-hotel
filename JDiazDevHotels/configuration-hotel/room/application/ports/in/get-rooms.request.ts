@@ -1,5 +1,6 @@
 import { RoomCommand } from './room.command';
 
 export interface GetRoomsRequest {
-    getRoomsOfLevel(levelId:number, roomCommand:RoomCommand):Promise<any>
+    getRoomsByLevel(levelId: number, roomCommand: RoomCommand): Promise<any>
+    getAllRooms(hotelId: number): Promise<any>
 }

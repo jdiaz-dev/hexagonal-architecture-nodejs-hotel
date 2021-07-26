@@ -1,15 +1,15 @@
 import { Service } from "typedi";
-import { RoomDatabaseEntity } from "./room-mysql.database-entity";
+import { Room } from "./room.model";
 import { RoomRepository } from './room.repository';
-import { LevelDatabaseEntity } from '../../../../levels/adapter/out/persistence/level-mysql.database-entity';
-import { RoomCategoryDatabaseEntity } from '../../../../room-categories/adapter/out/persistence/room-category-mysql.database-entity';
+import { Level } from '../../../../levels/adapter/out/persistence/level.model';
+import { RoomCategory } from '../../../../room-categories/adapter/out/persistence/room-category.model';
 import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapter/out/persistence/room-condition-mysql.database-entity';
 
 @Service()
 export class RoomORM implements RoomRepository {
     async createRoom(roomData: any, hotelId: number): Promise<any> {
         try {
-            const room = new RoomDatabaseEntity()
+            const room = new Room()
             room.name = roomData.name
             room.price = roomData.price
             room.details = roomData.details
@@ -25,21 +25,21 @@ export class RoomORM implements RoomRepository {
     }
 
     async getRoom(roomId: number): Promise<any> {
-        const room = await RoomDatabaseEntity.findByPk(roomId)
+        const room = await Room.findByPk(roomId)
         return room
     }
-    async getRooms(levelId: number): Promise<any> {
+    async getRoomsByLevel(levelId: number): Promise<any> {
         try {
-            const rooms: any = RoomDatabaseEntity.findAll({
+            const rooms: any = Room.findAll({
                 where: { levelId: levelId, state: true },
                 include: [
                     {
-                        model: LevelDatabaseEntity,
+                        model: Level,
                         as: 'level',
                         attributes: { exclude: ['createdAt', 'updatedAt', 'state'] }
                     },
                     {
-                        model: RoomCategoryDatabaseEntity,
+                        model: RoomCategory,
                         as: 'category',
                         attributes: { exclude: ['createdAt', 'updatedAt', 'state'] }
                     },
@@ -66,9 +66,12 @@ export class RoomORM implements RoomRepository {
             console.log('-------------------', error)
         }
     }
+    async getAllRooms(hotelId: number): Promise<any> {
+
+    }
     async updateRoom(roomData: any, roomId: number): Promise<any> {
         try {
-            const room: any = await RoomDatabaseEntity.findByPk(roomId)
+            const room: any = await Room.findByPk(roomId)
             room.name = roomData.name
             room.price = roomData.price
             room.details = roomData.details
@@ -84,7 +87,7 @@ export class RoomORM implements RoomRepository {
     }
     async updateConditionOfRoom(roomId: number, conditionId: number): Promise<any> {
         try {
-            const room: any = await RoomDatabaseEntity.findByPk(roomId)
+            const room: any = await Room.findByPk(roomId)
             room.conditionId = conditionId
             await room.save()
 
@@ -95,7 +98,7 @@ export class RoomORM implements RoomRepository {
     }
     async removeRoom(roomId: number): Promise<any> {
         try {
-            const room: any = await RoomDatabaseEntity.findByPk(roomId)
+            const room: any = await Room.findByPk(roomId)
             room.state = false
             await room.save()
 

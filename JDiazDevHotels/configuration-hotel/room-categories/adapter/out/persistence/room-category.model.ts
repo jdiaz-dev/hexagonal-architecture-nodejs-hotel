@@ -4,10 +4,13 @@ import { db as sequelize } from "../../../../../../db/connection";
 import { HotelDatabaseEntity } from "../../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity";
 
 @Table
-export class RoomCategoryDatabaseEntity extends Model {
+export class RoomCategory extends Model {
 
     @Column
     public category!: string
+
+    @Column
+    public price!: number
 
     @Column
     public hotelId!: number
@@ -15,10 +18,14 @@ export class RoomCategoryDatabaseEntity extends Model {
     @Column
     public state!: boolean
 }
-RoomCategoryDatabaseEntity.init(
+RoomCategory.init(
     {
         category: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(50),
+            allowNull: false
+        },
+        price: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         state: {
@@ -32,13 +39,13 @@ RoomCategoryDatabaseEntity.init(
         tableName: 'room_categories'
     }
 )
-HotelDatabaseEntity.hasOne(RoomCategoryDatabaseEntity, {
+HotelDatabaseEntity.hasOne(RoomCategory, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false
     }
 })
-RoomCategoryDatabaseEntity.belongsTo(HotelDatabaseEntity, {
+RoomCategory.belongsTo(HotelDatabaseEntity, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false

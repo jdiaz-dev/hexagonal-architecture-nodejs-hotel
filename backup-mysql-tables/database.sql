@@ -30,4 +30,8 @@ CREATE TABLE users(
 UPDATE users SET state=1 WHERE id=1; 
 
 /* add column to levels */
-ALTER TABLE levels ADD COLUMN number INT(10) UNSIGNED NOT NULL AFTER id;
+ALTER TABLE room_categories ADD COLUMN price INT(10) UNSIGNED NOT NULL AFTER category;
+
+/* update prices in room_categories*/
+UPDATE room_categories SET price = 20 WHERE id = 2;
+

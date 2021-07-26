@@ -1,3 +1,3 @@
 export interface CreateRoomCategoryPort {
-    createRoomCategory(nameCategory:string, hotelId:number):Promise<any>
+    createRoomCategory(nameCategory: string, price: number, hotelId: number): Promise<any>
 }

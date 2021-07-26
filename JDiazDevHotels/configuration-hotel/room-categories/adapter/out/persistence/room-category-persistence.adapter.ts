@@ -24,8 +24,8 @@ export class RoomCategoryPersistenceAdapter implements
         this.roomCategoryRepository = roomCategoryORM
     }
     //room category
-    async createRoomCategory(nameCategory: string, hotelId: number): Promise<any> {
-        const roomCategory = await this.roomCategoryRepository.saveRoomCategory(nameCategory, hotelId)
+    async createRoomCategory(nameCategory: string, price: number, hotelId: number): Promise<any> {
+        const roomCategory = await this.roomCategoryRepository.saveRoomCategory(nameCategory, price, hotelId)
         return roomCategory
     }
     async getRoomCategory(roomCategoryId: number): Promise<any> {
@@ -40,8 +40,8 @@ export class RoomCategoryPersistenceAdapter implements
         const roomCategory = await this.roomCategoryRepository.getRoomCategory(roomCategoryId)
         return new RoomCategoryDomainEntity(roomCategory.hotelId)
     }
-    async updateCategoryRoom(nameCategory: string, roomCategoryId: number): Promise<any> {
-        const roomCategory = await this.roomCategoryRepository.updateCategoryRoom(nameCategory, roomCategoryId)
+    async updateCategoryRoom(nameCategory: string, price: number, roomCategoryId: number): Promise<any> {
+        const roomCategory = await this.roomCategoryRepository.updateCategoryRoom(nameCategory, price, roomCategoryId)
         return roomCategory
     }
     async removeRoomCategory(roomCategoryId: number): Promise<any> {

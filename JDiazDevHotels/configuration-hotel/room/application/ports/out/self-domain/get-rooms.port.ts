@@ -1,3 +1,4 @@
 export interface GetRoomsPort {
-    getRooms(levelId:number):Promise<any>
+    getRoomsByLevel(levelId: number): Promise<any>
+    getAllRooms(hotelId: number): Promise<any>
 }

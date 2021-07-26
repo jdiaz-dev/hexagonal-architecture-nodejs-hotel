@@ -35,14 +35,17 @@ export class GetRoomsService implements GetRoomsRequest {
         //self domain ports
         this.getRoomsPort = roomPersistenceAdapter
     }
-    async getRoomsOfLevel(levelId: number, command: RoomCommand): Promise<any> {
+    async getRoomsByLevel(levelId: number, command: RoomCommand): Promise<any> {
         const roomDomain = await this.getLevelForRoomDomain.getLevelForRoomDomain(levelId)
 
         if (!roomDomain.checkIfRoomLevelBelognsToHotel(command.getHotelId)) {
             return { message: 'This level does not belongs to this hotel' }
         }
 
-        const rooms = await this.getRoomsPort.getRooms(levelId)
+        const rooms = await this.getRoomsPort.getRoomsByLevel(levelId)
         return rooms
+    }
+    async getAllRooms(hotelId:number):Promise<any>{
+        
     }
 }

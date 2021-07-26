@@ -1,14 +1,14 @@
 import { Service } from 'typedi';
 
 import { LevelRepository } from './level.repository';
-import { LevelDatabaseEntity } from './level-mysql.database-entity';
+import { Level } from './level.model';
 import { HotelDatabaseEntity } from '../../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity';
 
 @Service()
 export class LevelORM implements LevelRepository {
     async saveLevel(numberLevel: number, nameLevel: string, hotelId: number): Promise<any> {
         try {
-            const level = new LevelDatabaseEntity()
+            const level = new Level()
             level.number = numberLevel
             level.name = nameLevel
             level.hotelId = hotelId
@@ -20,7 +20,7 @@ export class LevelORM implements LevelRepository {
     }
     async getLevels(hotelId: number): Promise<any> {
         try {
-            const levels = await LevelDatabaseEntity.findAll({
+            const levels = await Level.findAll({
                 where: { hotelId: hotelId, state: true },
                 /* include: {
                     model: HotelDatabaseEntity,
@@ -41,7 +41,7 @@ export class LevelORM implements LevelRepository {
     }
     async getLevel(levelId: number): Promise<any> {
         try {
-            const level = await LevelDatabaseEntity.findByPk(levelId)
+            const level = await Level.findByPk(levelId)
             return level
         } catch (error) {
             console.log('------------', error)
@@ -49,7 +49,7 @@ export class LevelORM implements LevelRepository {
     }
     async updateLevel(numberLevel: number, nameLevel: string, levelId: number): Promise<any> {
         try {
-            const level: any = await LevelDatabaseEntity.findByPk(levelId, {
+            const level: any = await Level.findByPk(levelId, {
                 attributes: {
                     exclude: ['hotelId', 'state', 'createdAt']
                 }
@@ -65,7 +65,7 @@ export class LevelORM implements LevelRepository {
     }
     async removeHotelLevel(levelId: number): Promise<any> {
         try {
-            const level: any = await LevelDatabaseEntity.findByPk(levelId)
+            const level: any = await Level.findByPk(levelId)
             console.log('-----------------the level to remove', level)
             level.state = false
             await level.save()

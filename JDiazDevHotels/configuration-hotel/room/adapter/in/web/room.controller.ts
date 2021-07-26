@@ -58,13 +58,17 @@ export class RoomController {
 
         res.json(roomUpdated)
     }
-    getRooms = async (req: Request | any, res: Response) => {
+    getRoomsByLevel = async (req: Request | any, res: Response) => {
         const { hotelId, levelId } = req.params
 
-        const rooms = await this.getRoomsRequest.getRoomsOfLevel(
+        const rooms = await this.getRoomsRequest.getRoomsByLevel(
             parseInt(levelId), new RoomCommand(parseInt(hotelId))
         )
         res.json(rooms)
+    }
+    getAllRooms = async (req: Request | any, res: Response) => {
+        const { hotelId } = req.params
+
     }
     removeRoom = async (req: Request | any, res: Response) => {
         const { hotelId, levelId, roomId } = req.params

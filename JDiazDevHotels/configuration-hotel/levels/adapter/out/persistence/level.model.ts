@@ -3,7 +3,7 @@ import { Column } from 'sequelize-typescript';
 import { HotelDatabaseEntity } from '../../../../../managament/hotels/infraestucture/out/persistence/hotel-mysql.database-entity';
 import { db as sequelize } from '../../../../../../db/connection';
 
-export class LevelDatabaseEntity extends Model {
+export class Level extends Model {
 
     @Column
     public number!: number
@@ -18,14 +18,14 @@ export class LevelDatabaseEntity extends Model {
     public state!: boolean
 
 }
-LevelDatabaseEntity.init(
+Level.init(
     {
         number: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(50),
             allowNull: false
         },
         state: {
@@ -39,13 +39,13 @@ LevelDatabaseEntity.init(
         sequelize,
     }
 )
-HotelDatabaseEntity.hasOne(LevelDatabaseEntity, {
+HotelDatabaseEntity.hasOne(Level, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false
     }
 })
-LevelDatabaseEntity.belongsTo(HotelDatabaseEntity, {
+Level.belongsTo(HotelDatabaseEntity, {
     as: 'hotel',
     foreignKey: {
         name: 'hotelId',

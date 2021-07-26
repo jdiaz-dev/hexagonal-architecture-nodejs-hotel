@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 
-import { CreateRoomCategoryRequest } from '../ports/in/create-and-update-room-category.request';
+import { CreateRoomCategoryRequest } from '../ports/in/create-room-category.request';
 import { CreateRoomCategoryPort } from "../ports/out/self-domain/create-room-category.port";
 import { RoomCategoryPersistenceAdapter } from "../../adapter/out/persistence/room-category-persistence.adapter";
 import { RoomCategoryCommand } from "../ports/in/room-category.command";
@@ -39,24 +39,24 @@ export class CreateAndUpdateRoomCategoryService implements
         this.updateRoomCategoryPort = roomCategoryPersistenceAdapter
         this.getRoomCategoryModeledPort = roomCategoryPersistenceAdapter
     }
-    async createNewRoomCategory(nameCategory: string, hotelId: number): Promise<any> {
+    async createNewRoomCategory(nameCategory: string, price: number, hotelId: number): Promise<any> {
         const hotel = await this.getHotelForRoomCategoryDomain.getHotelForRoomCategoryDomain(hotelId)
 
         if (!hotel) {
             return { message: 'This hotel does not exists' }
         }
 
-        const newRoomCategory = await this.createRoomCategoryPort.createRoomCategory(nameCategory, hotelId)
+        const newRoomCategory = await this.createRoomCategoryPort.createRoomCategory(nameCategory, price, hotelId)
         return newRoomCategory
     }
-    async updateTheRoomCategory(nameCategory: string, roomCategoryId: number, command: RoomCategoryCommand): Promise<any> {
+    async updateTheRoomCategory(nameCategory: string, price: number, roomCategoryId: number, command: RoomCategoryCommand): Promise<any> {
         const roomCategory: RoomCategoryDomainEntity = await this.getRoomCategoryModeledPort.getRoomCategoryModeledPort(roomCategoryId)
 
         if (!roomCategory.checkIfRoomCategoryBelongsToHotel(command.getHotelId)) {
             return { message: 'You cannot update this room category' }
         }
 
-        const roomCatgoryUpdated = await this.updateRoomCategoryPort.updateCategoryRoom(nameCategory, roomCategoryId)
+        const roomCatgoryUpdated = await this.updateRoomCategoryPort.updateCategoryRoom(nameCategory, price, roomCategoryId)
         return roomCatgoryUpdated
     }
 }

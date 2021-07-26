@@ -1,13 +1,13 @@
 import { Column, Table } from "sequelize-typescript";
 import { Model, DataTypes } from "sequelize";
 import { db as sequelize } from "../../../../../../db/connection";
-import { LevelDatabaseEntity } from '../../../../levels/adapter/out/persistence/level-mysql.database-entity';
-import { RoomCategoryDatabaseEntity } from "../../../../room-categories/adapter/out/persistence/room-category-mysql.database-entity";
+import { Level } from '../../../../levels/adapter/out/persistence/level.model';
+import { RoomCategory } from "../../../../room-categories/adapter/out/persistence/room-category.model";
 import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapter/out/persistence/room-condition-mysql.database-entity';
 
 
 @Table
-export class RoomDatabaseEntity extends Model {
+export class Room extends Model {
 
     @Column
     name!: string
@@ -31,7 +31,7 @@ export class RoomDatabaseEntity extends Model {
     state!: boolean
 
 }
-RoomDatabaseEntity.init(
+Room.init(
     {
         name: {
             type: DataTypes.STRING,
@@ -58,13 +58,13 @@ RoomDatabaseEntity.init(
 )
 
 //levelId
-LevelDatabaseEntity.hasOne(RoomDatabaseEntity, {
+Level.hasOne(Room, {
     foreignKey: {
         name: 'levelId',
         allowNull: false
     },
 })
-RoomDatabaseEntity.belongsTo(LevelDatabaseEntity, {
+Room.belongsTo(Level, {
     as: 'level',
     foreignKey: {
         name: 'levelId',
@@ -73,13 +73,13 @@ RoomDatabaseEntity.belongsTo(LevelDatabaseEntity, {
 })
 
 //categoryId
-RoomCategoryDatabaseEntity.hasOne(RoomDatabaseEntity, {
+RoomCategory.hasOne(Room, {
     foreignKey: {
         name: 'categoryId',
         allowNull: false
     },
 })
-RoomDatabaseEntity.belongsTo(RoomCategoryDatabaseEntity, {
+Room.belongsTo(RoomCategory, {
     as: 'category',
     foreignKey: {
         name: 'categoryId',
@@ -88,13 +88,13 @@ RoomDatabaseEntity.belongsTo(RoomCategoryDatabaseEntity, {
 })
 
 //conditionId
-RoomConditionDatabaseEntity.hasOne(RoomDatabaseEntity, {
+RoomConditionDatabaseEntity.hasOne(Room, {
     foreignKey: {
         name: 'conditionId',
         allowNull: false
     },
 })
-RoomDatabaseEntity.belongsTo(RoomConditionDatabaseEntity, {
+Room.belongsTo(RoomConditionDatabaseEntity, {
     as: 'condition',
     foreignKey: {
         name: 'conditionId',

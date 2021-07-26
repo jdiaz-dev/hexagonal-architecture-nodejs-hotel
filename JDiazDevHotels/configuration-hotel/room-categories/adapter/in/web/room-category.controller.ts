@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { Request, Response } from 'express'
 
-import { CreateRoomCategoryRequest } from "../../../application/ports/in/create-and-update-room-category.request";
+import { CreateRoomCategoryRequest } from "../../../application/ports/in/create-room-category.request";
 import { CreateAndUpdateRoomCategoryService } from "../../../application/services/create-and-update-room-category.service";
 import { GetRoomCategoriesRequest } from '../../../application/ports/in/get-room-categories.request';
 import { GetRoomCategoriesService } from '../../../application/services/get-room-categories.service';
@@ -28,10 +28,10 @@ export class RoomCategoryController {
         this.removeRoomCategoryRequest = removeRoomCategoryService
     }
     createRoomCategory = async (req: Request, res: Response) => {
-        const { nameCategory } = req.body
+        const { nameCategory, price } = req.body
         const { hotelId } = req.params
 
-        const newRoomCategory = await this.createRoomCategoryRequest.createNewRoomCategory(nameCategory, parseInt(hotelId))
+        const newRoomCategory = await this.createRoomCategoryRequest.createNewRoomCategory(nameCategory, parseInt(price), parseInt(hotelId))
 
         res.json(newRoomCategory)
     }
@@ -43,10 +43,10 @@ export class RoomCategoryController {
         res.json(roomCategories)
     }
     updateRoomCategory = async (req: Request, res: Response) => {
-        const { nameCategory } = req.body
+        const { nameCategory, price } = req.body
         const { hotelId, roomCategoryId } = req.params
 
-        const newRoomCategory = await this.updateRoomCategoryRequest.updateTheRoomCategory(nameCategory, parseInt(roomCategoryId), new RoomCategoryCommand(parseInt(hotelId)))
+        const newRoomCategory = await this.updateRoomCategoryRequest.updateTheRoomCategory(nameCategory, parseInt(price), parseInt(roomCategoryId), new RoomCategoryCommand(parseInt(hotelId)))
 
         res.json(newRoomCategory)
     }
