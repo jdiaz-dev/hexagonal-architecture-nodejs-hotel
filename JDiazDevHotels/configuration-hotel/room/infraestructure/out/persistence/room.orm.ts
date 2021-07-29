@@ -71,7 +71,21 @@ export class RoomORM implements RoomRepository {
     async getAllRooms(hotelId: number): Promise<any> {
         try {
             const rooms = await Room.findAll({
-                where: { hotelId: hotelId }
+                where: { hotelId: hotelId, state: true },
+                include: [
+                    {
+                        model: Level,
+                        as: 'level',
+                        attributes: { exclude: ['hotelId', 'createdAt', 'updatedAt', 'state'] }
+                    },
+                    {
+                        model: RoomCategory,
+                        as: 'category',
+                        attributes: { exclude: ['hotelId', 'createdAt', 'updatedAt', 'state'] }
+                    },
+
+                ],
+                attributes: ['id', 'name', 'price', 'details']
             })
             return rooms
         } catch (error) {

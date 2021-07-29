@@ -13,7 +13,6 @@ const roomMiddlewares = Container.get(RoomMiddlewares)
 const roomController = Container.get(RoomController)
 const router = Router()
 
-
 router.post('/:hotelId/:levelId/:categoryId/:roomConditionId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
