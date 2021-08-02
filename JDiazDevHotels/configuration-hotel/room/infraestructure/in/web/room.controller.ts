@@ -35,9 +35,9 @@ export class RoomController {
         this.updateConditionOfRoomRequest = updateConditionOfRoomService
     }
     createRoom = async (req: Request | any, res: Response) => {
-        const { name, price, details } = req.body
-        const { hotelId, levelId, categoryId } = req.params
-
+        const { name, price, details, levelId, categoryId } = req.body
+        const { hotelId } = req.params
+        console.log('-------------body', req.body)
         const newRoom = await this.createNewRoomRequest.createNewRoom(
             new RoomCommand(parseInt(hotelId)),
 
@@ -48,8 +48,8 @@ export class RoomController {
         res.json(newRoom)
     }
     updateRoom = async (req: Request | any, res: Response) => {
-        const { name, price, details } = req.body
-        const { hotelId, levelId, categoryId, roomId } = req.params
+        const { name, price, details, levelId, categoryId } = req.body
+        const { hotelId, roomId } = req.params
 
         const roomUpdated = await this.updateTheRoomRequest.updateTheRoom(
             new RoomCommand(parseInt(hotelId)),

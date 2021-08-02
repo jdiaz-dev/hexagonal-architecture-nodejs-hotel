@@ -30,7 +30,7 @@ export class RoomCategoryORM implements RoomCategoryRepository {
             const roomCategories = await RoomCategory.findAll({
                 where: { hotelId: hotelId, state: true },
                 attributes: ['id', 'category', 'price'],
-                order: [['price', 'DESC']]
+                order: [['price', 'ASC']]
             })
             return roomCategories
         } catch (error) {

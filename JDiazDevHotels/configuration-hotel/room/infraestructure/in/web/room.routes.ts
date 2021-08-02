@@ -13,10 +13,9 @@ const roomMiddlewares = Container.get(RoomMiddlewares)
 const roomController = Container.get(RoomController)
 const router = Router()
 
-router.post('/:hotelId/:levelId/:categoryId/:roomConditionId', [
+router.post('/:hotelId', [
     coommonMiddlewares.validateJWT,
     coommonMiddlewares.checkIfHotelBelongsToClientApp,
-    roomMiddlewares.checkIfRoomConditionExists,
     check('name', 'Name for room is required').not().isEmpty(),
     check('price', 'Price for room is required').not().isEmpty(),
     check('details', 'Details for room is required').not().isEmpty(),
