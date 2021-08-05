@@ -85,7 +85,8 @@ export class RoomORM implements RoomRepository {
                     },
 
                 ],
-                attributes: ['id', 'name', 'price', 'details']
+                attributes: ['id', 'name', 'price', 'details'],
+                order: [['name', 'ASC']]
             })
             return rooms
         } catch (error) {
