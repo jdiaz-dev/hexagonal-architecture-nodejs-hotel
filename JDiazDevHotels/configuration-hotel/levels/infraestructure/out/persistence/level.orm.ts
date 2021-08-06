@@ -66,7 +66,6 @@ export class LevelORM implements LevelRepository {
     async removeHotelLevel(levelId: number): Promise<any> {
         try {
             const level: any = await Level.findByPk(levelId)
-            console.log('-----------------the level to remove', level)
             level.state = false
             await level.save()
 

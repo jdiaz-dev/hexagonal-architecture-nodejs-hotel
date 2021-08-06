@@ -27,6 +27,9 @@ export class HoustingDataBaseEntity extends Model {
     lateApplied!: boolean
 
     @Column
+    finished!: boolean
+
+    @Column
     cashId!: number
 
     @Column
