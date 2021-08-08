@@ -4,7 +4,7 @@ import { GetProductSalesToSaleReportDomain } from '../ports/out/other-domains/ge
 import { GetProductsSaledService } from '../../../../sales/product-sales/application/services/get-products-saled.service';
 import { MoneySpentDomainEntity } from "../../domain/money-spent";
 import { CreateSaleReportPort } from '../ports/out/self-domain/create-sale-report.port';
-import { SaleReportPersistenceAdapter } from '../../adapter/out/persistence/sale-report-persistence.adapter';
+import { SaleReportPersistenceAdapter } from '../../infraestructure/out/persistence/sale-report-persistence.adapter';
 import { GetSaleReportForHoustingReportDomain } from '../../../housting-reports/application/ports/out/other-domains/get-sale-report-for-housting-report-domain';
 
 @Service()

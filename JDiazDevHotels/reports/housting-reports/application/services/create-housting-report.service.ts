@@ -8,28 +8,28 @@ import { GetHoustingService } from './../../../../housting/application/services/
 import { MoneyPaidSaleReportDomainEntity } from "../../domain/money-paid-sale-report";
 import { MoneyTotalDomainEntity } from './../../domain/money-total';
 import { CreateHoustingReportPort } from './../ports/out/self-domain/create-housting-report.port';
-import { HoustingReportPersistenceAdapter } from "../../adapter/out/persistence/housting-report-persistence-adapter";
+import { HoustingReportPersistenceAdapter } from "../../infraestructure/out/persistence/housting-report-persistence-adapter";
 
 
 @Service()
-export class CreateHoustingReportService implements CreateHoustingReportUseCase{
-    
+export class CreateHoustingReportService implements CreateHoustingReportUseCase {
+
     //other domains and services
-    private getSaleReportForHoustingReportDomain:GetSaleReportForHoustingReportDomain
-    private getHoustingForHoustingReportDomain:GetHoustingForHoustingReportDomain
+    private getSaleReportForHoustingReportDomain: GetSaleReportForHoustingReportDomain
+    private getHoustingForHoustingReportDomain: GetHoustingForHoustingReportDomain
 
     //self ports
-    private createHoustingReportPort:CreateHoustingReportPort
+    private createHoustingReportPort: CreateHoustingReportPort
 
     constructor(
 
         //other domains and services
-        getSaleReportService:GetSaleReportService,
-        getHoustingService:GetHoustingService,
+        getSaleReportService: GetSaleReportService,
+        getHoustingService: GetHoustingService,
 
         //self domain
-        houstingReportPersistenceAdapter:HoustingReportPersistenceAdapter
-    ){
+        houstingReportPersistenceAdapter: HoustingReportPersistenceAdapter
+    ) {
         //other domains and services
         this.getSaleReportForHoustingReportDomain = getSaleReportService
         this.getHoustingForHoustingReportDomain = getHoustingService
@@ -37,21 +37,21 @@ export class CreateHoustingReportService implements CreateHoustingReportUseCase{
         //self domain
         this.createHoustingReportPort = houstingReportPersistenceAdapter
     }
-    async createHoustingReport(houstingId:number):Promise<any>{
-        const housting:MoneyPaidHoustingDomainEntity = await this.getHoustingForHoustingReportDomain.getHoustingForHoustingReportDomain(houstingId)
+    async createHoustingReport(houstingId: number): Promise<any> {
+        const housting: MoneyPaidHoustingDomainEntity = await this.getHoustingForHoustingReportDomain.getHoustingForHoustingReportDomain(houstingId)
 
-        const saleReport:MoneyPaidSaleReportDomainEntity|any = await this.getSaleReportForHoustingReportDomain.getSaleReportForHoustingReportDomain(houstingId)
+        const saleReport: MoneyPaidSaleReportDomainEntity | any = await this.getSaleReportForHoustingReportDomain.getSaleReportForHoustingReportDomain(houstingId)
 
         const money = new MoneyTotalDomainEntity(housting, saleReport ? saleReport : null)
-        const totalMoney =  money.calculateMoneyTotal()
+        const totalMoney = money.calculateMoneyTotal()
 
         const houstingReportCreated = await this.createHoustingReportPort.createHoustingReport(
-            housting.id, 
-            saleReport ? saleReport.id : null, 
+            housting.id,
+            saleReport ? saleReport.id : null,
             totalMoney
         )
         return houstingReportCreated
     }
-    
+
 }
 

@@ -7,38 +7,38 @@ import { UpdateClientPort } from "../../../application/ports/out/self-domain/upd
 import { GetClientModeledPort } from "../../../application/ports/out/self-domain/get-client-modeled.port";
 import { ClientDomainEntity } from "../../../domain/clients";
 import { GetClientPort } from "../../../application/ports/out/self-domain/get-client-port";
-import { GetClientsPort } from './../../../application/ports/out/self-domain/get-clients.port';
+import { GetClientsPort } from '../../../application/ports/out/self-domain/get-clients.port';
 
 
 @Service()
-export class ClientPersistenceAdapter implements 
+export class ClientPersistenceAdapter implements
     CreateClientPort,
-    UpdateClientPort, 
+    UpdateClientPort,
     GetClientModeledPort,
     GetClientPort,
     GetClientsPort {
-    private clientRepository:ClientRepository
+    private clientRepository: ClientRepository
 
-    constructor( clientORM:ClientORM ){
+    constructor(clientORM: ClientORM) {
         this.clientRepository = clientORM
     }
-    async createClient(hotelId:number, dataClient:DataClient):Promise<any>{
+    async createClient(hotelId: number, dataClient: DataClient): Promise<any> {
         const client = await this.clientRepository.createClient(hotelId, dataClient)
         return client
     }
-    async updateClient(clientId:number, dataClient:DataClient):Promise<any>{
+    async updateClient(clientId: number, dataClient: DataClient): Promise<any> {
         const client = await this.clientRepository.updateClient(clientId, dataClient)
         return client
     }
-    async getClientModeled(clientId:number):Promise<any>{
+    async getClientModeled(clientId: number): Promise<any> {
         const client = await this.clientRepository.getClient(clientId)
         return new ClientDomainEntity(client.hotelId)
     }
-    async getClient(clientId:number):Promise<any>{
+    async getClient(clientId: number): Promise<any> {
         const client = await this.clientRepository.getClient(clientId)
         return client
-    }   
-    async getClients(hotelId:number):Promise<any>{
+    }
+    async getClients(hotelId: number): Promise<any> {
         const clients = await this.clientRepository.getClients(hotelId)
         return clients
     }

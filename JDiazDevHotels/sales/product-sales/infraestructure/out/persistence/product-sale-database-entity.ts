@@ -2,9 +2,9 @@ import { Model } from 'sequelize';
 import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from '../../../../../../db/connection';
 import { DataTypes } from 'sequelize';
-import { HoustingDataBaseEntity } from '../../../../../housting/adapter/out/persistence/housting-database-entity';
+import { HoustingDataBaseEntity } from '../../../../../housting/infraestructure/out/persistence/housting-database-entity';
 import { ProductDatabaseEntity } from '../../../../products/infraestructure/out/persistence/product-database.entity';
-import { CashDatabaseEntity } from '../../../../../cash/adapter/out/persistence/cash-database-entity';
+import { CashDatabaseEntity } from '../../../../../cash/infraestructure/out/persistence/cash-database-entity';
 
 @Table
 export class ProductSalesDatabaseEntity extends Model {

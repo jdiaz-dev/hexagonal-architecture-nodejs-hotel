@@ -21,15 +21,15 @@ const connection_1 = require("../db/connection");
 const users_routes_1 = __importDefault(require("../JDiazDevHotels/managament/users/infraestructure/in/users.routes"));
 const product_routes_1 = __importDefault(require("../JDiazDevHotels/sales/products/infraestructure/in/web/product.routes"));
 const product_sale_routes_1 = __importDefault(require("../JDiazDevHotels/sales/product-sales/infraestructure/in/web/product-sale.routes"));
-const client_routes_1 = __importDefault(require("../JDiazDevHotels/clients/adapter/in/web/client.routes"));
+const client_routes_1 = __importDefault(require("../JDiazDevHotels/clients/infraestructure/in/web/client.routes"));
 const roles_routes_1 = __importDefault(require("../JDiazDevHotels/managament/roles/infraestructure/in/roles.routes"));
 const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/managament/hotels/infraestucture/in/web/hotel.routes"));
 const level_routes_1 = __importDefault(require("../JDiazDevHotels/configuration-hotel/levels/infraestructure/in/web/level.routes"));
 const room_routes_1 = __importDefault(require("../JDiazDevHotels/configuration-hotel/room-condition/infraestructure/in/web/room.routes"));
 const room_category_routes_1 = __importDefault(require("../JDiazDevHotels/configuration-hotel/room-categories/infraestructure/in/web/room-category.routes"));
 const room_routes_2 = __importDefault(require("../JDiazDevHotels/configuration-hotel/room/infraestructure/in/web/room.routes"));
-const cash_routes_1 = __importDefault(require("../JDiazDevHotels/cash/adapter/in/web/cash.routes"));
-const housting_routes_1 = __importDefault(require("../JDiazDevHotels/housting/adapter/in/web/housting.routes"));
+const cash_routes_1 = __importDefault(require("../JDiazDevHotels/cash/infraestructure/in/web/cash.routes"));
+const housting_routes_1 = __importDefault(require("../JDiazDevHotels/housting/infraestructure/in/web/housting.routes"));
 class Server {
     constructor() {
         this.paths = {

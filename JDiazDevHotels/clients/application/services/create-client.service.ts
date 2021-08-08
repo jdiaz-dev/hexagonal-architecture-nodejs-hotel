@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { ClientPersistenceAdapter } from "../../adapter/out/persistence/client-persistence-adapter";
+import { ClientPersistenceAdapter } from "../../infraestructure/out/persistence/client-persistence-adapter";
 import { CreateNewClientRequest } from "../ports/in/create-new-client-request";
 import { CreateClientPort } from '../ports/out/self-domain/create-client.port';
 import { DataClient } from "./data-client";

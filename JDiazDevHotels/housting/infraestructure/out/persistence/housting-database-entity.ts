@@ -1,8 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from "../../../../../db/connection";
-import { CashDatabaseEntity } from "../../../../cash/adapter/out/persistence/cash-database-entity";
-import { ClientDatabaseEntity } from './../../../../clients/adapter/out/persistence/client-database-entity';
+import { CashDatabaseEntity } from "../../../../cash/infraestructure/out/persistence/cash-database-entity";
+import { ClientDatabaseEntity } from '../../../../clients/infraestructure/out/persistence/client-database-entity';
 import { Room } from '../../../../configuration-hotel/room/infraestructure/out/persistence/room.model';
 
 @Table

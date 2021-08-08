@@ -8,15 +8,15 @@ import { db as sequelize } from '../db/connection'
 import userRoutes from '../JDiazDevHotels/managament/users/infraestructure/in/users.routes'
 import productRoutes from '../JDiazDevHotels/sales/products/infraestructure/in/web/product.routes'
 import productSaleRoutes from '../JDiazDevHotels/sales/product-sales/infraestructure/in/web/product-sale.routes'
-import clientRoutes from '../JDiazDevHotels/clients/adapter/in/web/client.routes'
+import clientRoutes from '../JDiazDevHotels/clients/infraestructure/in/web/client.routes'
 import rolesRoutes from '../JDiazDevHotels/managament/roles/infraestructure/in/roles.routes'
 import hotelRoutes from '../JDiazDevHotels/managament/hotels/infraestucture/in/web/hotel.routes'
 import levelRoutes from '../JDiazDevHotels/configuration-hotel/levels/infraestructure/in/web/level.routes'
 import roomConditionRoutes from '../JDiazDevHotels/configuration-hotel/room-condition/infraestructure/in/web/room.routes'
 import roomCategoryRoutes from '../JDiazDevHotels/configuration-hotel/room-categories/infraestructure/in/web/room-category.routes'
 import roomRoutes from '../JDiazDevHotels/configuration-hotel/room/infraestructure/in/web/room.routes'
-import cashRoutes from '../JDiazDevHotels/cash/adapter/in/web/cash.routes'
-import houstingRoutes from '../JDiazDevHotels/housting/adapter/in/web/housting.routes'
+import cashRoutes from '../JDiazDevHotels/cash/infraestructure/in/web/cash.routes'
+import houstingRoutes from '../JDiazDevHotels/housting/infraestructure/in/web/housting.routes'
 
 export default class Server {
     private app: Application

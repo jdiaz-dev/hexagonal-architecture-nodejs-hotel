@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { FinishHoustingUseCase } from '../ports/in/finish-housting';
 import { UpdateFinishPort } from '../ports/out/self-domain/update-finish.port';
-import { HoustingPersistenceAdapter } from '../../adapter/out/persistence/housting-persistence.adapter';
+import { HoustingPersistenceAdapter } from '../../infraestructure/out/persistence/housting-persistence.adapter';
 import { UpdateConditionFromHoustingDomain } from './../ports/out/other-domain/update-condition-of-room-from-housting-domain';
 import { UpdateConditionOfRoomService } from "../../../configuration-hotel/room/application/services/update-condition-of-room.service";
 

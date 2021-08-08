@@ -2,7 +2,7 @@ import { Service } from "typedi";
 
 import { DataHousting } from "./data-housting";
 import { CreateHoustingPort } from './../ports/out/self-domain/create-housting.port';
-import { HoustingPersistenceAdapter } from './../../adapter/out/persistence/housting-persistence.adapter';
+import { HoustingPersistenceAdapter } from '../../infraestructure/out/persistence/housting-persistence.adapter';
 import { GetRoomForHoustingDomain } from './../ports/out/other-domain/get-room-for-housting-domain';
 import { GetRoomService } from '../../../configuration-hotel/room/application/services/get-room.service';
 import { GetCashForHoustingDomain } from '../ports/out/other-domain/get-cash-for-housting-domain';
