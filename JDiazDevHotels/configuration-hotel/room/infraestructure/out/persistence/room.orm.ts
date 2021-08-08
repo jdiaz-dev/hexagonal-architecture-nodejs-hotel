@@ -38,17 +38,17 @@ export class RoomORM implements RoomRepository {
                     {
                         model: Level,
                         as: 'level',
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'state'] }
+                        attributes: { exclude: ['hotelId', 'createdAt', 'updatedAt', 'state'] }
                     },
                     {
                         model: RoomCategory,
                         as: 'category',
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'state'] }
+                        attributes: { exclude: ['price', 'hotelId', 'createdAt', 'updatedAt', 'state'] }
                     },
                     {
                         model: RoomConditionDatabaseEntity,
                         as: 'condition',
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'state'] }
+                        attributes: { exclude: ['hotelId', 'createdAt', 'updatedAt', 'state'] }
                     }
                 ],
                 attributes: {
