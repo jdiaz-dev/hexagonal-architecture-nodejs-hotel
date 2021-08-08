@@ -13,8 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = require("body-parser");
+const cors_1 = __importDefault(require("cors"));
+const helmet_1 = __importDefault(require("helmet"));
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const connection_1 = require("../db/connection");
 const users_routes_1 = __importDefault(require("../JDiazDevHotels/managament/users/infraestructure/in/users.routes"));
 const product_routes_1 = __importDefault(require("../JDiazDevHotels/sales/products/infraestructure/in/web/product.routes"));
@@ -52,6 +54,7 @@ class Server {
         this.port = process.env.PORT || '8080';
         this.dbconnection();
         this.middlewares();
+        this.security();
         this.routes();
     }
     dbconnection() {
@@ -72,9 +75,18 @@ class Server {
         });
     }
     middlewares() {
-        this.app.use(cors_1.default({}));
         this.app.use(body_parser_1.urlencoded({ extended: false }));
         this.app.use(body_parser_1.json());
+    }
+    security() {
+        const limiter = express_rate_limit_1.default({
+            windowMs: 60 * 60 * 1000,
+            max: 90,
+            message: 'You can not make more of two calls'
+        });
+        this.app.use(limiter); //to limit number of request
+        this.app.use(cors_1.default({}));
+        this.app.use(helmet_1.default());
     }
     routes() {
         //users
@@ -94,7 +106,7 @@ class Server {
         this.app.use(this.paths.cash, cash_routes_1.default);
         this.app.use(this.paths.housting, housting_routes_1.default);
     }
-    listen() {
+    runServer() {
         this.app.listen(this.port, () => {
             console.log('The server is running in PORT', this.port);
         });

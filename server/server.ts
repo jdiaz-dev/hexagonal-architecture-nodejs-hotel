@@ -1,26 +1,20 @@
 import express, { Application } from 'express'
-import cors from 'cors'
 import { urlencoded, json } from 'body-parser'
+import cors from 'cors'
+import helmet from 'helmet'
+import rateLimit from 'express-rate-limit'
 
 import { db as sequelize } from '../db/connection'
-
 import userRoutes from '../JDiazDevHotels/managament/users/infraestructure/in/users.routes'
 import productRoutes from '../JDiazDevHotels/sales/products/infraestructure/in/web/product.routes'
 import productSaleRoutes from '../JDiazDevHotels/sales/product-sales/infraestructure/in/web/product-sale.routes'
-
-
 import clientRoutes from '../JDiazDevHotels/clients/adapter/in/web/client.routes'
-
 import rolesRoutes from '../JDiazDevHotels/managament/roles/infraestructure/in/roles.routes'
-
 import hotelRoutes from '../JDiazDevHotels/managament/hotels/infraestucture/in/web/hotel.routes'
 import levelRoutes from '../JDiazDevHotels/configuration-hotel/levels/infraestructure/in/web/level.routes'
-
 import roomConditionRoutes from '../JDiazDevHotels/configuration-hotel/room-condition/infraestructure/in/web/room.routes'
 import roomCategoryRoutes from '../JDiazDevHotels/configuration-hotel/room-categories/infraestructure/in/web/room-category.routes'
 import roomRoutes from '../JDiazDevHotels/configuration-hotel/room/infraestructure/in/web/room.routes'
-
-
 import cashRoutes from '../JDiazDevHotels/cash/adapter/in/web/cash.routes'
 import houstingRoutes from '../JDiazDevHotels/housting/adapter/in/web/housting.routes'
 
@@ -56,6 +50,7 @@ export default class Server {
 
         this.dbconnection()
         this.middlewares()
+        this.security()
         this.routes()
     }
     async dbconnection() {
@@ -75,10 +70,22 @@ export default class Server {
         })
     }
     middlewares() {
-        this.app.use(cors({}))
         this.app.use(urlencoded({ extended: false }))
         this.app.use(json())
     }
+    security() {
+        const limiter = rateLimit({
+            windowMs: 60 * 60 * 1000,
+            max: 90,
+            message: 'You can not make more of two calls'
+        })
+        this.app.use(limiter) //to limit number of request
+        this.app.use(cors({}))
+        this.app.use(helmet())
+
+
+    }
+
     routes() {
         //users
         this.app.use(this.paths.users, userRoutes)
@@ -101,7 +108,7 @@ export default class Server {
         this.app.use(this.paths.housting, houstingRoutes)
 
     }
-    listen() {
+    runServer() {
         this.app.listen(this.port, () => {
             console.log('The server is running in PORT', this.port)
         })
