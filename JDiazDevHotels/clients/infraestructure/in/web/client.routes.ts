@@ -12,23 +12,23 @@ const router = Router()
 
 router.post('/:hotelId', [
     coommonMiddlewares.validateJWT,
-    check('names', 'hotel name is required').not().isEmpty(),
-    check('surnames', 'address hotel is required').not().isEmpty(),
-    check('dni', 'address hotel is required').not().isEmpty(),
-    check('cellphone', 'address hotel is required').not().isEmpty(),
-    check('visitReason', 'address hotel is required').not().isEmpty(),
+    check('names', 'client names is required').not().isEmpty(),
+    check('surnames', 'client surnames is required').not().isEmpty(),
+    //check('dni', 'address hotel is required').not().isEmpty(),
+    //check('cellphone', 'address hotel is required').not().isEmpty(),
+    //check('visitReason', 'address hotel is required').not().isEmpty(),
     validateFields
-],  clientController.createClient)
+], clientController.createClient)
 
 router.get('/:hotelId/:clientId', [
     coommonMiddlewares.validateJWT,
     validateFields
-],  clientController.getClient)
+], clientController.getClient)
 
 router.get('/:hotelId', [
     coommonMiddlewares.validateJWT,
     validateFields
-],  clientController.getClients)
+], clientController.getClients)
 
 router.put('/:hotelId/:clientId', [
     coommonMiddlewares.validateJWT,
@@ -38,6 +38,6 @@ router.put('/:hotelId/:clientId', [
     check('cellphone', 'address hotel is required').not().isEmpty(),
     check('visitReason', 'address hotel is required').not().isEmpty(),
     validateFields
-],  clientController.updateClient)
+], clientController.updateClient)
 
 export default router

@@ -81,7 +81,7 @@ class Server {
     security() {
         const limiter = express_rate_limit_1.default({
             windowMs: 60 * 60 * 1000,
-            max: 90,
+            max: 180,
             message: 'You can not make more of two calls'
         });
         this.app.use(limiter); //to limit number of request

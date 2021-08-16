@@ -45,7 +45,8 @@ export class HoustingController {
             new DataHousting(
                 parseInt(price),
                 parseInt(moneyPaid),
-                dayjs(new Date()).utc(true).format()
+                entryDate
+                //dayjs(new Date()).utc(true).format()
             )
         )
         res.json(newHousting)
