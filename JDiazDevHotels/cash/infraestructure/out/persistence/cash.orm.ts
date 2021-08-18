@@ -14,6 +14,7 @@ export class CashORM implements CashRepository {
             cash.openingMoney = dataCash.openingMoney
             cash.date = dataCash.date
             cash.hotelId = hotelId
+            console.log('--------------date in persistence', cash)
             await cash.save()
 
             return cash
@@ -21,11 +22,11 @@ export class CashORM implements CashRepository {
             console.log('------------', error)
         }
     }
-    async getCash(cashId:number):Promise<any>{
+    async getCash(cashId: number): Promise<any> {
         try {
             const cash = await CashDatabaseEntity.findByPk(cashId)
             return cash
-            
+
         } catch (error) {
             console.log('------------', error)
         }

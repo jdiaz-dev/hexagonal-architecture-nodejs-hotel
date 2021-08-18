@@ -12,21 +12,25 @@ import { DataCash } from "../../../application/services/data-cash";
 
 @Service()
 export class CashController {
-    private createCashRequest:CreateCashRequest
-    
-    constructor(
-        createCashService:CreateCashService
+    private createCashRequest: CreateCashRequest
 
-    ){
+    constructor(
+        createCashService: CreateCashService
+
+    ) {
         this.createCashRequest = createCashService
     }
-    createCash = async (req:Request|any, res:Response) => {
+    createCash = async (req: Request | any, res: Response) => {
         const { hotelId } = req.params
-        const { openingMoney } = req.body
+        const { openingMoney, date } = req.body
 
         const cashCreated = await this.createCashRequest.createTheCash(
-            parseInt(hotelId), 
-            new DataCash(parseInt(openingMoney), dayjs(new Date()).utc(true).format())
+            parseInt(hotelId),
+            new DataCash(
+                parseInt(openingMoney),
+                //date,
+                dayjs(new Date()).utc(true).format()
+            )
         )
 
         res.json(cashCreated)

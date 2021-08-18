@@ -14,7 +14,7 @@ export class CashDatabaseEntity extends Model {
     closingMoney!: number
 
     @Column
-    date!: number
+    date!: string
 
     @Column
     closed!: boolean
