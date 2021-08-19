@@ -36,7 +36,7 @@ export class HoustingController {
     }
     createHousting = async (req: Request, res: Response) => {
         const { cashId, clientId, roomId } = req.params
-        const { price, moneyPaid, entryDate } = req.body
+        const { price, moneyPaid, entryDate, entryTime } = req.body
 
         const newHousting = await this.createHoustingRequest.createTheHousting(
             parseInt(cashId),
@@ -45,7 +45,8 @@ export class HoustingController {
             new DataHousting(
                 parseInt(price),
                 parseInt(moneyPaid),
-                entryDate
+                entryDate,
+                entryTime
                 //dayjs(new Date()).utc(true).format()
             )
         )

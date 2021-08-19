@@ -31,8 +31,7 @@ UPDATE users SET state=1 WHERE id=1;
 
 /* add column to levels */
 ALTER TABLE room_categories ADD COLUMN price INT(10) UNSIGNED NOT NULL AFTER category;
-ALTER TABLE cashes ADD COLUMN time TIME NOT NULL AFTER date;
+ALTER TABLE houstings MODIFY outputDate DATE;
 
 /* update prices in room_categories*/
 UPDATE room_categories SET price = 20 WHERE id = 2;
-ALTER TABLE `cashes` MODIFY `date` DATE;

@@ -18,7 +18,13 @@ export class HoustingDataBaseEntity extends Model {
     entryDate!: string
 
     @Column
+    entryTime!: string
+
+    @Column
     outputDate!: number
+
+    @Column
+    outputTime!: string
 
     @Column
     houstingTime!: number
@@ -50,11 +56,18 @@ HoustingDataBaseEntity.init(
             allowNull: false
         },
         entryDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        entryTime: {
+            type: DataTypes.TIME,
             allowNull: false
         },
         outputDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
+        },
+        outputTime: {
+            type: DataTypes.TIME,
         },
         houstingTime: {
             type: DataTypes.TIME,

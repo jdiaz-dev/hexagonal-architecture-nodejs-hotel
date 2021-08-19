@@ -5,9 +5,6 @@ import { CashRepository } from "./cash-repository";
 
 @Service()
 export class CashORM implements CashRepository {
-    constructor() {
-
-    }
     async createCash(hotelId: number, dataCash: DataCash): Promise<any> {
         try {
             const cash = new CashDatabaseEntity()

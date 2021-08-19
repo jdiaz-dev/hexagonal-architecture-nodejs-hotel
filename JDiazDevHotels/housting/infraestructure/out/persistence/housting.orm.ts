@@ -5,12 +5,13 @@ import { HoustingDataBaseEntity } from './housting-database-entity';
 
 @Service()
 export class HoustingORM implements HoustingRepository {
-    async createHousting(cashId:number, clientId:number, roomId:number, dataHousting:DataHousting):Promise<any>{
+    async createHousting(cashId: number, clientId: number, roomId: number, dataHousting: DataHousting): Promise<any> {
         try {
             const housting = new HoustingDataBaseEntity()
             housting.price = dataHousting.price
             housting.moneyPaid = dataHousting.moneyPaid
             housting.entryDate = dataHousting.entryDate
+            housting.entryTime = dataHousting.entryTime
             housting.cashId = cashId
             housting.clientId = clientId
             housting.roomId = roomId
@@ -22,7 +23,7 @@ export class HoustingORM implements HoustingRepository {
             console.log('---------------', error)
         }
     }
-    async getHousting(houstingId:number):Promise<any>{
+    async getHousting(houstingId: number): Promise<any> {
         try {
             const housting = HoustingDataBaseEntity.findByPk(houstingId)
             return housting
@@ -31,10 +32,10 @@ export class HoustingORM implements HoustingRepository {
             console.log('---------------', error)
         }
     }
-    async updateMoneyPaid(houstingId:number, newMoney:number):Promise<any>{
+    async updateMoneyPaid(houstingId: number, newMoney: number): Promise<any> {
         try {
-            const housting:any = await HoustingDataBaseEntity.findByPk(houstingId)
-            housting.moneyPaid =  newMoney 
+            const housting: any = await HoustingDataBaseEntity.findByPk(houstingId)
+            housting.moneyPaid = newMoney
             await housting.save()
 
             return housting
@@ -43,10 +44,10 @@ export class HoustingORM implements HoustingRepository {
             console.log('---------------', error)
         }
     }
-    async updateFinish(houstingId:number):Promise<any>{
+    async updateFinish(houstingId: number): Promise<any> {
         try {
-            const housting:any = await HoustingDataBaseEntity.findByPk(houstingId)
-            housting.finished = true 
+            const housting: any = await HoustingDataBaseEntity.findByPk(houstingId)
+            housting.finished = true
             await housting.save()
 
             return housting

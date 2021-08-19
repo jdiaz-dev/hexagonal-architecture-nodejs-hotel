@@ -35,7 +35,7 @@ export class LoginUserService implements LoginUserUseCase {
 
         let hotel = undefined
         const emailOwner = 'admin@admin.com'
-        console.log('------------user', user, emailOwner)
+
         if (user.email !== emailOwner) {
             hotel = await this.getHotelForUsersDomain.getHotelForUsersDomain(user.id)
 
