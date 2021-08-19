@@ -17,6 +17,9 @@ export class CashDatabaseEntity extends Model {
     date!: string
 
     @Column
+    time!: string
+
+    @Column
     closed!: boolean
 
     @Column
@@ -33,7 +36,11 @@ CashDatabaseEntity.init(
             type: DataTypes.INTEGER
         },
         date: {
-            type: DataTypes.DATE, //date recommnedable in UTC
+            type: DataTypes.DATEONLY, //date recommendable in UTC
+            allowNull: false
+        },
+        time: {
+            type: DataTypes.TIME, //date recommendable in UTC
             allowNull: false
         },
         closed: {

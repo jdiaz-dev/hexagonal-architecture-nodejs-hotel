@@ -13,8 +13,9 @@ export class CashORM implements CashRepository {
             const cash = new CashDatabaseEntity()
             cash.openingMoney = dataCash.openingMoney
             cash.date = dataCash.date
+            cash.time = dataCash.time
             cash.hotelId = hotelId
-            console.log('--------------date in persistence', cash)
+
             await cash.save()
 
             return cash

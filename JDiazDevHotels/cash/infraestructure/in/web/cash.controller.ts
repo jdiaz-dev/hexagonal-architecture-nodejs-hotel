@@ -22,14 +22,15 @@ export class CashController {
     }
     createCash = async (req: Request | any, res: Response) => {
         const { hotelId } = req.params
-        const { openingMoney, date } = req.body
+        const { openingMoney, date, time } = req.body
 
         const cashCreated = await this.createCashRequest.createTheCash(
             parseInt(hotelId),
             new DataCash(
                 parseInt(openingMoney),
-                //date,
-                dayjs(new Date()).utc(true).format()
+                date,
+                time,
+                //dayjs(new Date()).utc(true).format()
             )
         )
 
