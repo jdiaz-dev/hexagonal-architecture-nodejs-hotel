@@ -11,7 +11,6 @@ CREATE TABLE hotels(
 )ENGINE=InnoDb;
 
 
-
 CREATE TABLE users(
     id              int(255) auto_increment not null,
     names           varchar(100) not null,
@@ -31,7 +30,9 @@ UPDATE users SET state=1 WHERE id=1;
 
 /* add column to levels */
 ALTER TABLE room_categories ADD COLUMN price INT(10) UNSIGNED NOT NULL AFTER category;
-ALTER TABLE houstings MODIFY outputDate DATE;
+ALTER TABLE categories MODIFY name varchar(500) not null;
 
 /* update prices in room_categories*/
 UPDATE room_categories SET price = 20 WHERE id = 2;
+
+INSERT INTO hotels VALUES(1, 'hotel de sol', 'jiron del hotel de sol', 1, now(), now(), 4);

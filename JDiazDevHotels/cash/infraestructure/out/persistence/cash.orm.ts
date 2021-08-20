@@ -29,4 +29,13 @@ export class CashORM implements CashRepository {
             console.log('------------', error)
         }
     }
+    async getCashNotClosed(hotelId: number): Promise<any> {
+        try {
+            const cashNotClosed = await CashDatabaseEntity.findOne({ where: { hotelId: hotelId, closed: false } })
+            return cashNotClosed
+
+        } catch (error) {
+            console.log('------------', error)
+        }
+    }
 }

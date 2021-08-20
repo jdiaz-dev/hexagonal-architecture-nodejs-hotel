@@ -3,11 +3,13 @@ import { CreateCashPort } from "../../../application/ports/out/self-domain/creat
 import { DataCash } from "../../../application/services/data-cash";
 import { CashORM } from "./cash.orm";
 import { GetCashPort } from '../../../application/ports/out/self-domain/get-cash.port';
+import { GetCashNotClosedPort } from "../../../application/ports/out/self-domain/get-cash-not-closed";
 
 @Service()
 export class CashPersistenceAdapter implements
     CreateCashPort,
-    GetCashPort {
+    GetCashPort,
+    GetCashNotClosedPort {
 
     constructor(private cashORM: CashORM) { }
 
@@ -19,5 +21,10 @@ export class CashPersistenceAdapter implements
         const cash = await this.cashORM.getCash(cashId)
         return cash
     }
+    async getCashNotClosed(hotelId: number): Promise<any> {
+        const cashNotClosed = await this.cashORM.getCashNotClosed(hotelId)
+        return cashNotClosed
+    }
+
 }
 

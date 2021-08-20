@@ -15,8 +15,15 @@ const router = Router()
 router.post('/:hotelId', [
     coommonMiddlewares.validateJWT,
     check('openingMoney', 'opening money is required').not().isEmpty(),
+    check('date', 'date is required').not().isEmpty(),
+    check('time', 'time is required').not().isEmpty(),
     validateFields
-],  cashController.createCash)
+], cashController.createCash)
+
+router.get('/:hotelId', [
+    coommonMiddlewares.validateJWT,
+    validateFields
+], cashController.getCashNotClosed)
 
 export default router
 
