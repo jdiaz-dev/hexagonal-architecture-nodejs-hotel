@@ -39,7 +39,7 @@ export class CashController {
     }
     getCashNotClosed = async (req: Request, res: Response) => {
         const { hotelId } = req.params
-
+        console.log('----------------cash ', hotelId)
         const cashNotClosed = await this.getCashNotClosedRequest.getTheCashNotClosed(parseInt(hotelId))
         res.json(cashNotClosed)
     }

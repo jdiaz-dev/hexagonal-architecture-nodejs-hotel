@@ -23,7 +23,7 @@ export class LoginUserService implements LoginUserUseCase {
 
     async loginUser(command: CreateUserCommand): Promise<string | any> {
         const user = await this.findUserPort.findUserWithEmail(command.getUser.getEmail)
-
+        console.log('--------------user', user)
         if (user.state == false) {
             return { message: 'You cannot access to the system, please speak with the admin' }
         }

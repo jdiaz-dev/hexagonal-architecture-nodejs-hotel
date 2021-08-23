@@ -11,7 +11,7 @@ const coommonMiddlewares = Container.get(CommonMiddlwares)
 const roomConditionController = Container.get(RoomConditionController)
 const router = Router()
 
-router.post('/', [
+router.post('', [
     coommonMiddlewares.validateJWT,
     check('nameCondition', 'Name for room condition is required').not().isEmpty(),
     validateFields
