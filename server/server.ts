@@ -76,7 +76,7 @@ export default class Server {
     security() {
         const limiter = rateLimit({
             windowMs: 60 * 60 * 1000,
-            max: 180,
+            max: 200,
             message: 'You can not make more of two calls'
         })
         this.app.use(limiter) //to limit number of request
