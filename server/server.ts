@@ -79,7 +79,7 @@ export default class Server {
             max: 200,
             message: 'You can not make more of two calls'
         })
-        this.app.use(limiter) //to limit number of request
+        //this.app.use(limiter) //to limit number of request
         this.app.use(cors({}))
         this.app.use(helmet())
 

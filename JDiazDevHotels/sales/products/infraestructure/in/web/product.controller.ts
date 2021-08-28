@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { Request, Response} from 'express' 
+import { Request, Response } from 'express'
 
 import { CreateProductRequest } from "../../../application/ports/in/create-product.request";
 import { CreateProductService } from "../../../application/services/create-product.service";
@@ -14,57 +14,57 @@ import { RemoveProductService } from "../../../application/services/remove-produ
 
 @Service()
 export class ProductController {
-    private createProductRequest:CreateProductRequest
-    private getProductsRequest:GetProductsRequest
-    private updateProductRequest:UpdateProductRequest
-    private removeProductRequest:RemoveProductRequest
-    
+    private createProductRequest: CreateProductRequest
+    private getProductsRequest: GetProductsRequest
+    private updateProductRequest: UpdateProductRequest
+    private removeProductRequest: RemoveProductRequest
+
     constructor(
-        createProductService:CreateProductService,
-        getProductsService:GetProductsService,
-        updateProductService:UpdateProductService,
-        removeProductService:RemoveProductService
-    ){
+        createProductService: CreateProductService,
+        getProductsService: GetProductsService,
+        updateProductService: UpdateProductService,
+        removeProductService: RemoveProductService
+    ) {
         this.createProductRequest = createProductService
         this.getProductsRequest = getProductsService
         this.updateProductRequest = updateProductService
         this.removeProductRequest = removeProductService
     }
 
-    createProduct = async (req:Request, res:Response) => {
+    createProduct = async (req: Request, res: Response) => {
         const { hotelId } = req.params
-        const { code, name, brand, details, price } = req.body
+        const { code, name, brand, details = '', price } = req.body
 
 
         const productCreated = await this.createProductRequest.createTheProduct(
-            parseInt(hotelId), 
-            new DataProduct(code, name, brand, details, parseFloat(price))    
+            parseInt(hotelId),
+            new DataProduct(code, name, brand, details, parseFloat(price))
         )
         res.json(productCreated)
     }
-    getProducts = async (req:Request, res:Response) => {
+    getProducts = async (req: Request, res: Response) => {
         const { hotelId } = req.params
 
         const productCreated = await this.getProductsRequest.getTheProducts(parseInt(hotelId))
         res.json(productCreated)
     }
-    updateProduct = async (req:Request, res:Response) => {
+    updateProduct = async (req: Request, res: Response) => {
         const { hotelId, productId } = req.params
-        const { code, name, brand, details, price } = req.body
+        const { code, name, brand, details = '', price } = req.body
 
 
         const productCreated = await this.updateProductRequest.updateTheProduct(
-            parseInt(productId), 
-            new DataProduct(code, name, brand, details, parseFloat(price)),    
+            parseInt(productId),
+            new DataProduct(code, name, brand, details, parseFloat(price)),
             new ProductCommand(parseInt(hotelId)),
         )
         res.json(productCreated)
     }
-    removeProduct = async (req:Request, res:Response) => {
+    removeProduct = async (req: Request, res: Response) => {
         const { hotelId, productId } = req.params
 
         const productRemoved = await this.removeProductRequest.removeTheProduct(
-            parseInt(productId), 
+            parseInt(productId),
             new ProductCommand(parseInt(hotelId)),
         )
         res.json(productRemoved)
