@@ -9,6 +9,7 @@ import { GetCashForHoustingDomain } from '../ports/out/other-domain/get-cash-for
 import { GetCashService } from './../../../cash/application/services/get-cash.service';
 import { GetClientForHoustingDomain } from './../ports/out/other-domain/get-client-for-housting-domain';
 import { GetClientService } from './../../../clients/application/services/get-client.service';
+import { SETTINGS } from "../../../../settings/settings";
 
 @Service()
 export class CreateHoustingService {
@@ -48,6 +49,7 @@ export class CreateHoustingService {
             return { message: 'This client does not exits for this housting' }
         }
 
+        const roomConditionId = SETTINGS.base.databaseIds.roomConditionId
         const room = await this.getRoomForHoustingDomain.getRoomForHoustingDomain(roomId)
         if (!room) {
             return { message: 'There are not room for this housting' }

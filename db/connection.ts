@@ -1,8 +1,13 @@
 import { Sequelize } from 'sequelize'
+import { SETTINGS } from '../settings/settings'
 
-//export const sequelize = new Sequelize("mysql://root:@localhost:3306/jdiazdevhotels ")
-export const db = new Sequelize('jdiazdevhotels', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql'
-})
+export const db = new Sequelize(
+    SETTINGS.database.databaseName,
+    SETTINGS.database.user,
+    SETTINGS.database.password,
+    {
+        host: SETTINGS.database.host,
+        dialect: 'mysql'
+    }
+)
 
