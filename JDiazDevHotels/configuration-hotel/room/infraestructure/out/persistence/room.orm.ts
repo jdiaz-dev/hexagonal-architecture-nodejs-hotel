@@ -4,6 +4,7 @@ import { RoomRepository } from './room.repository';
 import { Level } from '../../../../levels/infraestructure/out/persistence/level.model';
 import { RoomCategory } from '../../../../room-categories/infraestructure/out/persistence/room-category.model';
 import { RoomConditionDatabaseEntity } from '../../../../room-condition/infraestructure/out/persistence/room-condition-mysql.database-entity';
+import { SETTINGS } from './../../../../../../settings/settings';
 
 @Service()
 export class RoomORM implements RoomRepository {
@@ -30,10 +31,16 @@ export class RoomORM implements RoomRepository {
         const room = await Room.findByPk(roomId)
         return room
     }
-    async getRoomsByLevel(levelId: number): Promise<any> {
+    async getRoomsByLevel(levelId: number, roomConditionId: number): Promise<any> {
+        const query: any = { levelId: levelId, state: true }
+
+        if (roomConditionId == SETTINGS.base.databaseIds.busyConditionId) {
+            query['conditionId'] = roomConditionId
+        }
+
         try {
             const rooms: any = Room.findAll({
-                where: { levelId: levelId, state: true },
+                where: query,
                 include: [
                     {
                         model: Level,

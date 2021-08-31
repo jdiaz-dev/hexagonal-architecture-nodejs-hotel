@@ -2,6 +2,7 @@ import { Ibase } from "./settings.interfaces";
 
 export const base: Ibase = {
     databaseIds: {
-        roomConditionId: parseInt(process.env.ROOM_CONDITION_ID || '') || 1
+        busyConditionId: parseInt(process.env.CONDITION_BUSY_ID || ''),
+        conditionFreeId: parseInt(process.env.CONDITION_FREE_ID || ''),
     }
 }

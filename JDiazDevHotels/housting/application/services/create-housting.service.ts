@@ -10,6 +10,8 @@ import { GetCashService } from './../../../cash/application/services/get-cash.se
 import { GetClientForHoustingDomain } from './../ports/out/other-domain/get-client-for-housting-domain';
 import { GetClientService } from './../../../clients/application/services/get-client.service';
 import { SETTINGS } from "../../../../settings/settings";
+import { UpdateConditionFromHoustingDomain } from "../ports/out/other-domain/update-condition-of-room-from-housting-domain";
+import { UpdateConditionOfRoomService } from './../../../configuration-hotel/room/application/services/update-condition-of-room.service';
 
 @Service()
 export class CreateHoustingService {
@@ -18,6 +20,7 @@ export class CreateHoustingService {
     private getCashForHoustingDomain: GetCashForHoustingDomain
     private getClientForHoustingDomain: GetClientForHoustingDomain
     private getRoomForHoustingDomain: GetRoomForHoustingDomain
+    private updateConditionFromHoustingDomain: UpdateConditionFromHoustingDomain
 
     //self ports
     private createHoustingPort: CreateHoustingPort
@@ -26,6 +29,7 @@ export class CreateHoustingService {
         getCashService: GetCashService,
         getRoomService: GetRoomService,
         getClientService: GetClientService,
+        updateConditionOfRoomService: UpdateConditionOfRoomService,
 
         //self ports
         houstingPersistenceAdapter: HoustingPersistenceAdapter,
@@ -34,6 +38,7 @@ export class CreateHoustingService {
         this.getCashForHoustingDomain = getCashService
         this.getRoomForHoustingDomain = getRoomService
         this.getClientForHoustingDomain = getClientService
+        this.updateConditionFromHoustingDomain = updateConditionOfRoomService
 
         this.createHoustingPort = houstingPersistenceAdapter
     }
@@ -49,16 +54,17 @@ export class CreateHoustingService {
             return { message: 'This client does not exits for this housting' }
         }
 
-        const roomConditionId = SETTINGS.base.databaseIds.roomConditionId
-        const room = await this.getRoomForHoustingDomain.getRoomForHoustingDomain(roomId)
-        if (!room) {
+        const busyCondtionId = SETTINGS.base.databaseIds.busyConditionId
+        //const room = await this.getRoomForHoustingDomain.getRoomForHoustingDomain(roomId)
+
+        const conditionOfRoomUpdated = await this.updateConditionFromHoustingDomain.updateFromHoustingDomain(roomId, busyCondtionId)
+        if (!conditionOfRoomUpdated) {
             return { message: 'There are not room for this housting' }
         }
 
         const housting = await this.createHoustingPort.createHousting(cashId, clientId, roomId, dataHousting)
         return housting
     }
-
 
 
 }

@@ -13,6 +13,7 @@ import { RemoveRoomService } from '../../../application/services/remove-room.ser
 import { RoomWithLevelCommand } from "../../../application/ports/in/room-with-level.domain";
 import { UpdateCondtionOfRoomRequest } from '../../../application/ports/in/update-condition-of-room.request';
 import { UpdateConditionOfRoomService } from '../../../application/services/update-condition-of-room.service';
+import { SETTINGS } from './../../../../../../settings/settings';
 
 @Service()
 export class RoomController {
@@ -60,9 +61,10 @@ export class RoomController {
     }
     getRoomsByLevel = async (req: Request | any, res: Response) => {
         const { hotelId, levelId } = req.params
+        const { conditionId = SETTINGS.base.databaseIds.conditionFreeId } = req.query
 
         const rooms = await this.getRoomsRequest.getRoomsByLevel(
-            parseInt(levelId), new RoomCommand(parseInt(hotelId))
+            parseInt(levelId), parseInt(conditionId), new RoomCommand(parseInt(hotelId))
         )
         res.json(rooms)
     }
@@ -94,5 +96,4 @@ export class RoomController {
         )
         res.json(roomRemoved)
     }
-
 }

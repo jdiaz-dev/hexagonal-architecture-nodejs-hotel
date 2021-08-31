@@ -8,7 +8,8 @@ interface Idatabase {
 
 export interface Ibase {
     databaseIds: {
-        roomConditionId: number
+        busyConditionId: number
+        conditionFreeId: number
     }
 }
 

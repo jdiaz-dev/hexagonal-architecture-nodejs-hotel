@@ -56,8 +56,8 @@ export class RoomPersistenceAdapter implements
         const room = await this.roomRepository.getRoom(roomId)
         return new RoomWithLevelEntity(room.levelId)
     }
-    async getRoomsByLevel(levelId: number): Promise<any> {
-        const rooms = await this.roomRepository.getRoomsByLevel(levelId)
+    async getRoomsByLevel(levelId: number, roomConditionId: number): Promise<any> {
+        const rooms = await this.roomRepository.getRoomsByLevel(levelId, roomConditionId)
         return rooms
     }
     async getAllRooms(hotelId: number): Promise<any> {
