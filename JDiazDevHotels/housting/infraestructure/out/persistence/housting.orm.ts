@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { DataHousting } from "../../../application/services/data-housting";
 import { HoustingRepository } from './housting.repository';
 import { HoustingDataBaseEntity } from './housting-database-entity';
+import { ClientDatabaseEntity } from "../../../../clients/infraestructure/out/persistence/client-database-entity";
 
 @Service()
 export class HoustingORM implements HoustingRepository {
@@ -26,6 +27,24 @@ export class HoustingORM implements HoustingRepository {
     async getHousting(houstingId: number): Promise<any> {
         try {
             const housting = HoustingDataBaseEntity.findByPk(houstingId)
+            return housting
+
+        } catch (error) {
+            console.log('---------------', error)
+        }
+    }
+    async getHoustingByRoom(roomId: number): Promise<any> {
+        try {
+            const housting = HoustingDataBaseEntity.findOne({
+                where: { roomId: roomId, finished: false },
+                include: [
+                    {
+                        model: ClientDatabaseEntity,
+                        as: 'client',
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'state', 'hotelId'] }
+                    }
+                ]
+            })
             return housting
 
         } catch (error) {

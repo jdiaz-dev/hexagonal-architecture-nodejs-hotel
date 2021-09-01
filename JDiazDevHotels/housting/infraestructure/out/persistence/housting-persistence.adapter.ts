@@ -3,15 +3,17 @@ import { CreateHoustingPort } from "../../../application/ports/out/self-domain/c
 import { DataHousting } from "../../../application/services/data-housting";
 import { HoustingORM } from './housting.orm';
 import { GetHoustingPort } from '../../../application/ports/out/self-domain/get-housting.port';
-import { GetHoustingModeledPort } from "../../../application/ports/out/self-domain/get-housting-modeled";
+import { GetHoustingModeledPort } from "../../../application/ports/out/self-domain/get-housting-modeled.port";
 import { HoustingDomainEntity } from "../../../domain/housting";
 import { UpdateMoneyPaidPort } from '../../../application/ports/out/self-domain/update-money-paid.port';
 import { UpdateFinishPort } from '../../../application/ports/out/self-domain/update-finish.port';
+import { GetHoustingByRoomPort } from "../../../application/ports/out/self-domain/get-housting-by-room.port";
 
 @Service()
 export class HoustingPersistenceAdapter implements
     CreateHoustingPort,
     GetHoustingPort,
+    GetHoustingByRoomPort,
     GetHoustingModeledPort,
     UpdateMoneyPaidPort,
     UpdateFinishPort {
@@ -26,8 +28,12 @@ export class HoustingPersistenceAdapter implements
         const housting = await this.houstingORM.getHousting(houstingId)
         return housting
     }
-    async getHoustingModeled(houstingId: number): Promise<HoustingDomainEntity> {
-        const housting = await this.houstingORM.getHousting(houstingId)
+    async getHoustingByRoom(roomId: number): Promise<any> {
+        const housting = await this.houstingORM.getHoustingByRoom(roomId)
+        return housting
+    }
+    async getHoustingModeled(roomId: number): Promise<HoustingDomainEntity> {
+        const housting = await this.houstingORM.getHoustingByRoom(roomId)
         return new HoustingDomainEntity(housting.cashId, housting.clientId, housting.roomId)
     }
     async updateMoneyPaid(houstingId: number, newMoney: number): Promise<any> {

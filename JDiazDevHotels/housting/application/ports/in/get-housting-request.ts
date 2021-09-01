@@ -1,3 +1,3 @@
 export interface GetHoustingRequest {
-    getTheHousting(houstingId:number):Promise<any>
+    getTheHoustingByRoom(houstingId: number): Promise<any>
 }

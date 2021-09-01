@@ -20,26 +20,26 @@ router.post('/:hotelId/:cashId/:clientId/:roomId', [
     check('moneyPaid', 'moneyPaid is required').not().isEmpty(),
     check('entryDate', 'entryDate is required').not().isEmpty(),
     validateFields
-],  houstingController.createHousting)
+], houstingController.createHousting)
 
-router.get('/:hotelId/:houstingId/:cashId/:clientId/:roomId', [
+router.get('/:hotelId/:cashId/:roomId', [
     coommonMiddlewares.validateJWT,
-    bussinesLogicMiddlewares.checkIfHoustingDomainEntityIsCompliment,
+    //bussinesLogicMiddlewares.checkIfHoustingDomainEntityIsCompliment,
     validateFields
-],  houstingController.getHousting)
+], houstingController.getHoustingByRoom)
 
 router.put('/:hotelId/:houstingId/:cashId/:clientId/:roomId', [
     coommonMiddlewares.validateJWT,
     bussinesLogicMiddlewares.checkIfHoustingDomainEntityIsCompliment,
     check('moneyToAdd', 'moneyToAdd is required').not().isEmpty(),
     validateFields
-],  houstingController.updateMoneyPaid)
+], houstingController.updateMoneyPaid)
 
 router.put('/finish/:hotelId/:houstingId/:cashId/:clientId/:roomId', [
     coommonMiddlewares.validateJWT,
     bussinesLogicMiddlewares.checkIfHoustingDomainEntityIsCompliment,
     validateFields
-],  houstingController.updateFinish)
+], houstingController.updateFinish)
 
 export default router
 

@@ -52,10 +52,10 @@ export class HoustingController {
         )
         res.json(newHousting)
     }
-    getHousting = async (req: Request, res: Response) => {
-        const { houstingId } = req.params
+    getHoustingByRoom = async (req: Request, res: Response) => {
+        const { roomId } = req.params
 
-        const housting = await this.getHoustingRequest.getTheHousting(parseInt(houstingId))
+        const housting = await this.getHoustingRequest.getTheHoustingByRoom(parseInt(roomId))
 
         res.json(housting)
     }

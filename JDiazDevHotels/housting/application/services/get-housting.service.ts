@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 
 import { GetHoustingRequest } from './../ports/in/get-housting-request';
-import { GetHoustingModeledPort } from './../ports/out/self-domain/get-housting-modeled';
+import { GetHoustingModeledPort } from '../ports/out/self-domain/get-housting-modeled.port';
 import { HoustingPersistenceAdapter } from '../../infraestructure/out/persistence/housting-persistence.adapter';
 import { HoustingDomainEntity } from "../../domain/housting";
 import { HoustingCommand } from "../ports/in/housting.command";
@@ -9,6 +9,7 @@ import { GetHoustingPort } from './../ports/out/self-domain/get-housting.port';
 import { GetHoustingModeledForMiddleware } from '../../infraestructure/in/web/interfaces/get-housting-modeled-for-middleware';
 import { GetHoustingForHoustingReportDomain } from "../../../reports/housting-reports/application/ports/out/other-domains/get-housting-for-housting-report-domain";
 import { MoneyPaidHoustingDomainEntity } from "../../../reports/housting-reports/domain/money-paid-housting";
+import { GetHoustingByRoomPort } from "../ports/out/self-domain/get-housting-by-room.port";
 
 @Service()
 export class GetHoustingService implements
@@ -17,17 +18,19 @@ export class GetHoustingService implements
     GetHoustingForHoustingReportDomain {
     private getHoustingModeledPort: GetHoustingModeledPort
     private getHoustingPort: GetHoustingPort
+    private getHoustingByRoomPort: GetHoustingByRoomPort
 
     constructor(houstingPersistenceAdapter: HoustingPersistenceAdapter) {
         this.getHoustingModeledPort = houstingPersistenceAdapter
         this.getHoustingPort = houstingPersistenceAdapter
+        this.getHoustingByRoomPort = houstingPersistenceAdapter
     }
-    async getTheHousting(houstingId: number): Promise<any> {
-        const housting = await this.getHoustingPort.getHousting(houstingId)
+    async getTheHoustingByRoom(roomId: number): Promise<any> {
+        const housting = await this.getHoustingByRoomPort.getHoustingByRoom(roomId)
         return housting
     }
-    async getHoustingModeledForMiddleware(houstingId: number): Promise<any> {
-        const houstingModeled: HoustingDomainEntity = await this.getHoustingModeledPort.getHoustingModeled(houstingId)
+    async getHoustingModeledForMiddleware(roomId: number): Promise<any> {
+        const houstingModeled: HoustingDomainEntity = await this.getHoustingModeledPort.getHoustingModeled(roomId)
 
         return houstingModeled
     }
