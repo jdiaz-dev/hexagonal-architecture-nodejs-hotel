@@ -18,40 +18,40 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const connection_1 = require("../db/connection");
-const users_routes_1 = __importDefault(require("../JDiazDevHotels/managament/users/infraestructure/in/users.routes"));
-const product_routes_1 = __importDefault(require("../JDiazDevHotels/sales/products/infraestructure/in/web/product.routes"));
-const product_sale_routes_1 = __importDefault(require("../JDiazDevHotels/sales/product-sales/infraestructure/in/web/product-sale.routes"));
-const client_routes_1 = __importDefault(require("../JDiazDevHotels/clients/infraestructure/in/web/client.routes"));
-const roles_routes_1 = __importDefault(require("../JDiazDevHotels/managament/roles/infraestructure/in/roles.routes"));
-const hotel_routes_1 = __importDefault(require("../JDiazDevHotels/managament/hotels/infraestucture/in/web/hotel.routes"));
-const level_routes_1 = __importDefault(require("../JDiazDevHotels/configuration-hotel/levels/infraestructure/in/web/level.routes"));
-const room_routes_1 = __importDefault(require("../JDiazDevHotels/configuration-hotel/room-condition/infraestructure/in/web/room.routes"));
-const room_category_routes_1 = __importDefault(require("../JDiazDevHotels/configuration-hotel/room-categories/infraestructure/in/web/room-category.routes"));
-const room_routes_2 = __importDefault(require("../JDiazDevHotels/configuration-hotel/room/infraestructure/in/web/room.routes"));
-const cash_routes_1 = __importDefault(require("../JDiazDevHotels/cash/infraestructure/in/web/cash.routes"));
-const housting_routes_1 = __importDefault(require("../JDiazDevHotels/housting/infraestructure/in/web/housting.routes"));
+const users_routes_1 = __importDefault(require("../src/managament/users/infraestructure/in/users.routes"));
+const product_routes_1 = __importDefault(require("../src/sales/products/infraestructure/in/web/product.routes"));
+const product_sale_routes_1 = __importDefault(require("../src/sales/product-sales/infraestructure/in/web/product-sale.routes"));
+const client_routes_1 = __importDefault(require("../src/clients/infraestructure/in/web/client.routes"));
+const roles_routes_1 = __importDefault(require("../src/managament/roles/infraestructure/in/roles.routes"));
+const hotel_routes_1 = __importDefault(require("../src/managament/hotels/infraestucture/in/web/hotel.routes"));
+const level_routes_1 = __importDefault(require("../src/configuration-hotel/levels/infraestructure/in/web/level.routes"));
+const room_routes_1 = __importDefault(require("../src/configuration-hotel/room-condition/infraestructure/in/web/room.routes"));
+const room_category_routes_1 = __importDefault(require("../src/configuration-hotel/room-categories/infraestructure/in/web/room-category.routes"));
+const room_routes_2 = __importDefault(require("../src/configuration-hotel/room/infraestructure/in/web/room.routes"));
+const cash_routes_1 = __importDefault(require("../src/cash/infraestructure/in/web/cash.routes"));
+const housting_routes_1 = __importDefault(require("../src/housting/infraestructure/in/web/housting.routes"));
 class Server {
     constructor() {
         this.paths = {
             //users
-            roles: '/jdev/roles',
-            users: '/jdev/users',
-            clients: '/jdev/clients',
+            roles: "/jdev/roles",
+            users: "/jdev/users",
+            clients: "/jdev/clients",
             //hotels
-            hotel: '/jdev/hotel',
-            levels: '/jdev/levels',
+            hotel: "/jdev/hotel",
+            levels: "/jdev/levels",
             //rooms
-            rooms: '/jdev/rooms',
-            roomCategories: '/jdev/room-categories',
-            roomCondition: '/jdev/room-condition',
+            rooms: "/jdev/rooms",
+            roomCategories: "/jdev/room-categories",
+            roomCondition: "/jdev/room-condition",
             //products
-            products: '/jdev/products',
-            productSales: '/jdev/product-sales',
-            cash: '/jdev/cash',
-            housting: '/jdev/housting',
+            products: "/jdev/products",
+            productSales: "/jdev/product-sales",
+            cash: "/jdev/cash",
+            housting: "/jdev/housting",
         };
         this.app = express_1.default();
-        this.port = process.env.PORT || '8080';
+        this.port = process.env.PORT || "8080";
         this.dbconnection();
         this.middlewares();
         this.security();
@@ -60,17 +60,20 @@ class Server {
     dbconnection() {
         return __awaiter(this, void 0, void 0, function* () {
             /* try {
-                await db.authenticate()
-                console.log('Database online')
-    
-            } catch (error) {
-                console.log(error)
-                throw new Error(error)
-            } */
-            connection_1.db.sync({ force: false }).then(() => {
-                console.log('Connection with database was done SUCCESSFULLY!!!');
-            }).catch(error => {
-                console.log('An ERROR trying to connect with database has happend', error);
+                    await db.authenticate()
+                    console.log('Database online')
+        
+                } catch (error) {
+                    console.log(error)
+                    throw new Error(error)
+                } */
+            connection_1.db
+                .sync({ force: false })
+                .then(() => {
+                console.log("Connection with database was done SUCCESSFULLY!!!");
+            })
+                .catch((error) => {
+                console.log("An ERROR trying to connect with database has happend", error);
             });
         });
     }
@@ -82,7 +85,7 @@ class Server {
         const limiter = express_rate_limit_1.default({
             windowMs: 60 * 60 * 1000,
             max: 200,
-            message: 'You can not make more of two calls'
+            message: "You can not make more of two calls",
         });
         //this.app.use(limiter) //to limit number of request
         this.app.use(cors_1.default({}));
@@ -108,7 +111,7 @@ class Server {
     }
     runServer() {
         this.app.listen(this.port, () => {
-            console.log('The server is running in PORT', this.port);
+            console.log("The server is running in PORT", this.port);
         });
     }
 }
