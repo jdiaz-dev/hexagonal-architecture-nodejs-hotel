@@ -5,9 +5,11 @@ import { check } from "express-validator";
 import { CommonMiddlwares } from "../../../../../shared/middlewares/common-middlewares";
 import { validateFields } from "../../../../../shared/middlewares/validate-fields";
 import { ProductController } from "./product.controller";
+import { QueriesMiddleware } from "../../../../../shared/middlewares/queries/queries.middleware";
 
 const coommonMiddlewares = Container.get(CommonMiddlwares);
 const productController = Container.get(ProductController);
+const queriesMiddleware = Container.get(QueriesMiddleware);
 
 const router = Router();
 
@@ -27,7 +29,11 @@ router.post(
 
 router.get(
   "/:hotelId",
-  [coommonMiddlewares.validateJWT, validateFields],
+  [
+    coommonMiddlewares.validateJWT,
+    queriesMiddleware.checkIfIdIsNumeric,
+    validateFields,
+  ],
   productController.getProducts
 );
 

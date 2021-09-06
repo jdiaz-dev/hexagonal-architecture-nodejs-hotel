@@ -1,20 +1,24 @@
-interface Idatabase {
-    databaseName: string
-    user: string
-    password: string,
-    host: string,
-    dialect: string
+interface IDatabase {
+  databaseName: string;
+  user: string;
+  password: string;
+  host: string;
+  dialect: string;
 }
 
-export interface Ibase {
-    databaseIds: {
-        busyConditionId: number
-        conditionFreeId: number
-    }
+export interface IBase {
+  databaseIds: {
+    busyConditionId: number;
+    conditionFreeId: number;
+  };
+  queries: {
+    limit: number;
+    offset: number;
+    orderBy: string;
+  };
 }
 
-export interface Ienvironment {
-    base: Ibase
-    database: Idatabase
+export interface IEnvironment {
+  base: IBase;
+  database: IDatabase;
 }
-

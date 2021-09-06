@@ -1,8 +1,8 @@
-import { Service } from "typedi";
-import { IQueries } from "../../../../../shared/interfaces/query.interface";
-import { DataProduct } from "../../../application/services/data-product";
-import { ProductDatabaseEntity } from "./product-database.entity";
-import { ProductRepository } from "./product.repository";
+import { Service } from 'typedi';
+import { IQueries } from '../../../../../shared/interfaces/query.interface';
+import { DataProduct } from '../../../application/services/data-product';
+import { ProductDatabaseEntity } from './product-database.entity';
+import { ProductRepository } from './product.repository';
 
 @Service()
 export class ProductORM implements ProductRepository {
@@ -19,19 +19,19 @@ export class ProductORM implements ProductRepository {
 
       return product;
     } catch (error) {
-      console.log("------------", error);
+      console.log('------------', error);
     }
   }
   async getProducts(hotelId: number, queries: IQueries): Promise<any> {
     try {
-      const products = await ProductDatabaseEntity.findAll({
+      const products = await ProductDatabaseEntity.findAndCountAll({
         where: { hotelId: hotelId, state: true },
         limit: queries.limit,
         offset: queries.offset,
       });
       return products;
     } catch (error) {
-      console.log("------------", error);
+      console.log('------------', error);
     }
   }
   async getProduct(productId: number): Promise<any> {
@@ -39,12 +39,12 @@ export class ProductORM implements ProductRepository {
       const product = await ProductDatabaseEntity.findByPk(productId);
       return product;
     } catch (error) {
-      console.log("------------", error);
+      console.log('------------', error);
     }
   }
   async updateProduct(
     productId: number,
-    dataProduct: DataProduct
+    dataProduct: DataProduct,
   ): Promise<any> {
     try {
       const product: any = await ProductDatabaseEntity.findByPk(productId);
@@ -57,7 +57,7 @@ export class ProductORM implements ProductRepository {
 
       return product;
     } catch (error) {
-      console.log("------------", error);
+      console.log('------------', error);
     }
   }
   async removeProduct(productId: number): Promise<any> {
@@ -68,7 +68,7 @@ export class ProductORM implements ProductRepository {
 
       return product;
     } catch (error) {
-      console.log("------------", error);
+      console.log('------------', error);
     }
   }
 }

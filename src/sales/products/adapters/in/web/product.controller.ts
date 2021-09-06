@@ -12,6 +12,7 @@ import { ProductCommand } from "../../../application/ports/in/product.command";
 import { RemoveProductRequest } from "../../../application/ports/in/remove-product.request";
 import { RemoveProductService } from "../../../application/services/remove-product.service";
 import { IQueries } from "../../../../../shared/interfaces/query.interface";
+import { SETTINGS } from "../../../../../../settings/settings";
 
 @Service()
 export class ProductController {
@@ -45,12 +46,16 @@ export class ProductController {
   getProducts = async (req: Request, res: Response) => {
     const { hotelId } = req.params;
     const {
-      limit = 0,
-      offset = 0,
-      orderby = "",
+      limit = SETTINGS.base.queries.limit,
+      offset = SETTINGS.base.queries.offset,
+      orderby = SETTINGS.base.queries.orderBy,
     } = req.query as unknown as IQueries;
 
-    const queries: IQueries = { limit, offset, orderby };
+    const queries: IQueries = {
+      limit: Number(limit),
+      offset: Number(offset),
+      orderby,
+    };
     const productCreated = await this.getProductsRequest.getTheProducts(
       parseInt(hotelId),
       queries
