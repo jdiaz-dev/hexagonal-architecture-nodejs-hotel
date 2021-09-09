@@ -1,3 +1,5 @@
+import { ClientDomainEntity } from '../../../../domain/clients';
+
 export interface GetClientModeledPort {
-    getClientModeled(clientId:number):Promise<any>
+  getClientModeled(clientId: number): Promise<ClientDomainEntity>;
 }
