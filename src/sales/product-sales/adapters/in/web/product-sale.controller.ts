@@ -15,56 +15,56 @@ import { UpdatePaymentProductSaledService } from '../../../application/services/
 
 @Service()
 export class ProductSaledController {
-    private createProductSaledRequest: CreateProductSaledRequest;
-    private updateAmountToProductSaledUseCase: UpdateAmountToProductSaledUseCase;
-    private finishPaymentProductSaledUseCase: FinishPaymentProductSaledUseCase;
+  private createProductSaledRequest: CreateProductSaledRequest;
+  private updateAmountToProductSaledUseCase: UpdateAmountToProductSaledUseCase;
+  private finishPaymentProductSaledUseCase: FinishPaymentProductSaledUseCase;
 
-    constructor(
-        createProductSaledService: CreateProductSaledService,
-        updateAmountToProductsSaledService: UpdateAmountToProductsSaledService,
-        updatePaymentProductSaledService: UpdatePaymentProductSaledService,
-    ) {
-        this.createProductSaledRequest = createProductSaledService;
-        this.updateAmountToProductSaledUseCase = updateAmountToProductsSaledService;
-        this.finishPaymentProductSaledUseCase = updatePaymentProductSaledService;
-    }
-    createProductsSaled = async (req: Request, res: Response) => {
-        const { cashId, houstingId, productId } = req.params;
-        const { amount, date, time, payed } = req.body;
+  constructor(
+    createProductSaledService: CreateProductSaledService,
+    updateAmountToProductsSaledService: UpdateAmountToProductsSaledService,
+    updatePaymentProductSaledService: UpdatePaymentProductSaledService,
+  ) {
+    this.createProductSaledRequest = createProductSaledService;
+    this.updateAmountToProductSaledUseCase = updateAmountToProductsSaledService;
+    this.finishPaymentProductSaledUseCase = updatePaymentProductSaledService;
+  }
+  createProductsSaled = async (req: Request, res: Response) => {
+    const { cashId, houstingId, productId } = req.params;
+    const { amount, date, time, payed } = req.body;
 
-        const dataProductSaled = new DataProductSaled(
-            parseInt(amount),
-            0, //total price
-            date,
-            time,
-            payed == 'true' || parseInt(payed) == 1 ? true : false,
-        );
+    const dataProductSaled = new DataProductSaled(
+      parseInt(amount),
+      0, //total price
+      date,
+      time,
+      parseInt(payed) === 1 ? true : false,
+    );
 
-        const productSaled = await this.createProductSaledRequest.createTheProductSale(
-            parseInt(cashId),
-            parseInt(houstingId),
-            parseInt(productId),
-            dataProductSaled,
-        );
-        res.json(productSaled);
-    };
-    updateAmountProductSaled = async (req: Request, res: Response) => {
-        const { productSaledId } = req.params;
-        const { amount, payed } = req.body;
+    const productSaled = await this.createProductSaledRequest.createTheProductSale(
+      parseInt(cashId),
+      parseInt(houstingId),
+      parseInt(productId),
+      dataProductSaled,
+    );
+    res.json(productSaled);
+  };
+  updateAmountProductSaled = async (req: Request, res: Response) => {
+    const { productSaledId } = req.params;
+    const { amount, payed } = req.body;
 
-        const productSaled = await this.updateAmountToProductSaledUseCase.updateTheAmountToProductSaled(
-            parseInt(productSaledId),
-            parseInt(amount),
-        );
-        res.json(productSaled);
-    };
-    updateProductSaledPayed = async (req: Request, res: Response) => {
-        const { productSaledId } = req.params;
+    const productSaled = await this.updateAmountToProductSaledUseCase.updateTheAmountToProductSaled(
+      parseInt(productSaledId),
+      parseInt(amount),
+    );
+    res.json(productSaled);
+  };
+  updateProductSaledPayed = async (req: Request, res: Response) => {
+    const { productSaledId } = req.params;
 
-        const productSaled = await this.finishPaymentProductSaledUseCase.finishPaymentProductSaled(
-            parseInt(productSaledId),
-        );
+    const productSaled = await this.finishPaymentProductSaledUseCase.finishPaymentProductSaled(
+      parseInt(productSaledId),
+    );
 
-        res.json(productSaled);
-    };
+    res.json(productSaled);
+  };
 }

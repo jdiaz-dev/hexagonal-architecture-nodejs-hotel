@@ -1,8 +1,8 @@
-import { Service } from "typedi";
-import { DataHousting } from "../../../application/services/data-housting";
-import { HoustingRepository } from "./housting.repository";
-import { HoustingDataBaseEntity } from "./housting-database-entity";
-import { ClientDatabaseEntity } from "../../../../clients/adapters/out/persistence/client-database-entity";
+import { Service } from 'typedi';
+import { DataHousting } from '../../../application/services/data-housting';
+import { HoustingRepository } from './housting.repository';
+import { HoustingDataBaseEntity } from './housting-database-entity';
+import { ClientDatabaseEntity } from '../../../../clients/adapters/out/persistence/client-database-entity';
 
 @Service()
 export class HoustingORM implements HoustingRepository {
@@ -10,7 +10,7 @@ export class HoustingORM implements HoustingRepository {
     cashId: number,
     clientId: number,
     roomId: number,
-    dataHousting: DataHousting
+    dataHousting: DataHousting,
   ): Promise<any> {
     try {
       const housting = new HoustingDataBaseEntity();
@@ -25,7 +25,7 @@ export class HoustingORM implements HoustingRepository {
       await housting.save();
       return housting;
     } catch (error) {
-      console.log("---------------", error);
+      console.log('---------------', error);
     }
   }
   async getHousting(houstingId: number): Promise<any> {
@@ -33,26 +33,27 @@ export class HoustingORM implements HoustingRepository {
       const housting = HoustingDataBaseEntity.findByPk(houstingId);
       return housting;
     } catch (error) {
-      console.log("---------------", error);
+      console.log('---------------', error);
     }
   }
   async getHoustingByRoom(roomId: number): Promise<any> {
     try {
       const housting = HoustingDataBaseEntity.findOne({
         where: { roomId: roomId, finished: false },
+        attributes: ['id', 'finished', 'entryDate', 'entryTime'],
         include: [
           {
             model: ClientDatabaseEntity,
-            as: "client",
+            as: 'client',
             attributes: {
-              exclude: ["createdAt", "updatedAt", "state", "hotelId"],
+              exclude: ['createdAt', 'updatedAt', 'state', 'hotelId'],
             },
           },
         ],
       });
       return housting;
     } catch (error) {
-      console.log("---------------", error);
+      console.log('---------------', error);
     }
   }
   async updateMoneyPaid(houstingId: number, newMoney: number): Promise<any> {
@@ -63,7 +64,7 @@ export class HoustingORM implements HoustingRepository {
 
       return housting;
     } catch (error) {
-      console.log("---------------", error);
+      console.log('---------------', error);
     }
   }
   async updateFinish(houstingId: number): Promise<any> {
@@ -74,7 +75,7 @@ export class HoustingORM implements HoustingRepository {
 
       return housting;
     } catch (error) {
-      console.log("---------------", error);
+      console.log('---------------', error);
     }
   }
 }
