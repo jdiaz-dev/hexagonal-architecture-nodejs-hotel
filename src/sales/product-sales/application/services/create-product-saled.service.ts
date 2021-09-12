@@ -1,30 +1,31 @@
-import { Service } from "typedi";
+import { Service } from 'typedi';
 
-import { CreateProductSaledRequest } from "../ports/in/create-product-saled.request";
-import { DataProductSaled } from "./product-saled-data";
-import { CreateProductSalePort } from "../ports/out/self-domain/create-product-saled";
-import { ProductSalePersistenceAdapter } from "../../adapters/out/persistence/product-sale-persistence.adapter";
-import { GetProductService } from "../../../products/application/services/get-product.service";
-import { GetProductModeledForProductSaleDomain } from "../ports/out/other-domain/get-product-modeled-for-product-sale-domain";
-import { ProductSaleDomainEntity } from "../../domain/products-saled";
+import { CreateProductSaledRequest } from '../ports/in/create-product-saled.request';
+import { DataProductSaled } from './product-saled-data';
+import { CreateProductSalePort } from '../ports/out/self-domain/create-product-saled';
+import { ProductSalePersistenceAdapter } from '../../adapters/out/persistence/product-sale-persistence.adapter';
+import { GetProductService } from '../../../products/application/services/get-product.service';
+import { GetProductForProductSaleDomainPort } from '../ports/out/other-domain/get-product-modeled-for-product-sale-domain';
+import { ProductSaleDomainEntity } from '../../domain/products-saled';
+import { ProductPersistenceAdapter } from './../../../products/adapters/out/persistence/product-persistence.adapter';
 
 @Service()
 export class CreateProductSaledService implements CreateProductSaledRequest {
   //other domain
-  private getProductModeledForProductSaleDomain: GetProductModeledForProductSaleDomain;
+  private getProductForProductSaleDomainPort: GetProductForProductSaleDomainPort;
 
   //self ports
   private createProductSalePort: CreateProductSalePort;
 
   constructor(
     //other domain
-    getProductService: GetProductService,
+    productPersistenceAdapter: ProductPersistenceAdapter,
 
     //self ports
-    productSalePersistenceAdapter: ProductSalePersistenceAdapter
+    productSalePersistenceAdapter: ProductSalePersistenceAdapter,
   ) {
     //other domain
-    this.getProductModeledForProductSaleDomain = getProductService;
+    this.getProductForProductSaleDomainPort = productPersistenceAdapter;
 
     //self ports
     this.createProductSalePort = productSalePersistenceAdapter;
@@ -33,26 +34,21 @@ export class CreateProductSaledService implements CreateProductSaledRequest {
     cashId: number,
     houstingId: number,
     productId: number,
-    productSaleData: DataProductSaled
+    productSaleData: DataProductSaled,
   ): Promise<any> {
     const product: ProductSaleDomainEntity =
-      await this.getProductModeledForProductSaleDomain.getProductModeledForProductSaleDomain(
-        productId
-      );
+      await this.getProductForProductSaleDomainPort.getProductForProductSaleDomain(productId);
 
     //bussines logic
-    const totalPrice: number = product.calculateTotalPrice(
-      productSaleData.amount
-    );
+    const totalPrice: number = product.calculateTotalPrice(productSaleData.amount);
     productSaleData.totalPrice = totalPrice;
 
-    const productSaledCreated =
-      await this.createProductSalePort.createProductSaled(
-        cashId,
-        houstingId,
-        productId,
-        productSaleData
-      );
+    const productSaledCreated = await this.createProductSalePort.createProductSaled(
+      cashId,
+      houstingId,
+      productId,
+      productSaleData,
+    );
     return productSaledCreated;
   }
 }

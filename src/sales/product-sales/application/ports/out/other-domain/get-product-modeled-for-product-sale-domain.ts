@@ -1,5 +1,5 @@
 import { ProductSaleDomainEntity } from '../../../../domain/products-saled';
 
-export interface GetProductModeledForProductSaleDomain {
-    getProductModeledForProductSaleDomain(productId:number):Promise<ProductSaleDomainEntity>
+export interface GetProductForProductSaleDomainPort {
+    getProductForProductSaleDomain(productId: number): Promise<ProductSaleDomainEntity>;
 }
