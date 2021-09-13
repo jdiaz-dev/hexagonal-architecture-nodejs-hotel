@@ -4,13 +4,15 @@ import { CreateProductPort } from '../../../application/ports/out/self-domain/cr
 import { ProductORM } from './product.orm';
 import { GetProductsPort } from '../../../application/ports/out/self-domain/get-products.port';
 import { GetProductModeledPort } from '../../../application/ports/out/self-domain/get-product-modeled.port';
-import { ProductDomianEntity } from '../../../domain/product';
+import { ProductDomain } from '../../../domain/product';
 import { UpdateProductPort } from '../../../application/ports/out/self-domain/update-product';
 import { RemoveProductPort } from '../../../application/ports/out/self-domain/remove-product.port';
 import { GetProductPort } from '../../../application/ports/out/self-domain/get-product.port';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
 import { GetProductForProductSaleDomainPort } from '../../../../product-sales/application/ports/out/other-domain/get-product-modeled-for-product-sale-domain';
 import { ProductSaleDomainEntity } from '../../../../product-sales/domain/products-saled';
+import { ProductMapper } from './product.mapper';
+import { ProductModel } from './product.model';
 
 @Service()
 export class ProductPersistenceAdapter
@@ -23,7 +25,7 @@ export class ProductPersistenceAdapter
     RemoveProductPort,
     GetProductForProductSaleDomainPort
 {
-  constructor(private productORM: ProductORM) {}
+  constructor(private productORM: ProductORM, private productMapper: ProductMapper) {}
 
   async createProduct(hotelId: number, dataProduct: DataProduct): Promise<any> {
     const product = await this.productORM.saveProduct(hotelId, dataProduct);
@@ -37,15 +39,13 @@ export class ProductPersistenceAdapter
     const product = await this.productORM.getProduct(productId);
     return product;
   }
-  async getProductModeled(productId: number): Promise<ProductDomianEntity> {
+  async getProductModeled(productId: number): Promise<ProductDomain> {
     const product = await this.productORM.getProduct(productId);
-    return new ProductDomianEntity(product.hotelId);
+    return new ProductDomain(product.hotelId);
   }
-
-  //I need to apply a mapper for this case
   async getProductForProductSaleDomain(productId: number): Promise<ProductSaleDomainEntity> {
-    const product = await this.getProduct(productId);
-    return new ProductSaleDomainEntity(product.price);
+    const product: ProductModel = await this.getProduct(productId);
+    return this.productMapper.mapToProductSaleDomain(product);
   }
   async updateProduct(productId: number, dataProduct: DataProduct): Promise<any> {
     const product = await this.productORM.updateProduct(productId, dataProduct);

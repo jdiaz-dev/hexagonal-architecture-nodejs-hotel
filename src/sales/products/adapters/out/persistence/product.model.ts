@@ -1,10 +1,10 @@
-import { Column, Table } from "sequelize-typescript";
-import { DataTypes, Model } from "sequelize";
-import { db as sequelize } from "../../../../../../db/connection";
-import { Hotel } from "../../../../../managament/hotels/adapters/out/persistence/hotel.model";
+import { Column, Table } from 'sequelize-typescript';
+import { DataTypes, Model } from 'sequelize';
+import { db as sequelize } from '../../../../../../db/connection';
+import { Hotel } from '../../../../../managament/hotels/adapters/out/persistence/hotel.model';
 
 @Table
-export class ProductDatabaseEntity extends Model {
+export class ProductModel extends Model {
   @Column
   code!: string;
 
@@ -26,7 +26,7 @@ export class ProductDatabaseEntity extends Model {
   @Column
   hotelId!: number;
 }
-ProductDatabaseEntity.init(
+ProductModel.init(
   {
     code: {
       type: DataTypes.STRING,
@@ -53,19 +53,19 @@ ProductDatabaseEntity.init(
   },
   {
     sequelize,
-    tableName: "products",
-  }
+    tableName: 'products',
+  },
 );
-Hotel.hasOne(ProductDatabaseEntity, {
+Hotel.hasOne(ProductModel, {
   foreignKey: {
-    name: "hotelId",
+    name: 'hotelId',
     allowNull: false,
   },
 });
-ProductDatabaseEntity.belongsTo(Hotel, {
-  as: "product",
+ProductModel.belongsTo(Hotel, {
+  as: 'product',
   foreignKey: {
-    name: "hotelId",
+    name: 'hotelId',
     allowNull: false,
   },
 });

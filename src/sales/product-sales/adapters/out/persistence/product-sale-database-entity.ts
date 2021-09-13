@@ -3,105 +3,105 @@ import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from '../../../../../../db/connection';
 import { DataTypes } from 'sequelize';
 import { HoustingDataBaseEntity } from '../../../../../housting/adapters/out/persistence/housting-database-entity';
-import { ProductDatabaseEntity } from '../../../../products/adapters/out/persistence/product-database.entity';
+import { ProductModel } from '../../../../products/adapters/out/persistence/product.model';
 import { CashDatabaseEntity } from '../../../../../cash/adapters/out/persistence/cash-database-entity';
 
 @Table
 export class ProductSalesDatabaseEntity extends Model {
-    @Column
-    amount!: number;
+  @Column
+  amount!: number;
 
-    @Column
-    totalPrice!: number;
+  @Column
+  totalPrice!: number;
 
-    @Column
-    date!: string;
+  @Column
+  date!: string;
 
-    @Column
-    time!: string;
+  @Column
+  time!: string;
 
-    @Column
-    houstingId!: number;
+  @Column
+  houstingId!: number;
 
-    @Column
-    cashId!: number;
+  @Column
+  cashId!: number;
 
-    @Column
-    productId!: number;
+  @Column
+  productId!: number;
 
-    @Column
-    payed!: boolean;
+  @Column
+  payed!: boolean;
 }
 ProductSalesDatabaseEntity.init(
-    {
-        amount: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        totalPrice: {
-            type: DataTypes.FLOAT,
-            allowNull: false,
-        },
-        date: {
-            type: DataTypes.DATEONLY,
-            allowNull: false,
-        },
-        time: {
-            type: DataTypes.TIME,
-            allowNull: false,
-        },
-        payed: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-        },
+  {
+    amount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
-    {
-        sequelize,
-        tableName: 'product_sales',
+    totalPrice: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
     },
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+    time: {
+      type: DataTypes.TIME,
+      allowNull: false,
+    },
+    payed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'product_sales',
+  },
 );
 
 //cash
 CashDatabaseEntity.hasOne(ProductSalesDatabaseEntity, {
-    foreignKey: {
-        name: 'cashId',
-        allowNull: false,
-    },
+  foreignKey: {
+    name: 'cashId',
+    allowNull: false,
+  },
 });
 ProductSalesDatabaseEntity.belongsTo(CashDatabaseEntity, {
-    as: 'cash',
-    foreignKey: {
-        name: 'cashId',
-        allowNull: false,
-    },
+  as: 'cash',
+  foreignKey: {
+    name: 'cashId',
+    allowNull: false,
+  },
 });
 
 //housting
 HoustingDataBaseEntity.hasOne(ProductSalesDatabaseEntity, {
-    foreignKey: {
-        name: 'houstingId',
-        allowNull: false,
-    },
+  foreignKey: {
+    name: 'houstingId',
+    allowNull: false,
+  },
 });
 ProductSalesDatabaseEntity.belongsTo(HoustingDataBaseEntity, {
-    as: 'housting',
-    foreignKey: {
-        name: 'houstingId',
-        allowNull: false,
-    },
+  as: 'housting',
+  foreignKey: {
+    name: 'houstingId',
+    allowNull: false,
+  },
 });
 
 //product
-ProductDatabaseEntity.hasOne(ProductSalesDatabaseEntity, {
-    foreignKey: {
-        name: 'productId',
-        allowNull: false,
-    },
+ProductModel.hasOne(ProductSalesDatabaseEntity, {
+  foreignKey: {
+    name: 'productId',
+    allowNull: false,
+  },
 });
-ProductSalesDatabaseEntity.belongsTo(ProductDatabaseEntity, {
-    as: 'product',
-    foreignKey: {
-        name: 'productId',
-        allowNull: false,
-    },
+ProductSalesDatabaseEntity.belongsTo(ProductModel, {
+  as: 'product',
+  foreignKey: {
+    name: 'productId',
+    allowNull: false,
+  },
 });

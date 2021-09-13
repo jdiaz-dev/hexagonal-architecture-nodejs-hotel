@@ -1,5 +1,5 @@
-import { ProductDomianEntity } from "../../../../domain/product";
+import { ProductDomain } from '../../../../domain/product';
 
 export interface GetProductModeledPort {
-    getProductModeled(productId:number):Promise<ProductDomianEntity>
+  getProductModeled(productId: number): Promise<ProductDomain>;
 }
