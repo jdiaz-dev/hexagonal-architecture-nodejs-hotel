@@ -1,10 +1,10 @@
-import { Model, DataTypes } from "sequelize";
-import { Column, Table } from "sequelize-typescript";
-import { db as sequelize } from "../../../../../../db/connection";
+import { Model, DataTypes } from 'sequelize';
+import { Column, Table } from 'sequelize-typescript';
+import { db as sequelize } from '../../../../../../db/connection';
 
-import { CashDatabaseEntity } from "../../../../../cash/adapters/out/persistence/cash-database-entity";
-import { HoustingDataBaseEntity } from "../../../../../housting/adapters/out/persistence/housting-database-entity";
-import { SaleReportDatabaseEntity } from "../../../../sale-reports/adapters/out/persistence/sale-report-database-entity";
+import { CashDatabaseEntity } from '../../../../../cash/adapters/out/persistence/cash-database-entity';
+import { HoustingDataBaseEntity } from '../../../../../housting/adapters/out/persistence/housting-database-entity';
+import { SaleReportDatabaseEntity } from '../../../../sale-reports/adapters/out/persistence/sale-report-database-entity';
 
 @Table
 export class HoustingReportDatabaseEntity extends Model {
@@ -18,7 +18,7 @@ export class HoustingReportDatabaseEntity extends Model {
   houstingId!: number;
 
   @Column
-  saleReportId!: number | null;
+  saleReportId!: number;
 }
 
 HoustingReportDatabaseEntity.init(
@@ -29,21 +29,21 @@ HoustingReportDatabaseEntity.init(
   },
   {
     sequelize,
-    tableName: "housting_reports",
-  }
+    tableName: 'housting_reports',
+  },
 );
 
 //cash
 CashDatabaseEntity.hasOne(HoustingReportDatabaseEntity, {
   foreignKey: {
-    name: "cashId",
+    name: 'cashId',
     allowNull: false,
   },
 });
 HoustingReportDatabaseEntity.belongsTo(CashDatabaseEntity, {
-  as: "cash",
+  as: 'cash',
   foreignKey: {
-    name: "cashId",
+    name: 'cashId',
     allowNull: false,
   },
 });
@@ -51,14 +51,14 @@ HoustingReportDatabaseEntity.belongsTo(CashDatabaseEntity, {
 //housting
 HoustingDataBaseEntity.hasOne(HoustingReportDatabaseEntity, {
   foreignKey: {
-    name: "houstingId",
+    name: 'houstingId',
     allowNull: false,
   },
 });
 HoustingReportDatabaseEntity.belongsTo(HoustingDataBaseEntity, {
-  as: "housting",
+  as: 'housting',
   foreignKey: {
-    name: "houstingId",
+    name: 'houstingId',
     allowNull: false,
   },
 });
@@ -66,14 +66,14 @@ HoustingReportDatabaseEntity.belongsTo(HoustingDataBaseEntity, {
 //sale report
 SaleReportDatabaseEntity.hasOne(HoustingReportDatabaseEntity, {
   foreignKey: {
-    name: "saleReportId",
+    name: 'saleReportId',
     allowNull: false,
   },
 });
 HoustingReportDatabaseEntity.belongsTo(SaleReportDatabaseEntity, {
-  as: "saleReport",
+  as: 'saleReport',
   foreignKey: {
-    name: "saleReportId",
+    name: 'saleReportId',
     allowNull: false,
   },
 });

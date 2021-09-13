@@ -1,6 +1,3 @@
 export class MoneyPaidHoustingDomainEntity {
-    constructor(
-        public id:number,
-        public moneyPaid:number
-    ){}
+  constructor(public id: number, public price: number) {}
 }

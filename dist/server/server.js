@@ -30,28 +30,31 @@ const room_category_routes_1 = __importDefault(require("../src/configuration-hot
 const room_routes_2 = __importDefault(require("../src/configuration-hotel/room/adapters/in/web/room.routes"));
 const cash_routes_1 = __importDefault(require("../src/cash/adapters/in/web/cash.routes"));
 const housting_routes_1 = __importDefault(require("../src/housting/adapters/in/web/housting.routes"));
+const housting_report_routes_1 = __importDefault(require("../src/reports/housting-reports/adapters/in/web/housting-report.routes"));
 class Server {
     constructor() {
         this.paths = {
             //users
-            roles: "/jdev/roles",
-            users: "/jdev/users",
-            clients: "/jdev/clients",
+            roles: '/jdev/roles',
+            users: '/jdev/users',
+            clients: '/jdev/clients',
             //hotels
-            hotel: "/jdev/hotel",
-            levels: "/jdev/levels",
+            hotel: '/jdev/hotel',
+            levels: '/jdev/levels',
             //rooms
-            rooms: "/jdev/rooms",
-            roomCategories: "/jdev/room-categories",
-            roomCondition: "/jdev/room-condition",
+            rooms: '/jdev/rooms',
+            roomCategories: '/jdev/room-categories',
+            roomCondition: '/jdev/room-condition',
             //products
-            products: "/jdev/products",
-            productSales: "/jdev/product-sales",
-            cash: "/jdev/cash",
-            housting: "/jdev/housting",
+            products: '/jdev/products',
+            productSales: '/jdev/product-sales',
+            cash: '/jdev/cash',
+            //housting
+            housting: '/jdev/housting',
+            houstingReport: '/jdev/housting-report',
         };
         this.app = express_1.default();
-        this.port = process.env.PORT || "8080";
+        this.port = process.env.PORT || '8080';
         this.dbconnection();
         this.middlewares();
         this.security();
@@ -70,10 +73,10 @@ class Server {
             connection_1.db
                 .sync({ force: false })
                 .then(() => {
-                console.log("Connection with database was done SUCCESSFULLY!!!");
+                console.log('Connection with database was done SUCCESSFULLY!!!');
             })
                 .catch((error) => {
-                console.log("An ERROR trying to connect with database has happend", error);
+                console.log('An ERROR trying to connect with database has happend', error);
             });
         });
     }
@@ -85,7 +88,7 @@ class Server {
         const limiter = express_rate_limit_1.default({
             windowMs: 60 * 60 * 1000,
             max: 200,
-            message: "You can not make more of two calls",
+            message: 'You can not make more of two calls',
         });
         //this.app.use(limiter) //to limit number of request
         this.app.use(cors_1.default({}));
@@ -107,11 +110,13 @@ class Server {
         this.app.use(this.paths.products, product_routes_1.default);
         this.app.use(this.paths.productSales, product_sale_routes_1.default);
         this.app.use(this.paths.cash, cash_routes_1.default);
+        //housting
         this.app.use(this.paths.housting, housting_routes_1.default);
+        this.app.use(this.paths.houstingReport, housting_report_routes_1.default);
     }
     runServer() {
         this.app.listen(this.port, () => {
-            console.log("The server is running in PORT", this.port);
+            console.log('The server is running in PORT', this.port);
         });
     }
 }

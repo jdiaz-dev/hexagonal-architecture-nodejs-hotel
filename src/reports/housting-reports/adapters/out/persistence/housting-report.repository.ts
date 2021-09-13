@@ -1,3 +1,4 @@
 export interface HoustingReportRepository {
-    createHoustingReport(houstingId:number, saleReportId:number|null, moneyTotal:number):Promise<any>
+  createHoustingReport(cashId: number, houstingId: number, saleReportId: number, moneyTotal: number): Promise<any>;
+  getHoustingReport(houstingId: number): Promise<any>;
 }

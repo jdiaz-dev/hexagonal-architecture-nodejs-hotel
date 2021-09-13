@@ -1,16 +1,12 @@
-import { Service, Container } from "typedi";
-import { CreateSaleReportUseCase } from "../ports/in/create-sale-report-use-case";
-import { GetProductSalesToSaleReportDomain } from "../ports/out/other-domains/get-product-sales-to-sale-report-domain";
-import { GetProductsSaledService } from "../../../../sales/product-sales/application/services/get-products-saled.service";
-import { MoneySpentDomainEntity } from "../../domain/money-spent";
-import { CreateSaleReportPort } from "../ports/out/self-domain/create-sale-report.port";
-import { SaleReportPersistenceAdapter } from "../../adapters/out/persistence/sale-report-persistence.adapter";
-import { GetSaleReportForHoustingReportDomain } from "../../../housting-reports/application/ports/out/other-domains/get-sale-report-for-housting-report-domain";
+import { Service, Container } from 'typedi';
+import { GetProductSalesToSaleReportDomain } from '../ports/out/other-domains/get-product-sales-to-sale-report-domain';
+import { GetProductsSaledService } from '../../../../sales/product-sales/application/services/get-products-saled.service';
+import { MoneySpentDomainEntity } from '../../domain/money-spent';
+import { CreateSaleReportPort } from '../ports/out/self-domain/create-sale-report.port';
+import { SaleReportPersistenceAdapter } from '../../adapters/out/persistence/sale-report-persistence.adapter';
 
 @Service()
-export class CreateSaleReportService
-  implements CreateSaleReportUseCase, GetSaleReportForHoustingReportDomain
-{
+export class CreateSaleReportService {
   //other domains
   private getProductSalesToSaleReportDomain: GetProductSalesToSaleReportDomain;
 
@@ -22,7 +18,7 @@ export class CreateSaleReportService
     getProductsSaledService: GetProductsSaledService,
 
     //self ports
-    saleReportPersistenceAdapter: SaleReportPersistenceAdapter
+    saleReportPersistenceAdapter: SaleReportPersistenceAdapter,
   ) {
     this.getProductSalesToSaleReportDomain = getProductsSaledService;
     this.createSaleReportPort = saleReportPersistenceAdapter;
@@ -31,23 +27,17 @@ export class CreateSaleReportService
   //method of use case
   async createTheSaleReport(houstingId: number): Promise<any> {
     const moneySetProducts: MoneySpentDomainEntity | any =
-      await this.getProductSalesToSaleReportDomain.getProductSalesToSaleReportDomain(
-        houstingId
-      );
+      await this.getProductSalesToSaleReportDomain.getProductSalesToSaleReportDomain(houstingId);
 
-    if (!moneySetProducts) return false;
+    // if (!moneySetProducts) return false;
 
-    const moneyTotalByHoustingInProducts =
-      moneySetProducts.calculateTotalMoneySpentInProducts();
+    const moneyTotalByHoustingInProducts = moneySetProducts.calculateTotalMoneySpentInProducts();
 
     const saleReportCreated = await this.createSaleReportPort.createSaleReport(
-      moneyTotalByHoustingInProducts
+      moneyTotalByHoustingInProducts,
+      houstingId,
     );
     return saleReportCreated;
-  }
-  async getSaleReportForHoustingReportDomain(houstingId: number): Promise<any> {
-    const saleReport = await this.createTheSaleReport(houstingId);
-    return saleReport;
   }
 }
 

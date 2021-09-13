@@ -1,3 +1,3 @@
 export interface CreateSaleReportPort {
-    createSaleReport(moneyTotal:number):Promise<any>
+  createSaleReport(moneyTotal: number, houstingId: number): Promise<any>;
 }
