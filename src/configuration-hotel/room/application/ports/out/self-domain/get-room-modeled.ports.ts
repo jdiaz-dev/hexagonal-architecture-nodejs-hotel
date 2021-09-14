@@ -1,5 +1,5 @@
-import { RoomWithLevelEntity } from "../../../../domain/room-with-level";
+import { RoomWithLevelEntity } from '../../../../domain/room-with-level';
 
-export interface GetRoomModelToDomainPort {
-    getRoomModeledToDomain(roomId:number):Promise<RoomWithLevelEntity>
+export interface GetRoomModelForSelfDomainPort {
+    getRoomForSelfDomain(roomId: number): Promise<RoomWithLevelEntity>;
 }

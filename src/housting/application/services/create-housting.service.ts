@@ -3,8 +3,7 @@ import { Service } from 'typedi';
 import { DataHousting } from './data-housting';
 import { CreateHoustingPort } from '../ports/out/self-domain/create-housting.port';
 import { HoustingPersistenceAdapter } from '../../adapters/out/persistence/housting-persistence.adapter';
-import { GetRoomForHoustingDomain } from '../ports/out/other-domain/get-room-for-housting-domain';
-import { GetRoomService } from '../../../configuration-hotel/room/application/services/get-room.service';
+import { GetRoomForHoustingDomainPort } from '../ports/out/other-domain/get-room-for-housting-domain.port';
 import { GetCashForHoustingDomain } from '../ports/out/other-domain/get-cash-for-housting-domain';
 import { GetCashService } from '../../../cash/application/services/get-cash.service';
 import { GetClientForHoustingDomain } from '../ports/out/other-domain/get-client-for-housting-domain';
@@ -12,32 +11,34 @@ import { GetClientService } from '../../../clients/application/services/get-clie
 import { SETTINGS } from '../../../../settings/settings';
 import { UpdateConditionFromHoustingDomain } from '../ports/out/other-domain/update-condition-of-room-from-housting-domain';
 import { UpdateConditionOfRoomService } from '../../../configuration-hotel/room/application/services/update-condition-of-room.service';
+import { RoomPersistenceAdapter } from '../../../configuration-hotel/room/adapters/out/persistence/room-persistence.adapter';
+import { HoustingPriceDomain } from './../../domain/housting-price';
 
 @Service()
 export class CreateHoustingService {
     //other domains
     private getCashForHoustingDomain: GetCashForHoustingDomain;
     private getClientForHoustingDomain: GetClientForHoustingDomain;
-    private getRoomForHoustingDomain: GetRoomForHoustingDomain;
     private updateConditionFromHoustingDomain: UpdateConditionFromHoustingDomain;
+    private getRoomForHoustingDomainPort: GetRoomForHoustingDomainPort;
 
     //self ports
     private createHoustingPort: CreateHoustingPort;
     constructor(
         //other domains
         getCashService: GetCashService,
-        getRoomService: GetRoomService,
         getClientService: GetClientService,
         updateConditionOfRoomService: UpdateConditionOfRoomService,
+        roomPersistenceAdapter: RoomPersistenceAdapter,
 
         //self ports
         houstingPersistenceAdapter: HoustingPersistenceAdapter,
     ) {
         //other domain
         this.getCashForHoustingDomain = getCashService;
-        this.getRoomForHoustingDomain = getRoomService;
         this.getClientForHoustingDomain = getClientService;
         this.updateConditionFromHoustingDomain = updateConditionOfRoomService;
+        this.getRoomForHoustingDomainPort = roomPersistenceAdapter;
 
         this.createHoustingPort = houstingPersistenceAdapter;
     }
@@ -48,27 +49,21 @@ export class CreateHoustingService {
         dataHousting: DataHousting,
     ): Promise<any> {
         const cash = await this.getCashForHoustingDomain.getCashForHoustingDomain(cashId);
-        if (!cash) {
-            return { message: 'There are not cash for this housting' };
-        }
+        if (!cash) return { message: 'There are not cash for this housting' };
 
         const client = await this.getClientForHoustingDomain.getClientForHoustingDomain(clientId);
-        if (!client) {
-            return { message: 'This client does not exits for this housting' };
-        }
+        if (!client) return { message: 'This client does not exits for this housting' };
 
         const busyCondtionId = SETTINGS.base.databaseIds.busyConditionId;
-        const room = await this.getRoomForHoustingDomain.getRoomForHoustingDomain(roomId);
-
         const conditionOfRoomUpdated = await this.updateConditionFromHoustingDomain.updateFromHoustingDomain(
             roomId,
             busyCondtionId,
         );
-        if (!conditionOfRoomUpdated) {
-            return { message: 'There are not room for this housting' };
-        }
+        if (!conditionOfRoomUpdated) return { message: 'There are not room for this housting' };
 
-        dataHousting.price = room.price - dataHousting.discountApplied;
+        const room: HoustingPriceDomain = await this.getRoomForHoustingDomainPort.getRoomForHoustingDomain(roomId);
+
+        dataHousting.price = room.calculateHoustingPrice(dataHousting.discountApplied);
         const housting = await this.createHoustingPort.createHousting(cashId, clientId, roomId, dataHousting);
         return housting;
     }
