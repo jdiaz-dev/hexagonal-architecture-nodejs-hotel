@@ -4,5 +4,6 @@ export class DataHousting {
         public moneyPaid: number,
         public entryDate: string,
         public entryTime: string,
-    ) { }
+        public discountApplied: number,
+    ) {}
 }
