@@ -13,7 +13,7 @@ import { RoomDomain } from '../../domain/room';
 import { LevelPersistenceAdpater } from '../../../levels/adapters/out/persistence/level-persistence.adapter';
 import { RoomCategoryPersistenceAdapter } from '../../../room-categories/adapters/out/persistence/room-category-persistence.adapter';
 
-//============== ARCHITECTURE: adapters with mappers implemented for this service ===================
+//======== ARCHITECTURE: adapters with mappers implemented for this CreateAndUpdateRoomService ==========
 @Service()
 export class CreateAndUpdateRoomService implements CreateNewRoomRequest, UpdateTheRoomRequest {
     //other domains
