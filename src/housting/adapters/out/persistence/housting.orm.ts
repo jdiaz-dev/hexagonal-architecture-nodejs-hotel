@@ -19,6 +19,7 @@ export class HoustingORM implements HoustingRepository {
             housting.moneyPaid = dataHousting.moneyPaid;
             housting.entryDate = dataHousting.entryDate;
             housting.entryTime = dataHousting.entryTime;
+            housting.discountApplied = dataHousting.discountApplied;
             housting.cashId = cashId;
             housting.clientId = clientId;
             housting.roomId = roomId;

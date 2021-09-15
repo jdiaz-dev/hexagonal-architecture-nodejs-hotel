@@ -19,6 +19,8 @@ router.post(
         coommonMiddlewares.validateJWT,
         check('moneyPaid', 'moneyPaid is required').not().isEmpty(),
         check('entryDate', 'entryDate is required').not().isEmpty(),
+        check('entryTime', 'entryTime is required').not().isEmpty(),
+        check('discountApplied', 'discountApplied is required').not().isEmpty(),
         validateFields,
     ],
     houstingController.createHousting,
