@@ -1,60 +1,52 @@
-import { Service } from "typedi";
+import { Service } from 'typedi';
 
-import { GetRoomsRequest } from "../ports/in/get-rooms.request";
-import { GetRoomsPort } from "../ports/out/self-domain/get-rooms.port";
-import { RoomPersistenceAdapter } from "../../adapters/out/persistence/room-persistence.adapter";
-import { RoomCommand } from "../ports/in/room.command";
+import { GetRoomsRequest } from '../ports/in/get-rooms.request';
+import { GetRoomsPort } from '../ports/out/self-domain/get-rooms.port';
+import { RoomPersistenceAdapter } from '../../adapters/out/persistence/room-persistence.adapter';
+import { RoomCommand } from '../ports/in/room.command';
 
-import { GetLevelForRoomDomain } from "../ports/out/other-domain/get-level-for-room-domain";
-import { GetRoomLevelService } from "../../../levels/application/services/get-room-level.service";
-import { GetRoomCategoryForRoomDomain } from "../ports/out/other-domain/get-room-category-for-room-domain";
-import { GetRoomCategoryService } from "../../../room-categories/application/services/get-room-category.service";
+import { GetLevelForRoomDomainPort } from '../ports/out/other-domain/get-level-for-room-domain.port';
+import { GetRoomCategoryForRoomDomainPort } from '../ports/out/other-domain/get-room-category-for-room-domain.port';
+import { RoomDomain } from '../../domain/room';
+import { LevelPersistenceAdpater } from '../../../levels/adapters/out/persistence/level-persistence.adapter';
+import { RoomCategoryPersistenceAdapter } from '../../../room-categories/adapters/out/persistence/room-category-persistence.adapter';
 
 @Service()
 export class GetRoomsService implements GetRoomsRequest {
-  //other domains
-  private getLevelForRoomDomain: GetLevelForRoomDomain;
-  private getRoomCategoryForRoomDomain: GetRoomCategoryForRoomDomain;
-
-  //self domain ports
-  private getRoomsPort: GetRoomsPort;
-
-  constructor(
     //other domains
-    getRoomLevelService: GetRoomLevelService,
-    getRoomCategoryService: GetRoomCategoryService,
+    private getLevelForRoomDomainPort: GetLevelForRoomDomainPort;
+    private getRoomCategoryForRoomDomainPort: GetRoomCategoryForRoomDomainPort;
 
     //self domain ports
-    roomPersistenceAdapter: RoomPersistenceAdapter
-  ) {
-    //other domains
-    this.getLevelForRoomDomain = getRoomLevelService;
-    this.getRoomCategoryForRoomDomain = getRoomCategoryService;
+    private getRoomsPort: GetRoomsPort;
 
-    //self domain ports
-    this.getRoomsPort = roomPersistenceAdapter;
-  }
-  async getRoomsByLevel(
-    levelId: number,
-    roomConditionId: number,
-    command: RoomCommand
-  ): Promise<any> {
-    const roomDomain = await this.getLevelForRoomDomain.getLevelForRoomDomain(
-      levelId
-    );
+    constructor(
+        //other domains
+        levelPersistenceAdpater: LevelPersistenceAdpater,
+        roomCategoryPersistenceAdapter: RoomCategoryPersistenceAdapter,
 
-    if (!roomDomain.checkIfRoomLevelBelognsToHotel(command.getHotelId)) {
-      return { message: "This level does not belongs to this hotel" };
+        //self domain ports
+        roomPersistenceAdapter: RoomPersistenceAdapter,
+    ) {
+        //other domains
+        this.getLevelForRoomDomainPort = levelPersistenceAdpater;
+        this.getRoomCategoryForRoomDomainPort = roomCategoryPersistenceAdapter;
+
+        //self domain ports
+        this.getRoomsPort = roomPersistenceAdapter;
     }
+    async getRoomsByLevel(levelId: number, roomConditionId: number, command: RoomCommand): Promise<any> {
+        const roomDomain: RoomDomain = await this.getLevelForRoomDomainPort.getLevelForRoomDomain(levelId);
 
-    const rooms = await this.getRoomsPort.getRoomsByLevel(
-      levelId,
-      roomConditionId
-    );
-    return rooms;
-  }
-  async getAllRooms(hotelId: number): Promise<any> {
-    const rooms = await this.getRoomsPort.getAllRooms(hotelId);
-    return rooms;
-  }
+        if (!roomDomain.checkIfRoomLevelBelognsToHotel(command.getHotelId)) {
+            return { message: 'This level does not belongs to this hotel' };
+        }
+
+        const rooms = await this.getRoomsPort.getRoomsByLevel(levelId, roomConditionId);
+        return rooms;
+    }
+    async getAllRooms(hotelId: number): Promise<any> {
+        const rooms = await this.getRoomsPort.getAllRooms(hotelId);
+        return rooms;
+    }
 }

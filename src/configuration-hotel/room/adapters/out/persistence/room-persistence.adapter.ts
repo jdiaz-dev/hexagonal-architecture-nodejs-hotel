@@ -20,11 +20,11 @@ export class RoomPersistenceAdapter
     implements
         CreateRoomPort,
         UpdateRoomPort,
-        GetRoomModelForSelfDomainPort,
         GetRoomsPort,
         GetRoomPort,
         UpdateConditionOfRoomPort,
         RemoveRoomPort,
+        GetRoomModelForSelfDomainPort,
         GetRoomForHoustingDomainPort
 {
     private roomRepository: RoomRepository;

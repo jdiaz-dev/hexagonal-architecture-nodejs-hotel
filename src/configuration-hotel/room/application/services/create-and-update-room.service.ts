@@ -1,93 +1,80 @@
-import { Service } from "typedi";
+import { Service } from 'typedi';
 
-import { CreateNewRoomRequest } from "../ports/in/create-new-room.request";
-import { RoomCommand } from "../ports/in/room.command";
-import { CreateRoomPort } from "../ports/out/self-domain/create-room.port";
-import { RoomPersistenceAdapter } from "../../adapters/out/persistence/room-persistence.adapter";
-import { UpdateTheRoomRequest } from "../ports/in/update-the-room-request";
-import { UpdateRoomPort } from "../ports/out/self-domain/update-room.port";
-import { RoomData } from "./room-data";
-import { GetLevelForRoomDomain } from "../ports/out/other-domain/get-level-for-room-domain";
-import { GetRoomLevelService } from "../../../levels/application/services/get-room-level.service";
-import { GetRoomCategoryForRoomDomain } from "../ports/out/other-domain/get-room-category-for-room-domain";
-import { GetRoomCategoryService } from "../../../room-categories/application/services/get-room-category.service";
-import { GetRoomConditionService } from "../../../room-condition/application/services/get-room-condition.service";
+import { CreateNewRoomRequest } from '../ports/in/create-new-room.request';
+import { RoomCommand } from '../ports/in/room.command';
+import { CreateRoomPort } from '../ports/out/self-domain/create-room.port';
+import { RoomPersistenceAdapter } from '../../adapters/out/persistence/room-persistence.adapter';
+import { UpdateTheRoomRequest } from '../ports/in/update-the-room-request';
+import { UpdateRoomPort } from '../ports/out/self-domain/update-room.port';
+import { RoomData } from './room-data';
+import { GetLevelForRoomDomainPort } from '../ports/out/other-domain/get-level-for-room-domain.port';
+import { GetRoomCategoryForRoomDomainPort } from '../ports/out/other-domain/get-room-category-for-room-domain.port';
+import { RoomDomain } from '../../domain/room';
+import { LevelPersistenceAdpater } from '../../../levels/adapters/out/persistence/level-persistence.adapter';
+import { RoomCategoryPersistenceAdapter } from '../../../room-categories/adapters/out/persistence/room-category-persistence.adapter';
 
+//============== ARCHITECTURE: adapters with mappers implemented for this service ===================
 @Service()
-export class CreateAndUpdateRoomService
-  implements CreateNewRoomRequest, UpdateTheRoomRequest
-{
-  //other domains
-  private getLevelForRoomDomain: GetLevelForRoomDomain;
-  private getRoomCategoryForRoomDomain: GetRoomCategoryForRoomDomain;
-
-  //self domain ports
-  private createRoomPort: CreateRoomPort;
-  private updateRoomPort: UpdateRoomPort;
-
-  constructor(
+export class CreateAndUpdateRoomService implements CreateNewRoomRequest, UpdateTheRoomRequest {
     //other domains
-    getRoomLevelService: GetRoomLevelService,
-    getRoomCategoryService: GetRoomCategoryService,
-    getRoomConditionService: GetRoomConditionService,
-
-    //self domain adater
-    roomPersistenceAdapter: RoomPersistenceAdapter
-  ) {
-    //other domains
-    this.getLevelForRoomDomain = getRoomLevelService;
-    this.getRoomCategoryForRoomDomain = getRoomCategoryService;
+    private getLevelForRoomDomainPort: GetLevelForRoomDomainPort;
+    private getRoomCategoryForRoomDomainPort: GetRoomCategoryForRoomDomainPort;
 
     //self domain ports
-    this.createRoomPort = roomPersistenceAdapter;
-    this.updateRoomPort = roomPersistenceAdapter;
-  }
+    private createRoomPort: CreateRoomPort;
+    private updateRoomPort: UpdateRoomPort;
 
-  async createNewRoom(command: RoomCommand, roomData: RoomData): Promise<any> {
-    const newRoom = await this.saveDataRoom(command, roomData, "create");
-    return newRoom;
-  }
-  async updateTheRoom(command: RoomCommand, roomData: RoomData): Promise<any> {
-    const roomUpdated = await this.saveDataRoom(command, roomData, "update");
-    return roomUpdated;
-  }
-  async saveDataRoom(
-    command: RoomCommand,
-    roomData: RoomData,
-    action: string
-  ): Promise<any> {
-    //obtaining level with RoomDomainEntity
-    const roomDomain1 = await this.getLevelForRoomDomain.getLevelForRoomDomain(
-      roomData.getLevelId
-    );
-    const roomDomain2 =
-      await this.getRoomCategoryForRoomDomain.getRoomCategoryForRoomDomain(
-        roomData.getCategoryId
-      );
+    constructor(
+        //other domains
+        levelPersistenceAdpater: LevelPersistenceAdpater,
+        roomCategoryPersistenceAdapter: RoomCategoryPersistenceAdapter,
 
-    if (!roomDomain1.checkIfRoomLevelBelognsToHotel(command.getHotelId)) {
-      return { message: "This level does not belongs to this hotel " };
+        //self domain adater
+        roomPersistenceAdapter: RoomPersistenceAdapter,
+    ) {
+        //other domains
+        this.getLevelForRoomDomainPort = levelPersistenceAdpater;
+        this.getRoomCategoryForRoomDomainPort = roomCategoryPersistenceAdapter;
+
+        //self domain ports
+        this.createRoomPort = roomPersistenceAdapter;
+        this.updateRoomPort = roomPersistenceAdapter;
     }
 
-    if (!roomDomain2.checkIfRoomCategoryBelongsToHotel(command.getHotelId)) {
-      return { message: "This category does not belongs to this hotel " };
+    async createNewRoom(command: RoomCommand, roomData: RoomData): Promise<any> {
+        const newRoom = await this.saveDataRoom(command, roomData, 'create');
+        return newRoom;
     }
-
-    let room;
-    if (action === "create") {
-      const newRoom = await this.createRoomPort.createRoom(
-        roomData,
-        command.getHotelId
-      );
-      room = newRoom;
-    } else if (action === "update") {
-      const roomUpdated = await this.updateRoomPort.updateRoom(
-        roomData,
-        roomData.getRoomId
-      );
-      room = roomUpdated;
+    async updateTheRoom(command: RoomCommand, roomData: RoomData): Promise<any> {
+        const roomUpdated = await this.saveDataRoom(command, roomData, 'update');
+        return roomUpdated;
     }
+    async saveDataRoom(command: RoomCommand, roomData: RoomData, action: string): Promise<any> {
+        //obtaining level with RoomDomainEntity
+        const roomDomain1: RoomDomain = await this.getLevelForRoomDomainPort.getLevelForRoomDomain(
+            roomData.getLevelId,
+        );
+        const roomDomain2: RoomDomain = await this.getRoomCategoryForRoomDomainPort.getRoomCategoryForRoomDomain(
+            roomData.getCategoryId,
+        );
 
-    return room;
-  }
+        if (!roomDomain1.checkIfRoomLevelBelognsToHotel(command.getHotelId)) {
+            return { message: 'This level does not belongs to this hotel ' };
+        }
+
+        if (!roomDomain2.checkIfRoomCategoryBelongsToHotel(command.getHotelId)) {
+            return { message: 'This category does not belongs to this hotel ' };
+        }
+
+        let room;
+        if (action === 'create') {
+            const newRoom = await this.createRoomPort.createRoom(roomData, command.getHotelId);
+            room = newRoom;
+        } else if (action === 'update') {
+            const roomUpdated = await this.updateRoomPort.updateRoom(roomData, roomData.getRoomId);
+            room = roomUpdated;
+        }
+
+        return room;
+    }
 }
