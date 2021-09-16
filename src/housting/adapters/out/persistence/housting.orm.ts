@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { DataHousting } from '../../../application/services/data-housting';
 import { HoustingRepository } from './housting.repository';
-import { HoustingDataBaseEntity } from './housting-database-entity';
+import { HoustingModel } from './housting.model';
 import { ClientDatabaseEntity } from '../../../../clients/adapters/out/persistence/client-database-entity';
 import { Room } from '../../../../configuration-hotel/room/adapters/out/persistence/room.model';
 
@@ -14,7 +14,7 @@ export class HoustingORM implements HoustingRepository {
         dataHousting: DataHousting,
     ): Promise<any> {
         try {
-            const housting = new HoustingDataBaseEntity();
+            const housting = new HoustingModel();
             housting.price = dataHousting.price;
             housting.moneyPaid = dataHousting.moneyPaid;
             housting.entryDate = dataHousting.entryDate;
@@ -32,7 +32,7 @@ export class HoustingORM implements HoustingRepository {
     }
     async getHousting(houstingId: number): Promise<any> {
         try {
-            const housting = HoustingDataBaseEntity.findByPk(houstingId);
+            const housting = HoustingModel.findByPk(houstingId);
             return housting;
         } catch (error) {
             console.log('---------------', error);
@@ -40,7 +40,7 @@ export class HoustingORM implements HoustingRepository {
     }
     async getHoustingByRoom(roomId: number): Promise<any> {
         try {
-            const housting = HoustingDataBaseEntity.findOne({
+            const housting = HoustingModel.findOne({
                 where: { roomId: roomId, finished: false },
                 attributes: ['id', 'finished', 'entryDate', 'entryTime'],
                 include: [
@@ -60,7 +60,7 @@ export class HoustingORM implements HoustingRepository {
     }
     async updateMoneyPaid(houstingId: number, newMoney: number): Promise<any> {
         try {
-            const housting: any = await HoustingDataBaseEntity.findByPk(houstingId);
+            const housting: any = await HoustingModel.findByPk(houstingId);
             housting.moneyPaid = newMoney;
             await housting.save();
 
@@ -71,7 +71,7 @@ export class HoustingORM implements HoustingRepository {
     }
     async updateFinish(houstingId: number): Promise<any> {
         try {
-            const housting: any = await HoustingDataBaseEntity.findByPk(houstingId);
+            const housting: any = await HoustingModel.findByPk(houstingId);
             housting.finished = true;
             await housting.save();
 

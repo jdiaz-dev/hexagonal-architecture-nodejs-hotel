@@ -1,12 +1,12 @@
 import { DataTypes, Model } from 'sequelize';
 import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from '../../../../../db/connection';
-import { CashDatabaseEntity } from '../../../../cash/adapters/out/persistence/cash-database-entity';
+import { CashDatabaseModel } from '../../../../cash/adapters/out/persistence/cash-database.model';
 import { ClientDatabaseEntity } from '../../../../clients/adapters/out/persistence/client-database-entity';
 import { Room } from '../../../../configuration-hotel/room/adapters/out/persistence/room.model';
 
 @Table
-export class HoustingDataBaseEntity extends Model {
+export class HoustingModel extends Model {
     @Column
     price!: number;
 
@@ -46,7 +46,7 @@ export class HoustingDataBaseEntity extends Model {
     @Column
     roomId!: number;
 }
-HoustingDataBaseEntity.init(
+HoustingModel.init(
     {
         price: {
             type: DataTypes.INTEGER,
@@ -93,13 +93,13 @@ HoustingDataBaseEntity.init(
 );
 
 //client
-ClientDatabaseEntity.hasOne(HoustingDataBaseEntity, {
+ClientDatabaseEntity.hasOne(HoustingModel, {
     foreignKey: {
         name: 'clientId',
         allowNull: false,
     },
 });
-HoustingDataBaseEntity.belongsTo(ClientDatabaseEntity, {
+HoustingModel.belongsTo(ClientDatabaseEntity, {
     as: 'client',
     foreignKey: {
         name: 'clientId',
@@ -108,13 +108,13 @@ HoustingDataBaseEntity.belongsTo(ClientDatabaseEntity, {
 });
 
 //room
-Room.hasOne(HoustingDataBaseEntity, {
+Room.hasOne(HoustingModel, {
     foreignKey: {
         name: 'roomId',
         allowNull: false,
     },
 });
-HoustingDataBaseEntity.belongsTo(Room, {
+HoustingModel.belongsTo(Room, {
     as: 'room',
     foreignKey: {
         name: 'roomId',
@@ -123,13 +123,13 @@ HoustingDataBaseEntity.belongsTo(Room, {
 });
 
 //cash
-CashDatabaseEntity.hasOne(HoustingDataBaseEntity, {
+CashDatabaseModel.hasOne(HoustingModel, {
     foreignKey: {
         name: 'cashId',
         allowNull: false,
     },
 });
-HoustingDataBaseEntity.belongsTo(CashDatabaseEntity, {
+HoustingModel.belongsTo(CashDatabaseModel, {
     as: 'cash',
     foreignKey: {
         name: 'cashId',
