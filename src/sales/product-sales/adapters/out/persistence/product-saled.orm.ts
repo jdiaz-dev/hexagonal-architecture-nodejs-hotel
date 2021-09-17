@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import { DataProductSaled } from '../../../application/services/product-saled-data';
 import { ProductSaleRepository } from './product-sale.repository';
 import { ProductSalesDatabaseEntity } from './product-sale-database-entity';
+import { ProductModel } from './../../../../products/adapters/out/persistence/product.model';
 
 @Service()
 export class ProductSaledORM implements ProductSaleRepository {
@@ -42,6 +43,13 @@ export class ProductSaledORM implements ProductSaleRepository {
             const productSaled: any = await ProductSalesDatabaseEntity.findAll({
                 where: { houstingId: houstingId },
                 attributes: ['id', 'amount', 'totalPrice', 'date', 'time', 'payed'],
+                include: [
+                    {
+                        model: ProductModel,
+                        as: 'product',
+                        attributes: ['id', 'name', 'price'],
+                    },
+                ],
             });
             return productSaled;
         } catch (error) {

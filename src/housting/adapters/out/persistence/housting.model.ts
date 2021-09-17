@@ -14,6 +14,9 @@ export class HoustingModel extends Model {
     moneyPaid!: number;
 
     @Column
+    discountApplied!: number;
+
+    @Column
     entryDate!: string;
 
     @Column
@@ -27,9 +30,6 @@ export class HoustingModel extends Model {
 
     @Column
     houstingTime!: number;
-
-    @Column
-    discountApplied!: number;
 
     @Column
     lateApplied!: boolean;
@@ -56,6 +56,10 @@ HoustingModel.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        discountApplied: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         entryDate: {
             type: DataTypes.DATEONLY,
             allowNull: false,
@@ -72,10 +76,6 @@ HoustingModel.init(
         },
         houstingTime: {
             type: DataTypes.TIME,
-        },
-        discountApplied: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
         },
         lateApplied: {
             type: DataTypes.BOOLEAN,

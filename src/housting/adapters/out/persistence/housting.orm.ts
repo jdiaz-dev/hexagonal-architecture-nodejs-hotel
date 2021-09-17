@@ -17,9 +17,9 @@ export class HoustingORM implements HoustingRepository {
             const housting = new HoustingModel();
             housting.price = dataHousting.price;
             housting.moneyPaid = dataHousting.moneyPaid;
+            housting.discountApplied = dataHousting.discountApplied;
             housting.entryDate = dataHousting.entryDate;
             housting.entryTime = dataHousting.entryTime;
-            housting.discountApplied = dataHousting.discountApplied;
             housting.cashId = cashId;
             housting.clientId = clientId;
             housting.roomId = roomId;
@@ -42,7 +42,7 @@ export class HoustingORM implements HoustingRepository {
         try {
             const housting = HoustingModel.findOne({
                 where: { roomId: roomId, finished: false },
-                attributes: ['id', 'finished', 'entryDate', 'entryTime'],
+                attributes: ['id', 'price', 'moneyPaid', 'discountApplied', 'finished', 'entryDate', 'entryTime'],
                 include: [
                     {
                         model: ClientDatabaseEntity,
