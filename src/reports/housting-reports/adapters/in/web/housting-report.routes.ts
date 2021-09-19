@@ -13,7 +13,7 @@ const router = Router();
 
 router.get(
     '/:hotelId/:cashId/:houstingId',
-    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToClientApp, validateFields],
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     houstingReportController.getHoustingReport,
 );
 

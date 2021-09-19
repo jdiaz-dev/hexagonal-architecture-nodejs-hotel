@@ -11,7 +11,7 @@ import { DataProductSaled } from '../../../application/services/product-saled-da
 import { UpdateAmountToProductsSaledService } from '../../../application/services/update-amount-to-products-saled.service';
 import { UpdateAmountToProductSaledUseCase } from '../../../application/ports/in/update-amount-to-product-saled.request';
 import { FinishPaymentProductSaledUseCase } from '../../../application/ports/in/finish-payment-product-saled-use-case';
-import { UpdatePaymentProductSaledService } from '../../../application/services/update-payment-product-saled.service';
+import { CompleteProductSaledPaymentService } from '../../../application/services/update-payment-product-saled.service';
 import { GetProductsSaledRequest } from '../../../application/ports/in/get-products-saled.request';
 import { GetProductsSaledService } from '../../../application/services/get-products-saled.service';
 
@@ -25,12 +25,12 @@ export class ProductSaledController {
     constructor(
         createProductSaledService: CreateProductSaledService,
         updateAmountToProductsSaledService: UpdateAmountToProductsSaledService,
-        updatePaymentProductSaledService: UpdatePaymentProductSaledService,
+        completeProductSaledPaymentService: CompleteProductSaledPaymentService,
         getProductsSaledService: GetProductsSaledService,
     ) {
         this.createProductSaledRequest = createProductSaledService;
         this.updateAmountToProductSaledUseCase = updateAmountToProductsSaledService;
-        this.finishPaymentProductSaledUseCase = updatePaymentProductSaledService;
+        this.finishPaymentProductSaledUseCase = completeProductSaledPaymentService;
         this.getProductsSaledRequest = getProductsSaledService;
     }
     createProductsSaled = async (req: Request, res: Response) => {
@@ -58,7 +58,7 @@ export class ProductSaledController {
         const productsSaled = await this.getProductsSaledRequest.getTheProductsSaled(parseInt(houstingId));
         res.json(productsSaled);
     };
-    updateAmountProductSaled = async (req: Request, res: Response) => {
+    /* updateAmountProductSaled = async (req: Request, res: Response) => {
         const { productSaledId } = req.params;
         const { amount, payed } = req.body;
 
@@ -67,8 +67,8 @@ export class ProductSaledController {
             parseInt(amount),
         );
         res.json(productSaled);
-    };
-    updateProductSaledPayed = async (req: Request, res: Response) => {
+    }; */
+    completeProductSaledPayment = async (req: Request, res: Response) => {
         const { productSaledId } = req.params;
 
         const productSaled = await this.finishPaymentProductSaledUseCase.finishPaymentProductSaled(

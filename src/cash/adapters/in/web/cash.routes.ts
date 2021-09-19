@@ -15,7 +15,7 @@ router.post(
     '/:hotelId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('openingMoney', 'opening money is required').not().isEmpty(),
         check('date', 'date is required').not().isEmpty(),
         check('time', 'time is required').not().isEmpty(),
@@ -26,7 +26,7 @@ router.post(
 
 router.get(
     '/:hotelId',
-    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToClientApp, validateFields],
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     cashController.getCashNotClosed,
 );
 

@@ -1,16 +1,16 @@
 import { Service } from 'typedi';
 import { GetProductsSaledPort } from '../ports/out/self-domain/get-products-saled.port';
-import { ProductSalePersistenceAdapter } from '../../adapters/out/persistence/product-sale-persistence.adapter';
+import { ProductSaledPersistenceAdapter } from '../../adapters/out/persistence/product-saled-persistence.adapter';
 import { GetProductSalesToSaleReportDomain } from '../../../../reports/sale-reports/application/ports/out/other-domains/get-product-sales-to-sale-report-domain';
 import { MoneySpentDomainEntity } from '../../../../reports/sale-reports/domain/money-spent';
-import { GetProductsSaledRequest } from './../ports/in/get-products-saled.request';
+import { GetProductsSaledRequest } from '../ports/in/get-products-saled.request';
 
 @Service()
 export class GetProductsSaledService implements GetProductsSaledRequest, GetProductSalesToSaleReportDomain {
     private getProductsSaledPort: GetProductsSaledPort;
 
-    constructor(productSalePersistenceAdapter: ProductSalePersistenceAdapter) {
-        this.getProductsSaledPort = productSalePersistenceAdapter;
+    constructor(productSaledPersistenceAdapter: ProductSaledPersistenceAdapter) {
+        this.getProductsSaledPort = productSaledPersistenceAdapter;
     }
     async getTheProductsSaled(houstingId: number) {
         return await this.getProductsSaledPort.getProductsSaled(houstingId);

@@ -17,7 +17,7 @@ router.post(
     '/:hotelId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('code', 'code is required').not().isEmpty(),
         check('name', 'name is required').not().isEmpty(),
         check('brand', 'brand is required').not().isEmpty(),
@@ -32,7 +32,7 @@ router.get(
     '/:hotelId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         queriesMiddleware.checkIfIdIsNumeric,
         validateFields,
     ],
@@ -43,7 +43,7 @@ router.put(
     '/:hotelId/:productId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('code', 'code is required').not().isEmpty(),
         check('name', 'name is required').not().isEmpty(),
         check('brand', 'brand is required').not().isEmpty(),
@@ -56,7 +56,7 @@ router.put(
 
 router.delete(
     '/:hotelId/:productId',
-    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToClientApp, validateFields],
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     productController.removeProduct,
 );
 

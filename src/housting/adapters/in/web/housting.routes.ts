@@ -17,7 +17,7 @@ router.post(
     '/:hotelId/:cashId/:clientId/:roomId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('moneyPaid', 'moneyPaid is required').not().isEmpty(),
         check('entryDate', 'entryDate is required').not().isEmpty(),
         check('entryTime', 'entryTime is required').not().isEmpty(),
@@ -31,7 +31,7 @@ router.get(
     '/:hotelId/:cashId/:roomId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         //bussinesLogicMiddlewares.checkIfHoustingDomainEntityIsCompliment,
         validateFields,
     ],
@@ -42,7 +42,7 @@ router.put(
     '/:hotelId/:houstingId/:cashId/:clientId/:roomId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         bussinesLogicMiddlewares.checkIfHoustingDomainEntityIsCompliment,
         check('moneyToAdd', 'moneyToAdd is required').not().isEmpty(),
         validateFields,
@@ -51,14 +51,14 @@ router.put(
 );
 
 router.put(
-    '/finish/:hotelId/:houstingId/:cashId/:clientId/:roomId',
+    '/finish/:hotelId/:cashId/:houstingId/:clientId/:roomId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         bussinesLogicMiddlewares.checkIfHoustingDomainEntityIsCompliment,
         validateFields,
     ],
-    houstingController.updateFinish,
+    houstingController.finishHousting,
 );
 
 export default router;

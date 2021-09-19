@@ -12,7 +12,7 @@ import { HoustingCommand } from '../../../application/ports/in/housting.command'
 import { UpdateMoneyPaidService } from '../../../application/services/update-money-paid.service';
 import { UpdateMoneyPaidUseCase } from '../../../application/ports/in/update-money-paid-use-case';
 import { FinishHoustingUseCase } from '../../../application/ports/in/finish-housting';
-import { UpdateFinishHoustingService } from '../../../application/services/update-finish-housting.service';
+import { FinishHoustingService } from '../../../application/services/finish-housting.service';
 
 dayjs.extend(utc);
 
@@ -27,12 +27,12 @@ export class HoustingController {
         createHoustingService: CreateHoustingService,
         getHoustingService: GetHoustingService,
         updateMoneyPaidService: UpdateMoneyPaidService,
-        updateFinishHoustingService: UpdateFinishHoustingService,
+        finishHoustingService: FinishHoustingService,
     ) {
         this.createHoustingRequest = createHoustingService;
         this.getHoustingRequest = getHoustingService;
         this.updateMoneyPaidUseCase = updateMoneyPaidService;
-        this.finishHoustingUseCase = updateFinishHoustingService;
+        this.finishHoustingUseCase = finishHoustingService;
     }
     createHousting = async (req: Request, res: Response) => {
         const { cashId, clientId, roomId } = req.params;
@@ -71,7 +71,7 @@ export class HoustingController {
 
         res.json(newMoneyPaid);
     };
-    updateFinish = async (req: Request, res: Response) => {
+    finishHousting = async (req: Request, res: Response) => {
         const { houstingId } = req.params;
 
         const houstingFinished = await this.finishHoustingUseCase.finishHousting(parseInt(houstingId));

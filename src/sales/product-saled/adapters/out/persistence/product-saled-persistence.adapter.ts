@@ -11,7 +11,7 @@ import { UpdateProductSaledPayedPort } from '../../../application/ports/out/self
 import { GetProductsSaledPort } from '../../../application/ports/out/self-domain/get-products-saled.port';
 
 @Service()
-export class ProductSalePersistenceAdapter
+export class ProductSaledPersistenceAdapter
     implements
         CreateProductSalePort,
         GetProductSaledPort,

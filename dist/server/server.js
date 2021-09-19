@@ -20,7 +20,7 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const connection_1 = require("../db/connection");
 const users_routes_1 = __importDefault(require("../src/managament/users/adapters/in/users.routes"));
 const product_routes_1 = __importDefault(require("../src/sales/products/adapters/in/web/product.routes"));
-const product_sale_routes_1 = __importDefault(require("../src/sales/product-sales/adapters/in/web/product-sale.routes"));
+const product_saled_routes_1 = __importDefault(require("../src/sales/product-saled/adapters/in/web/product-saled.routes"));
 const client_routes_1 = __importDefault(require("../src/clients/adapters/in/web/client.routes"));
 const roles_routes_1 = __importDefault(require("../src/managament/roles/adapters/in/roles.routes"));
 const hotel_routes_1 = __importDefault(require("../src/managament/hotels/adapters/in/web/hotel.routes"));
@@ -47,7 +47,7 @@ class Server {
             roomCondition: '/jdev/room-condition',
             //products
             products: '/jdev/products',
-            productSales: '/jdev/product-sales',
+            productSales: '/jdev/product-saled',
             cash: '/jdev/cash',
             //housting
             housting: '/jdev/housting',
@@ -63,13 +63,13 @@ class Server {
     dbconnection() {
         return __awaiter(this, void 0, void 0, function* () {
             /* try {
-                    await db.authenticate()
-                    console.log('Database online')
-        
-                } catch (error) {
-                    console.log(error)
-                    throw new Error(error)
-                } */
+                await db.authenticate()
+                console.log('Database online')
+    
+            } catch (error) {
+                console.log(error)
+                throw new Error(error)
+            } */
             connection_1.db
                 .sync({ force: false })
                 .then(() => {
@@ -108,7 +108,7 @@ class Server {
         this.app.use(this.paths.roomCondition, room_routes_1.default);
         //products
         this.app.use(this.paths.products, product_routes_1.default);
-        this.app.use(this.paths.productSales, product_sale_routes_1.default);
+        this.app.use(this.paths.productSales, product_saled_routes_1.default);
         this.app.use(this.paths.cash, cash_routes_1.default);
         //housting
         this.app.use(this.paths.housting, housting_routes_1.default);

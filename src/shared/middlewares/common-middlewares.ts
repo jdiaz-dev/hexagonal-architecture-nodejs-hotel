@@ -55,7 +55,7 @@ export class CommonMiddlwares {
 
         next();
     };
-    checkIfHotelBelongsToClientApp = async (req: Request | any, res: Response, next: NextFunction) => {
+    checkIfHotelBelongsToUserApp = async (req: Request | any, res: Response, next: NextFunction) => {
         const { id } = req.user;
         const { hotelId } = req.params;
 

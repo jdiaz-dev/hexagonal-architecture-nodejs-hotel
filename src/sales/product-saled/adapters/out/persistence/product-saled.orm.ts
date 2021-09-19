@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
 import { DataProductSaled } from '../../../application/services/product-saled-data';
-import { ProductSaleRepository } from './product-sale.repository';
-import { ProductSalesDatabaseEntity } from './product-sale-database-entity';
-import { ProductModel } from './../../../../products/adapters/out/persistence/product.model';
+import { ProductSaleRepository } from './product-saled.repository';
+import { ProductSalesDatabaseEntity } from './product-saled-database-entity';
+import { ProductModel } from '../../../../products/adapters/out/persistence/product.model';
 
 @Service()
 export class ProductSaledORM implements ProductSaleRepository {

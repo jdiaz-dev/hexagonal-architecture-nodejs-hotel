@@ -14,7 +14,7 @@ router.post(
     '/:hotelId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('names', 'client names is required').not().isEmpty(),
         check('surnames', 'client surnames is required').not().isEmpty(),
         //check('dni', 'address hotel is required').not().isEmpty(),
@@ -27,13 +27,13 @@ router.post(
 
 router.get(
     '/:hotelId/:clientId',
-    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToClientApp, validateFields],
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     clientController.getClient,
 );
 
 router.get(
     '/:hotelId',
-    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToClientApp, validateFields],
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     clientController.getClients,
 );
 
@@ -41,7 +41,7 @@ router.put(
     '/:hotelId/:clientId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('names', 'hotel name is required').not().isEmpty(),
         check('surnames', 'address hotel is required').not().isEmpty(),
         check('dni', 'address hotel is required').not().isEmpty(),

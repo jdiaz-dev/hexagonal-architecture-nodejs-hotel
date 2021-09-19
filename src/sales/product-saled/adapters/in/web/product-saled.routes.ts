@@ -4,7 +4,7 @@ import { check } from 'express-validator';
 
 import { CommonMiddlwares } from '../../../../../shared/middlewares/common-middlewares';
 import { validateFields } from '../../../../../shared/middlewares/validate-fields';
-import { ProductSaledController } from './product-sale.controller';
+import { ProductSaledController } from './product-saled.controller';
 import { ProductSaledMiddlewares } from './middlewares/products-saled.middlewares';
 
 const coommonMiddlewares = Container.get(CommonMiddlwares);
@@ -18,7 +18,7 @@ router.post(
     '/:hotelId/:cashId/:houstingId/:productId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('amount', 'amount is required').not().isEmpty(),
         check('date', 'date is required').not().isEmpty(),
         check('payed', 'payed is required').not().isEmpty(),
@@ -29,32 +29,32 @@ router.post(
 
 router.get(
     '/:hotelId/:houstingId',
-    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToClientApp, validateFields],
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     productSaledController.getProductsSaled,
 );
 
-router.put(
+/* router.put(
     '/:hotelId/:cashId/:houstingId/:productSaledId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment,
         check('amount', 'amount is required').not().isEmpty(),
         check('payed', 'payed is required').not().isEmpty(),
         validateFields,
     ],
     productSaledController.updateAmountProductSaled,
-);
+); */
 
 router.put(
     '/finish-payment/:hotelId/:cashId/:houstingId/:productSaledId',
     [
         coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToClientApp,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment,
         validateFields,
     ],
-    productSaledController.updateProductSaledPayed,
+    productSaledController.completeProductSaledPayment,
 );
 
 export default router;

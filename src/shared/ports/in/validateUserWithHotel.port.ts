@@ -1,3 +1,3 @@
 export interface ValidateUserWithHotelPort {
-    checkIfHotelBelongsToClientApp(userId:number, hotelId:number):Promise<boolean>
+    checkIfHotelBelongsToUserApp(userId: number, hotelId: number): Promise<boolean>;
 }
