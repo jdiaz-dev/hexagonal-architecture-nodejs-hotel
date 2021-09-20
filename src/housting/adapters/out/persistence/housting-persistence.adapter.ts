@@ -6,7 +6,7 @@ import { GetHoustingPort } from '../../../application/ports/out/self-domain/get-
 import { GetHoustingModeledPort } from '../../../application/ports/out/self-domain/get-housting-modeled.port';
 import { HoustingDomainEntity } from '../../../domain/housting';
 import { UpdateMoneyPaidPort } from '../../../application/ports/out/self-domain/update-money-paid.port';
-import { UpdateFinishPort } from '../../../application/ports/out/self-domain/update-finish.port';
+import { UpdateFinishHoustingPort } from '../../../application/ports/out/self-domain/update-finish.p-houstingort';
 import { GetHoustingByRoomPort } from '../../../application/ports/out/self-domain/get-housting-by-room.port';
 
 @Service()
@@ -17,7 +17,7 @@ export class HoustingPersistenceAdapter
         GetHoustingByRoomPort,
         GetHoustingModeledPort,
         UpdateMoneyPaidPort,
-        UpdateFinishPort
+        UpdateFinishHoustingPort
 {
     constructor(private houstingORM: HoustingORM) {}
 

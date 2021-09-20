@@ -56,7 +56,7 @@ router.put(
         roomMiddlewares.checkIfRoomConditionExists,
         validateFields,
     ],
-    roomController.updateConditionOfRoom,
+    roomController.updateRoomCondition,
 );
 
 //delete

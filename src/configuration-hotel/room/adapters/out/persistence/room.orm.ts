@@ -118,7 +118,7 @@ export class RoomORM implements RoomRepository {
             console.log('-------------------', error);
         }
     }
-    async updateConditionOfRoom(roomId: number, conditionId: number): Promise<any> {
+    async updateRoomCondition(roomId: number, conditionId: number): Promise<any> {
         try {
             const room: any = await Room.findByPk(roomId);
             room.conditionId = conditionId;

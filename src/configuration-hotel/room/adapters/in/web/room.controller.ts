@@ -11,8 +11,8 @@ import { RoomCommand } from '../../../application/ports/in/room.command';
 import { RemoveTheRoomRequest } from '../../../application/ports/in/remove-the-room.request';
 import { RemoveRoomService } from '../../../application/services/remove-room.service';
 import { RoomWithLevelCommand } from '../../../application/ports/in/room-with-level.domain';
-import { UpdateCondtionOfRoomRequest } from '../../../application/ports/in/update-condition-of-room.request';
-import { UpdateConditionOfRoomService } from '../../../application/services/update-condition-of-room.service';
+import { UpdateRoomCondtionRequest } from '../../../application/ports/in/update-room-condition.request';
+import { UpdateRoomConditionService } from '../../../application/services/update-room-condition.service';
 import { SETTINGS } from '../../../../../../settings/settings';
 
 @Service()
@@ -21,19 +21,19 @@ export class RoomController {
     private updateTheRoomRequest: UpdateTheRoomRequest;
     private getRoomsRequest: GetRoomsRequest;
     private removeTheRoomRequest: RemoveTheRoomRequest;
-    private updateConditionOfRoomRequest: UpdateCondtionOfRoomRequest;
+    private updateRoomCondtionRequest: UpdateRoomCondtionRequest;
 
     constructor(
         createAndUpdateRoomService: CreateAndUpdateRoomService,
         getRoomsService: GetRoomsService,
         removeRoomService: RemoveRoomService,
-        updateConditionOfRoomService: UpdateConditionOfRoomService,
+        updateRoomConditionService: UpdateRoomConditionService,
     ) {
         this.createNewRoomRequest = createAndUpdateRoomService;
         this.updateTheRoomRequest = createAndUpdateRoomService;
         this.getRoomsRequest = getRoomsService;
         this.removeTheRoomRequest = removeRoomService;
-        this.updateConditionOfRoomRequest = updateConditionOfRoomService;
+        this.updateRoomCondtionRequest = updateRoomConditionService;
     }
     createRoom = async (req: Request | any, res: Response) => {
         const { name, price, details, levelId, categoryId } = req.body;
@@ -94,10 +94,10 @@ export class RoomController {
         );
         res.json(roomRemoved);
     };
-    updateConditionOfRoom = async (req: Request | any, res: Response) => {
+    updateRoomCondition = async (req: Request | any, res: Response) => {
         const { roomId, roomConditionId } = req.params;
 
-        const roomRemoved = await this.updateConditionOfRoomRequest.updateTheCondtionOfRoom(
+        const roomRemoved = await this.updateRoomCondtionRequest.updateTheCondtionOfRoom(
             parseInt(roomId),
             parseInt(roomConditionId),
         );

@@ -9,8 +9,8 @@ import { GetCashService } from '../../../cash/application/services/get-cash.serv
 import { GetClientForHoustingDomain } from '../ports/out/other-domain/get-client-for-housting-domain';
 import { GetClientService } from '../../../clients/application/services/get-client.service';
 import { SETTINGS } from '../../../../settings/settings';
-import { UpdateConditionFromHoustingDomain } from '../ports/out/other-domain/update-condition-of-room-from-housting-domain';
-import { UpdateConditionOfRoomService } from '../../../configuration-hotel/room/application/services/update-condition-of-room.service';
+import { UpdateRoomConditionFromHoustingDomainPort } from '../ports/out/other-domain/update-room-condition-from-housting-domain.port';
+import { UpdateRoomConditionService } from '../../../configuration-hotel/room/application/services/update-room-condition.service';
 import { RoomPersistenceAdapter } from '../../../configuration-hotel/room/adapters/out/persistence/room-persistence.adapter';
 import { HoustingPriceDomain } from './../../domain/housting-price';
 
@@ -19,7 +19,7 @@ export class CreateHoustingService {
     //other domains
     private getCashForHoustingDomain: GetCashForHoustingDomain;
     private getClientForHoustingDomain: GetClientForHoustingDomain;
-    private updateConditionFromHoustingDomain: UpdateConditionFromHoustingDomain;
+    private updateRoomConditionFromHoustingDomainPort: UpdateRoomConditionFromHoustingDomainPort;
     private getRoomForHoustingDomainPort: GetRoomForHoustingDomainPort;
 
     //self ports
@@ -28,7 +28,6 @@ export class CreateHoustingService {
         //other domains
         getCashService: GetCashService,
         getClientService: GetClientService,
-        updateConditionOfRoomService: UpdateConditionOfRoomService,
         roomPersistenceAdapter: RoomPersistenceAdapter,
 
         //self ports
@@ -37,7 +36,7 @@ export class CreateHoustingService {
         //other domain
         this.getCashForHoustingDomain = getCashService;
         this.getClientForHoustingDomain = getClientService;
-        this.updateConditionFromHoustingDomain = updateConditionOfRoomService;
+        this.updateRoomConditionFromHoustingDomainPort = roomPersistenceAdapter;
         this.getRoomForHoustingDomainPort = roomPersistenceAdapter;
 
         this.createHoustingPort = houstingPersistenceAdapter;
@@ -55,7 +54,7 @@ export class CreateHoustingService {
         if (!client) return { message: 'This client does not exits for this housting' };
 
         const busyCondtionId = SETTINGS.base.databaseIds.busyConditionId;
-        const conditionOfRoomUpdated = await this.updateConditionFromHoustingDomain.updateFromHoustingDomain(
+        const conditionOfRoomUpdated = await this.updateRoomConditionFromHoustingDomainPort.updateRoomCondition(
             roomId,
             busyCondtionId,
         );

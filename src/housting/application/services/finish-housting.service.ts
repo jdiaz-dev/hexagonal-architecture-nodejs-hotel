@@ -1,32 +1,36 @@
 import { Service } from 'typedi';
 import { FinishHoustingUseCase } from '../ports/in/finish-housting';
-import { UpdateFinishPort } from '../ports/out/self-domain/update-finish.port';
+import { UpdateFinishHoustingPort } from '../ports/out/self-domain/update-finish.p-houstingort';
 import { HoustingPersistenceAdapter } from '../../adapters/out/persistence/housting-persistence.adapter';
-import { UpdateConditionFromHoustingDomain } from '../ports/out/other-domain/update-condition-of-room-from-housting-domain';
-import { UpdateConditionOfRoomService } from '../../../configuration-hotel/room/application/services/update-condition-of-room.service';
+import { UpdateRoomConditionFromHoustingDomainPort } from '../ports/out/other-domain/update-room-condition-from-housting-domain.port';
 import { SETTINGS } from './../../../../settings/settings';
+import { RoomPersistenceAdapter } from '../../../configuration-hotel/room/adapters/out/persistence/room-persistence.adapter';
 
 @Service()
 export class FinishHoustingService implements FinishHoustingUseCase {
-    private updateFinishPort: UpdateFinishPort;
-    private updateConditionFromHoustingDomain: UpdateConditionFromHoustingDomain;
+    private updateFinishHoustingPort: UpdateFinishHoustingPort;
+
+    //other domains
+    private updateRoomConditionFromHoustingDomainPort: UpdateRoomConditionFromHoustingDomainPort;
 
     constructor(
+        roomPersistenceAdapter: RoomPersistenceAdapter,
+
+        //other domains
         houstingPersistenceAdapter: HoustingPersistenceAdapter,
-        updateConditionOfRoomService: UpdateConditionOfRoomService,
     ) {
-        this.updateFinishPort = houstingPersistenceAdapter;
-        this.updateConditionFromHoustingDomain = updateConditionOfRoomService;
+        this.updateFinishHoustingPort = houstingPersistenceAdapter;
+        this.updateRoomConditionFromHoustingDomainPort = roomPersistenceAdapter;
     }
     async finishHousting(houstingId: number): Promise<any> {
-        const houstingFinished = await this.updateFinishPort.updateFinish(houstingId);
+        const houstingFinished = await this.updateFinishHoustingPort.updateFinish(houstingId);
 
         if (!houstingFinished) {
             return { message: 'A problem trying to finish housting has ocurred' };
         }
 
         const rommConditionForCleaningId = SETTINGS.base.databaseIds.cleaningConditionId;
-        const roomCondtionUpdated = await this.updateConditionFromHoustingDomain.updateFromHoustingDomain(
+        const roomCondtionUpdated = await this.updateRoomConditionFromHoustingDomainPort.updateRoomCondition(
             houstingFinished.roomId,
             rommConditionForCleaningId,
         );

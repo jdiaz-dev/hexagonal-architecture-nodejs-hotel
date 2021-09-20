@@ -14,6 +14,7 @@ import { UpdateConditionOfRoomPort } from '../../../application/ports/out/self-d
 import { GetRoomForHoustingDomainPort } from '../../../../../housting/application/ports/out/other-domain/get-room-for-housting-domain.port';
 import { HoustingPriceDomain } from '../../../../../housting/domain/housting-price';
 import { RoomMapper } from './room.mapper';
+import { UpdateRoomConditionFromHoustingDomainPort } from '../../../../../housting/application/ports/out/other-domain/update-room-condition-from-housting-domain.port';
 
 @Service()
 export class RoomPersistenceAdapter
@@ -25,7 +26,8 @@ export class RoomPersistenceAdapter
         UpdateConditionOfRoomPort,
         RemoveRoomPort,
         GetRoomModelForSelfDomainPort,
-        GetRoomForHoustingDomainPort
+        GetRoomForHoustingDomainPort,
+        UpdateRoomConditionFromHoustingDomainPort
 {
     private roomRepository: RoomRepository;
 
@@ -78,8 +80,8 @@ export class RoomPersistenceAdapter
         const room = await this.roomRepository.getRoom(roomId);
         return room;
     }
-    async updateConditionOfRoom(roomId: number, conditionId: number): Promise<any> {
-        const room = await this.roomRepository.updateConditionOfRoom(roomId, conditionId);
+    async updateRoomCondition(roomId: number, conditionId: number): Promise<any> {
+        const room = await this.roomRepository.updateRoomCondition(roomId, conditionId);
         return room;
     }
     async getRoomForHoustingDomain(roomId: number): Promise<HoustingPriceDomain> {
