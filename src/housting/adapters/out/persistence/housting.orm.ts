@@ -58,6 +58,17 @@ export class HoustingORM implements HoustingRepository {
             console.log('---------------', error);
         }
     }
+    async getHoustingByRoomToModel(roomId: number) {
+        try {
+            const housting = HoustingModel.findOne({
+                where: { roomId: roomId, finished: false },
+                attributes: ['id', 'cashId', 'clientId', 'roomId'],
+            });
+            return housting;
+        } catch (error) {
+            console.log('---------------', error);
+        }
+    }
     async updateMoneyPaid(houstingId: number, newMoney: number): Promise<any> {
         try {
             const housting: any = await HoustingModel.findByPk(houstingId);

@@ -39,7 +39,7 @@ router.get(
 );
 
 router.put(
-    '/:hotelId/:houstingId/:cashId/:clientId/:roomId',
+    '/:hotelId/:cashId/:houstingId/:clientId/:roomId',
     [
         coommonMiddlewares.validateJWT,
         coommonMiddlewares.checkIfHotelBelongsToUserApp,

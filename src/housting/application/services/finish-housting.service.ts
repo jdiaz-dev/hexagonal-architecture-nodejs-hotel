@@ -4,6 +4,7 @@ import { UpdateFinishPort } from '../ports/out/self-domain/update-finish.port';
 import { HoustingPersistenceAdapter } from '../../adapters/out/persistence/housting-persistence.adapter';
 import { UpdateConditionFromHoustingDomain } from '../ports/out/other-domain/update-condition-of-room-from-housting-domain';
 import { UpdateConditionOfRoomService } from '../../../configuration-hotel/room/application/services/update-condition-of-room.service';
+import { SETTINGS } from './../../../../settings/settings';
 
 @Service()
 export class FinishHoustingService implements FinishHoustingUseCase {
@@ -24,10 +25,10 @@ export class FinishHoustingService implements FinishHoustingUseCase {
             return { message: 'A problem trying to finish housting has ocurred' };
         }
 
-        const rommConditionForClearId = 2;
+        const rommConditionForCleaningId = SETTINGS.base.databaseIds.cleaningConditionId;
         const roomCondtionUpdated = await this.updateConditionFromHoustingDomain.updateFromHoustingDomain(
             houstingFinished.roomId,
-            rommConditionForClearId,
+            rommConditionForCleaningId,
         );
 
         if (!roomCondtionUpdated) {

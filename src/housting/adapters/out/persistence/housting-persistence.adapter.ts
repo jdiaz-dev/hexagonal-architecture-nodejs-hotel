@@ -39,7 +39,9 @@ export class HoustingPersistenceAdapter
         return housting;
     }
     async getHoustingModeled(roomId: number): Promise<HoustingDomainEntity> {
-        const housting = await this.houstingORM.getHoustingByRoom(roomId);
+        const housting: any = await this.houstingORM.getHoustingByRoomToModel(roomId);
+        roomId;
+        console.log('-------------housting', housting);
         return new HoustingDomainEntity(housting.cashId, housting.clientId, housting.roomId);
     }
     async updateMoneyPaid(houstingId: number, newMoney: number): Promise<any> {
