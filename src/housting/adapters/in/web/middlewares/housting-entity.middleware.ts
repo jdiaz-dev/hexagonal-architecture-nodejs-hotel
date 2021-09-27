@@ -16,9 +16,9 @@ export class HoustingEntityMiddleware {
         const { cashId, houstingId, clientId, roomId } = req.params;
         const houstingModeled: HoustingDomainEntity =
             await this.getHoustingModeledForMiddleware.getHoustingModeledForMiddleware(roomId);
-        console.log('------------roomId', roomId);
+        /* console.log('------------roomId', roomId);
         console.log('------------cashId', cashId);
-        console.log('------------houstingModeled', houstingModeled);
+        console.log('------------houstingModeled', houstingModeled); */
         if (!houstingModeled.checkIfCashBelongsToHousting(parseInt(cashId))) {
             return res.json({ message: 'You cannot access to this housting, problem with cash' });
         }

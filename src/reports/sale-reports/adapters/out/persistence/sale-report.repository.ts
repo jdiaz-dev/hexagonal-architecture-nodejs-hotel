@@ -1,4 +1,7 @@
+import { SaleReportDomain } from '../../../domain/sale-report';
+
 export interface SaleReportRepository {
-  createSaleReport(moneyTotal: number, houstingId: number): Promise<any>;
-  getSaleReport(houstingId: number): Promise<any>;
+    createSaleReport(houstingId: number, moneyTotal: number): Promise<any>;
+    getSaleReport(houstingId: number): Promise<any>;
+    updateMoneyInSaleReport(saleReport: SaleReportDomain): Promise<any>;
 }

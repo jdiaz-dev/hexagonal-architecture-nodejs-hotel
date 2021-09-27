@@ -1,119 +1,119 @@
-import { Column, Table } from "sequelize-typescript";
-import { Model, DataTypes } from "sequelize";
-import { db as sequelize } from "../../../../../../db/connection";
-import { Level } from "../../../../levels/adapters/out/persistence/level.model";
-import { RoomCategory } from "../../../../room-categories/adapters/out/persistence/room-category.model";
-import { RoomConditionDatabaseEntity } from "../../../../room-condition/adapters/out/persistence/room-condition-mysql.database-entity";
-import { Hotel } from "../../../../../managament/hotels/adapters/out/persistence/hotel.model";
+import { Column, Table } from 'sequelize-typescript';
+import { Model, DataTypes } from 'sequelize';
+import { db as sequelize } from '../../../../../../db/connection';
+import { Level } from '../../../../levels/adapters/out/persistence/level.model';
+import { RoomCategory } from '../../../../room-categories/adapters/out/persistence/room-category.model';
+import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapters/out/persistence/room-condition-mysql.database-entity';
+import { HotelModel } from '../../../../../managament/hotels/adapters/out/persistence/hotel.model';
 
 @Table
-export class Room extends Model {
-  @Column
-  name!: string;
+export class RoomModel extends Model {
+    @Column
+    name!: string;
 
-  @Column
-  price!: number;
+    @Column
+    price!: number;
 
-  @Column
-  details!: string;
+    @Column
+    details!: string;
 
-  @Column
-  hotelId!: number;
+    @Column
+    hotelId!: number;
 
-  @Column
-  levelId!: number;
+    @Column
+    levelId!: number;
 
-  @Column
-  categoryId!: number;
+    @Column
+    categoryId!: number;
 
-  @Column
-  conditionId!: number;
+    @Column
+    conditionId!: number;
 
-  @Column
-  state!: boolean;
+    @Column
+    state!: boolean;
 }
-Room.init(
-  {
-    name: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+RoomModel.init(
+    {
+        name: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        price: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        details: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        state: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+        },
     },
-    price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    {
+        sequelize,
+        tableName: 'rooms',
     },
-    details: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    state: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
-    },
-  },
-  {
-    sequelize,
-    tableName: "rooms",
-  }
 );
 
 //hotelId
-Hotel.hasOne(Room, {
-  foreignKey: {
-    name: "hotelId",
-    allowNull: false,
-  },
+HotelModel.hasOne(RoomModel, {
+    foreignKey: {
+        name: 'hotelId',
+        allowNull: false,
+    },
 });
-Room.belongsTo(Hotel, {
-  as: "hotel",
-  foreignKey: {
-    name: "hotelId",
-    allowNull: false,
-  },
+RoomModel.belongsTo(HotelModel, {
+    as: 'hotel',
+    foreignKey: {
+        name: 'hotelId',
+        allowNull: false,
+    },
 });
 
 //levelId
-Level.hasOne(Room, {
-  foreignKey: {
-    name: "levelId",
-    allowNull: false,
-  },
+Level.hasOne(RoomModel, {
+    foreignKey: {
+        name: 'levelId',
+        allowNull: false,
+    },
 });
-Room.belongsTo(Level, {
-  as: "level",
-  foreignKey: {
-    name: "levelId",
-    allowNull: false,
-  },
+RoomModel.belongsTo(Level, {
+    as: 'level',
+    foreignKey: {
+        name: 'levelId',
+        allowNull: false,
+    },
 });
 
 //categoryId
-RoomCategory.hasOne(Room, {
-  foreignKey: {
-    name: "categoryId",
-    allowNull: false,
-  },
+RoomCategory.hasOne(RoomModel, {
+    foreignKey: {
+        name: 'categoryId',
+        allowNull: false,
+    },
 });
-Room.belongsTo(RoomCategory, {
-  as: "category",
-  foreignKey: {
-    name: "categoryId",
-    allowNull: false,
-  },
+RoomModel.belongsTo(RoomCategory, {
+    as: 'category',
+    foreignKey: {
+        name: 'categoryId',
+        allowNull: false,
+    },
 });
 
 //conditionId
-RoomConditionDatabaseEntity.hasOne(Room, {
-  foreignKey: {
-    name: "conditionId",
-    allowNull: false,
-  },
+RoomConditionDatabaseEntity.hasOne(RoomModel, {
+    foreignKey: {
+        name: 'conditionId',
+        allowNull: false,
+    },
 });
-Room.belongsTo(RoomConditionDatabaseEntity, {
-  as: "condition",
-  foreignKey: {
-    name: "conditionId",
-    allowNull: false,
-  },
+RoomModel.belongsTo(RoomConditionDatabaseEntity, {
+    as: 'condition',
+    foreignKey: {
+        name: 'conditionId',
+        allowNull: false,
+    },
 });

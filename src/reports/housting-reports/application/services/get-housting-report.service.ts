@@ -7,20 +7,20 @@ import { GetHoustingReportUseCase } from '../ports/in/get-housting-report-use-ca
 
 @Service()
 export class GetHoustingReportService implements GetHoustingReportUseCase {
-  private getHoustingReportPort: GetHoustingReportPort;
+    private getHoustingReportPort: GetHoustingReportPort;
 
-  constructor(
-    private createHoustingReportService: CreateHoustingReportService,
-    houstingReportPersistenceAdapter: HoustingReportPersistenceAdapter,
-  ) {
-    this.getHoustingReportPort = houstingReportPersistenceAdapter;
-  }
-  async getTheHoustingReport(cashId: number, houstingId: number): Promise<any> {
-    let houstingReport = await this.getHoustingReportPort.getHoustingReport(houstingId);
+    constructor(
+        private createHoustingReportService: CreateHoustingReportService,
+        houstingReportPersistenceAdapter: HoustingReportPersistenceAdapter,
+    ) {
+        this.getHoustingReportPort = houstingReportPersistenceAdapter;
+    }
+    async getTheHoustingReport(cashId: number, houstingId: number): Promise<any> {
+        /* let houstingReport = await this.getHoustingReportPort.getHoustingReport(houstingId);
 
     if (!houstingReport) {
       houstingReport = await this.createHoustingReportService.createHoustingReport(cashId, houstingId);
     }
-    return houstingReport;
-  }
+    return houstingReport; */
+    }
 }

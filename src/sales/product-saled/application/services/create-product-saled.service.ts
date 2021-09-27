@@ -6,7 +6,7 @@ import { CreateProductSalePort } from '../ports/out/self-domain/create-product-s
 import { ProductSaledPersistenceAdapter } from '../../adapters/out/persistence/product-saled-persistence.adapter';
 import { GetProductService } from '../../../products/application/services/get-product.service';
 import { GetProductForProductSaleDomainPort } from '../ports/out/other-domain/get-product-modeled-for-product-sale-domain';
-import { ProductSaleDomainEntity } from '../../domain/products-saled';
+import { ProductSaledDomain } from '../../domain/products-saled';
 import { ProductPersistenceAdapter } from '../../../products/adapters/out/persistence/product-persistence.adapter';
 
 @Service()
@@ -30,13 +30,13 @@ export class CreateProductSaledService implements CreateProductSaledRequest {
         //self ports
         this.createProductSalePort = productSaledPersistenceAdapter;
     }
-    async createTheProductSale(
+    async createTheProductSaled(
         cashId: number,
         houstingId: number,
         productId: number,
         productSaleData: DataProductSaled,
     ): Promise<any> {
-        const product: ProductSaleDomainEntity =
+        const product: ProductSaledDomain =
             await this.getProductForProductSaleDomainPort.getProductForProductSaleDomain(productId);
 
         //bussines logic

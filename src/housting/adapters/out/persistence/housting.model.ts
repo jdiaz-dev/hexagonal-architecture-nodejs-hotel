@@ -1,9 +1,9 @@
 import { DataTypes, Model } from 'sequelize';
 import { Column, Table } from 'sequelize-typescript';
 import { db as sequelize } from '../../../../../db/connection';
-import { CashDatabaseModel } from '../../../../cash/adapters/out/persistence/cash-database.model';
+import { CashModel } from '../../../../cash/adapters/out/persistence/cash.model';
 import { ClientDatabaseEntity } from '../../../../clients/adapters/out/persistence/client-database-entity';
-import { Room } from '../../../../configuration-hotel/room/adapters/out/persistence/room.model';
+import { RoomModel } from '../../../../configuration-hotel/room/adapters/out/persistence/room.model';
 
 @Table
 export class HoustingModel extends Model {
@@ -108,13 +108,13 @@ HoustingModel.belongsTo(ClientDatabaseEntity, {
 });
 
 //room
-Room.hasOne(HoustingModel, {
+RoomModel.hasOne(HoustingModel, {
     foreignKey: {
         name: 'roomId',
         allowNull: false,
     },
 });
-HoustingModel.belongsTo(Room, {
+HoustingModel.belongsTo(RoomModel, {
     as: 'room',
     foreignKey: {
         name: 'roomId',
@@ -123,13 +123,13 @@ HoustingModel.belongsTo(Room, {
 });
 
 //cash
-CashDatabaseModel.hasOne(HoustingModel, {
+CashModel.hasOne(HoustingModel, {
     foreignKey: {
         name: 'cashId',
         allowNull: false,
     },
 });
-HoustingModel.belongsTo(CashDatabaseModel, {
+HoustingModel.belongsTo(CashModel, {
     as: 'cash',
     foreignKey: {
         name: 'cashId',

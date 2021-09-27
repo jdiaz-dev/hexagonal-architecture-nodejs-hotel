@@ -24,7 +24,7 @@ router.post(
         check('payed', 'payed is required').not().isEmpty(),
         validateFields,
     ],
-    productSaledController.createProductsSaled,
+    productSaledController.createProductSaled,
 );
 
 router.get(

@@ -10,7 +10,7 @@ import { RemoveProductPort } from '../../../application/ports/out/self-domain/re
 import { GetProductPort } from '../../../application/ports/out/self-domain/get-product.port';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
 import { GetProductForProductSaleDomainPort } from '../../../../product-saled/application/ports/out/other-domain/get-product-modeled-for-product-sale-domain';
-import { ProductSaleDomainEntity } from '../../../../product-saled/domain/products-saled';
+import { ProductSaledDomain } from '../../../../product-saled/domain/products-saled';
 import { ProductMapper } from './product.mapper';
 import { ProductModel } from './product.model';
 
@@ -43,7 +43,7 @@ export class ProductPersistenceAdapter
         const product = await this.productORM.getProduct(productId);
         return new ProductDomain(product.hotelId);
     }
-    async getProductForProductSaleDomain(productId: number): Promise<ProductSaleDomainEntity> {
+    async getProductForProductSaleDomain(productId: number): Promise<ProductSaledDomain> {
         const product: ProductModel = await this.getProduct(productId);
         return this.productMapper.mapToProductSaleDomain(product);
     }

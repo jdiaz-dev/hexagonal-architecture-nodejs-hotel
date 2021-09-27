@@ -10,47 +10,78 @@ import { DataProductSaled } from '../../../application/services/product-saled-da
 
 import { UpdateAmountToProductsSaledService } from '../../../application/services/update-amount-to-products-saled.service';
 import { UpdateAmountToProductSaledUseCase } from '../../../application/ports/in/update-amount-to-product-saled.request';
-import { FinishPaymentProductSaledUseCase } from '../../../application/ports/in/finish-payment-product-saled-use-case';
-import { CompleteProductSaledPaymentService } from '../../../application/services/update-payment-product-saled.service';
+import { CompletePaymentProductSaledUseCase } from '../../../application/ports/in/complete-payment-product-saled-use-case';
+import { CompletePaymentProductSaledService } from '../../../application/services/complete-product-saled-payment.service';
 import { GetProductsSaledRequest } from '../../../application/ports/in/get-products-saled.request';
 import { GetProductsSaledService } from '../../../application/services/get-products-saled.service';
+import { AddMoneyToSaleReportService } from '../../../../../reports/sale-reports/application/services/add-money-to-sale-report.service';
+import { AddMoneyToSaleReportUseCase } from './../../../../../reports/sale-reports/application/ports/in/add-money-to-sale-report-use-case';
+import { AddMoneyToCashUseCase } from './../../../../../cash/application/ports/in/add-money-to-cash-use-case';
+import { AddMoneyToCashService } from '../../../../../cash/application/services/add-money-to-cash.service';
+import { AddMoneyToHoustingReportUseCase } from './../../../../../reports/housting-reports/application/ports/in/add-money-to-housting-report-use-case';
+import { AddMoneyToHoustingReportService } from '../../../../../reports/housting-reports/application/services/add-money-to-housting-report.service';
 
 @Service()
 export class ProductSaledController {
     private createProductSaledRequest: CreateProductSaledRequest;
     private updateAmountToProductSaledUseCase: UpdateAmountToProductSaledUseCase;
-    private finishPaymentProductSaledUseCase: FinishPaymentProductSaledUseCase;
+    private completePaymentProductSaledUseCase: CompletePaymentProductSaledUseCase;
     private getProductsSaledRequest: GetProductsSaledRequest;
+
+    //other domain
+    private addMoneyToCashUseCase: AddMoneyToCashUseCase;
+    private addMoneyToSaleReportUseCase: AddMoneyToSaleReportUseCase;
+    private addMoneyToHoustingReportUseCase: AddMoneyToHoustingReportUseCase;
 
     constructor(
         createProductSaledService: CreateProductSaledService,
         updateAmountToProductsSaledService: UpdateAmountToProductsSaledService,
-        completeProductSaledPaymentService: CompleteProductSaledPaymentService,
+        completePaymentProductSaledService: CompletePaymentProductSaledService,
         getProductsSaledService: GetProductsSaledService,
+
+        //other domains
+        addMoneyToCashService: AddMoneyToCashService,
+        addMoneyToHoustingReportService: AddMoneyToHoustingReportService,
+        addMoneyToSaleReportService: AddMoneyToSaleReportService,
     ) {
         this.createProductSaledRequest = createProductSaledService;
         this.updateAmountToProductSaledUseCase = updateAmountToProductsSaledService;
-        this.finishPaymentProductSaledUseCase = completeProductSaledPaymentService;
+        this.completePaymentProductSaledUseCase = completePaymentProductSaledService;
         this.getProductsSaledRequest = getProductsSaledService;
+
+        //other domain
+        this.addMoneyToCashUseCase = addMoneyToCashService;
+        this.addMoneyToSaleReportUseCase = addMoneyToSaleReportService;
+        this.addMoneyToHoustingReportUseCase = addMoneyToHoustingReportService;
     }
-    createProductsSaled = async (req: Request, res: Response) => {
+    createProductSaled = async (req: Request, res: Response) => {
         const { cashId, houstingId, productId } = req.params;
         const { amount, date, time, payed } = req.body;
+
+        const _houstingId = parseInt(houstingId),
+            _cashId = parseInt(cashId),
+            productPayed = parseInt(payed) === 1 ? true : false;
 
         const dataProductSaled = new DataProductSaled(
             parseInt(amount),
             0, //total price
             date,
             time,
-            parseInt(payed) === 1 ? true : false,
+            productPayed,
         );
 
-        const productSaled = await this.createProductSaledRequest.createTheProductSale(
-            parseInt(cashId),
-            parseInt(houstingId),
+        const productSaled = await this.createProductSaledRequest.createTheProductSaled(
+            _cashId,
+            _houstingId,
             parseInt(productId),
             dataProductSaled,
         );
+
+        if (productPayed) {
+            this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productSaled.totalPrice);
+            this.addMoneyToCashUseCase.addMoneyToCash(_cashId, productSaled.totalPrice);
+            this.addMoneyToHoustingReportUseCase.addMoneyToHoustingReport(_houstingId, productSaled.totalPrice);
+        }
         res.json(productSaled);
     };
     getProductsSaled = async (req: Request, res: Response) => {
@@ -69,11 +100,17 @@ export class ProductSaledController {
         res.json(productSaled);
     }; */
     completeProductSaledPayment = async (req: Request, res: Response) => {
-        const { productSaledId } = req.params;
+        const { houstingId, productSaledId, cashId } = req.params;
 
-        const productSaled = await this.finishPaymentProductSaledUseCase.finishPaymentProductSaled(
+        const _houstingId = parseInt(houstingId);
+
+        const productSaled = await this.completePaymentProductSaledUseCase.completePaymentProductSaled(
             parseInt(productSaledId),
         );
+        console.log('----------------------productSaled', productSaled.totalPrice);
+        this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productSaled.totalPrice);
+        this.addMoneyToCashUseCase.addMoneyToCash(parseInt(cashId), productSaled.totalPrice);
+        this.addMoneyToHoustingReportUseCase.addMoneyToHoustingReport(_houstingId, productSaled.totalPrice);
 
         res.json(productSaled);
     };

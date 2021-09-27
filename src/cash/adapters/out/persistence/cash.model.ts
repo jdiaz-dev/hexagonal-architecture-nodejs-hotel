@@ -2,10 +2,13 @@ import { Column, Table } from 'sequelize-typescript';
 import { DataTypes, Model } from 'sequelize';
 
 import { db as sequelize } from '../../../../../db/connection';
-import { Hotel } from '../../../../managament/hotels/adapters/out/persistence/hotel.model';
+import { HotelModel } from '../../../../managament/hotels/adapters/out/persistence/hotel.model';
 
 @Table
-export class CashDatabaseModel extends Model {
+export class CashModel extends Model {
+    @Column
+    id!: number;
+
     @Column
     openingMoney!: number;
 
@@ -25,7 +28,7 @@ export class CashDatabaseModel extends Model {
     hotelId!: number;
 }
 
-CashDatabaseModel.init(
+CashModel.init(
     {
         openingMoney: {
             type: DataTypes.INTEGER,
@@ -33,6 +36,7 @@ CashDatabaseModel.init(
         },
         closingMoney: {
             type: DataTypes.INTEGER,
+            allowNull: false,
         },
         date: {
             type: DataTypes.DATEONLY, //date recommendable in UTC
@@ -52,13 +56,13 @@ CashDatabaseModel.init(
         tableName: 'cashes',
     },
 );
-Hotel.hasOne(CashDatabaseModel, {
+HotelModel.hasOne(CashModel, {
     foreignKey: {
         name: 'hotelId',
         allowNull: false,
     },
 });
-CashDatabaseModel.belongsTo(Hotel, {
+CashModel.belongsTo(HotelModel, {
     as: 'hotel',
     foreignKey: {
         name: 'hotelId',

@@ -6,6 +6,9 @@ import { HoustingModel } from '../../../../../housting/adapters/out/persistence/
 @Table
 export class SaleReportModel extends Model {
     @Column
+    public id!: number;
+
+    @Column
     public total!: number;
 
     @Column

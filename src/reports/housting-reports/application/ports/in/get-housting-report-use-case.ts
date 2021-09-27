@@ -1,5 +1,5 @@
-import { MoneyPaidHoustingDomainEntity } from '../../../domain/money-paid-housting';
+import { HoustingReportDomain } from '../../../domain/housting-report';
 
 export interface GetHoustingReportUseCase {
-  getTheHoustingReport(cashId: number, houstingId: number): Promise<any>;
+    getTheHoustingReport(cashId: number, houstingId: number): Promise<any>;
 }

@@ -1,64 +1,67 @@
-import { Service } from "typedi";
-import { RoomCategory } from "./room-category.model";
+import { Service } from 'typedi';
+import { RoomCategory } from './room-category.model';
 import { RoomCategoryRepository } from './room-category.repository';
 
 @Service()
 export class RoomCategoryORM implements RoomCategoryRepository {
+    /** @internal */ //to void access from external packages
     async saveRoomCategory(nameCategory: string, price: number, hotelId: number): Promise<any> {
         try {
-            const roomCategory = new RoomCategory()
-            roomCategory.category = nameCategory
-            roomCategory.price = price
-            roomCategory.hotelId = hotelId
-            await roomCategory.save()
+            const roomCategory = new RoomCategory();
+            roomCategory.category = nameCategory;
+            roomCategory.price = price;
+            roomCategory.hotelId = hotelId;
+            await roomCategory.save();
 
-            return roomCategory
+            return roomCategory;
         } catch (error) {
-            console.log('-----------------', error)
+            console.log('-----------------', error);
         }
     }
+    /** @internal */
     async getRoomCategory(roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory = await RoomCategory.findByPk(roomCategoryId)
-            return roomCategory
+            const roomCategory = await RoomCategory.findByPk(roomCategoryId);
+            return roomCategory;
         } catch (error) {
-            console.log('-----------------', error)
+            console.log('-----------------', error);
         }
     }
+    /** @internal */
     async getRoomCategories(hotelId: number): Promise<any> {
         try {
             const roomCategories = await RoomCategory.findAll({
                 where: { hotelId: hotelId, state: true },
                 attributes: ['id', 'category', 'price'],
-                order: [['price', 'ASC']]
-            })
-            return roomCategories
+                order: [['price', 'ASC']],
+            });
+            return roomCategories;
         } catch (error) {
-            console.log('-----------------', error)
+            console.log('-----------------', error);
         }
     }
+    /** @internal */
     async updateCategoryRoom(nameCategory: string, price: number, roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory: any = await RoomCategory.findByPk(roomCategoryId)
-            roomCategory.category = nameCategory
-            roomCategory.price = price
-            await roomCategory.save()
-
-            return roomCategory
+            const roomCategory: any = await RoomCategory.findByPk(roomCategoryId);
+            roomCategory.category = nameCategory;
+            roomCategory.price = price;
+            await roomCategory.save();
+            return roomCategory;
         } catch (error) {
-            console.log('-----------------', error)
+            console.log('-----------------', error);
         }
     }
+    /** @internal */
     async removeRoomCategory(roomCategoryId: number): Promise<any> {
         try {
-            const roomCategory: any = await RoomCategory.findByPk(roomCategoryId)
-            roomCategory.state = false
-            await roomCategory.save()
+            const roomCategory: any = await RoomCategory.findByPk(roomCategoryId);
+            roomCategory.state = false;
+            await roomCategory.save();
 
-            return roomCategory
-
+            return roomCategory;
         } catch (error) {
-            console.log('-----------------', error)
+            console.log('-----------------', error);
         }
     }
 }

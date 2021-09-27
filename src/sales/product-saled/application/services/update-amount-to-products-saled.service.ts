@@ -4,10 +4,11 @@ import { GetProductForProductSaleDomainPort } from '../ports/out/other-domain/ge
 
 import { GetProductSaledPort } from '../ports/out/self-domain/get-product-sale.port';
 import { ProductSaledPersistenceAdapter } from '../../adapters/out/persistence/product-saled-persistence.adapter';
-import { ProductSaleDomainEntity } from '../../domain/products-saled';
+import { ProductSaledDomain } from '../../domain/products-saled';
 import { UpdateAmountToProductSaledPort } from '../ports/out/self-domain/update-amount-to-product-saled.port';
 import { ProductPersistenceAdapter } from '../../../products/adapters/out/persistence/product-persistence.adapter';
 
+//thinking in remove
 @Service()
 export class UpdateAmountToProductsSaledService implements UpdateAmountToProductSaledUseCase {
     //other domains
@@ -32,7 +33,7 @@ export class UpdateAmountToProductsSaledService implements UpdateAmountToProduct
     async updateTheAmountToProductSaled(productsSaledId: number, ammountProducts: number): Promise<any> {
         const productsSaled = await this.getProductSaledPort.getProductSaled(productsSaledId);
 
-        const product: ProductSaleDomainEntity =
+        const product: ProductSaledDomain =
             await this.getProductForProductSaleDomainPort.getProductForProductSaleDomain(productsSaled.productId);
 
         //bussines logic

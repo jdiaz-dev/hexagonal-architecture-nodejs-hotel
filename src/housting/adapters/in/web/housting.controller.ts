@@ -13,6 +13,12 @@ import { UpdateMoneyPaidService } from '../../../application/services/update-mon
 import { UpdateMoneyPaidUseCase } from '../../../application/ports/in/update-money-paid-use-case';
 import { FinishHoustingUseCase } from '../../../application/ports/in/finish-housting';
 import { FinishHoustingService } from '../../../application/services/finish-housting.service';
+import { AddMoneyToCashUseCase } from './../../../../cash/application/ports/in/add-money-to-cash-use-case';
+import { AddMoneyToCashService } from '../../../../cash/application/services/add-money-to-cash.service';
+import { CreateHoustingReportService } from '../../../../reports/housting-reports/application/services/create-housting-report.service';
+import { CreateHoustingReportRequest } from './../../../../reports/housting-reports/application/ports/in/create-housting-report.request';
+import { AddMoneyToHoustingReportUseCase } from './../../../../reports/housting-reports/application/ports/in/add-money-to-housting-report-use-case';
+import { AddMoneyToHoustingReportService } from '../../../../reports/housting-reports/application/services/add-money-to-housting-report.service';
 
 dayjs.extend(utc);
 
@@ -23,16 +29,31 @@ export class HoustingController {
     private updateMoneyPaidUseCase: UpdateMoneyPaidUseCase;
     private finishHoustingUseCase: FinishHoustingUseCase;
 
+    //other domains
+    private addMoneyToCashUseCase: AddMoneyToCashUseCase;
+    private createHoustingReportRequest: CreateHoustingReportRequest;
+    private addMoneyToHoustingReportUseCase: AddMoneyToHoustingReportUseCase;
+
     constructor(
         createHoustingService: CreateHoustingService,
         getHoustingService: GetHoustingService,
         updateMoneyPaidService: UpdateMoneyPaidService,
         finishHoustingService: FinishHoustingService,
+
+        //other domains
+        addMoneyToCashService: AddMoneyToCashService,
+        createHoustingReportService: CreateHoustingReportService,
+        addMoneyToHoustingReportService: AddMoneyToHoustingReportService,
     ) {
         this.createHoustingRequest = createHoustingService;
         this.getHoustingRequest = getHoustingService;
         this.updateMoneyPaidUseCase = updateMoneyPaidService;
         this.finishHoustingUseCase = finishHoustingService;
+
+        //other domains
+        this.addMoneyToCashUseCase = addMoneyToCashService;
+        this.createHoustingReportRequest = createHoustingReportService;
+        this.addMoneyToHoustingReportUseCase = addMoneyToHoustingReportService;
     }
     createHousting = async (req: Request, res: Response) => {
         const { cashId, clientId, roomId } = req.params;
@@ -51,6 +72,12 @@ export class HoustingController {
                 //dayjs(new Date()).utc(true).format()
             ),
         );
+        this.addMoneyToCashUseCase.addMoneyToCash(parseInt(cashId), newHousting.moneyPaid);
+        this.createHoustingReportRequest.createHoustingReport(
+            parseInt(cashId),
+            newHousting.id,
+            newHousting.moneyPaid,
+        );
         res.json(newHousting);
     };
     getHoustingByRoom = async (req: Request, res: Response) => {
@@ -61,14 +88,15 @@ export class HoustingController {
         res.json(housting);
     };
     updateMoneyPaid = async (req: Request, res: Response) => {
-        const { houstingId } = req.params;
+        const { cashId, houstingId } = req.params;
         const { moneyToAdd } = req.body;
 
         const newMoneyPaid = await this.updateMoneyPaidUseCase.updateMoneyPaid(
             parseInt(houstingId),
             parseInt(moneyToAdd),
         );
-
+        this.addMoneyToCashUseCase.addMoneyToCash(parseInt(cashId), parseInt(moneyToAdd));
+        this.addMoneyToHoustingReportUseCase.addMoneyToHoustingReport(parseInt(houstingId), parseInt(moneyToAdd));
         res.json(newMoneyPaid);
     };
     finishHousting = async (req: Request, res: Response) => {

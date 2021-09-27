@@ -3,21 +3,16 @@ import { SaleReportModel } from '../../../../sale-reports/adapters/out/persisten
 import { HoustingReportModel } from './housting-report.model';
 import { HoustingReportRepository } from './housting-report.repository';
 import { HoustingModel } from './../../../../../housting/adapters/out/persistence/housting.model';
+import { HoustingReportDomain } from '../../../domain/housting-report';
 
 @Service()
 export class HoustingReportORM implements HoustingReportRepository {
-    async createHoustingReport(
-        cashId: number,
-        houstingId: number,
-        saleReportId: number,
-        moneyTotal: number,
-    ): Promise<any> {
+    async createHoustingReport(cashId: number, houstingId: number, moneyToAdd: number): Promise<any> {
         try {
             const houstingReport = new HoustingReportModel();
             houstingReport.cashId = cashId;
             houstingReport.houstingId = houstingId;
-            houstingReport.total = moneyTotal;
-            houstingReport.saleReportId = saleReportId;
+            houstingReport.total = moneyToAdd;
             await houstingReport.save();
 
             return houstingReport;
@@ -40,6 +35,17 @@ export class HoustingReportORM implements HoustingReportRepository {
                     },
                 ],
             });
+            return houstingReport;
+        } catch (error) {
+            console.log('------------', error);
+        }
+    }
+    async updateMoneyInHoustingReport(_houstingReport: HoustingReportDomain): Promise<any> {
+        try {
+            const houstingReport: any = await HoustingReportModel.findByPk(_houstingReport.getId);
+            houstingReport.total = _houstingReport.getMoneyTotal;
+            await houstingReport.save();
+
             return houstingReport;
         } catch (error) {
             console.log('------------', error);

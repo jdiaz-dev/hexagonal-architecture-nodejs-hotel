@@ -3,7 +3,7 @@ import { DataHousting } from '../../../application/services/data-housting';
 import { HoustingRepository } from './housting.repository';
 import { HoustingModel } from './housting.model';
 import { ClientDatabaseEntity } from '../../../../clients/adapters/out/persistence/client-database-entity';
-import { Room } from '../../../../configuration-hotel/room/adapters/out/persistence/room.model';
+import { RoomModel } from '../../../../configuration-hotel/room/adapters/out/persistence/room.model';
 
 @Service()
 export class HoustingORM implements HoustingRepository {

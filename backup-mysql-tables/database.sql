@@ -36,3 +36,21 @@ ALTER TABLE categories MODIFY name varchar(500) not null;
 UPDATE room_categories SET price = 20 WHERE id = 2;
 
 INSERT INTO hotels VALUES(1, 'hotel de sol', 'jiron del hotel de sol', 1, now(), now(), 4);
+
+
+
+
+
+select * from cashes;
+select * from sale_reports;
+select * from housting_reports;
+select * from product_sales
+
+
+delete from product_sales;
+delete from sale_reports;
+delete from housting_reports;
+delete from houstings;
+
+update rooms set conditionId = 1;
+update cashes set closingMoney = 0;

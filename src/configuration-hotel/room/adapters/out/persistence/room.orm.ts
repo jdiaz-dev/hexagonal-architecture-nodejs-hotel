@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { Room } from './room.model';
+import { RoomModel } from './room.model';
 import { RoomRepository } from './room.repository';
 import { Level } from '../../../../levels/adapters/out/persistence/level.model';
 import { RoomCategory } from '../../../../room-categories/adapters/out/persistence/room-category.model';
@@ -11,7 +11,7 @@ export class RoomORM implements RoomRepository {
     async createRoom(roomData: any, hotelId: number): Promise<any> {
         console.log('-----data', roomData);
         try {
-            const room = new Room();
+            const room = new RoomModel();
             room.name = roomData.name;
             room.price = roomData.price;
             room.details = roomData.details;
@@ -28,7 +28,7 @@ export class RoomORM implements RoomRepository {
     }
 
     async getRoom(roomId: number): Promise<any> {
-        const room = await Room.findByPk(roomId);
+        const room = await RoomModel.findByPk(roomId);
         return room;
     }
     async getRoomsByLevel(levelId: number, roomConditionId: number): Promise<any> {
@@ -39,7 +39,7 @@ export class RoomORM implements RoomRepository {
         }
 
         try {
-            const rooms: any = Room.findAll({
+            const rooms: any = RoomModel.findAll({
                 where: query,
                 include: [
                     {
@@ -76,7 +76,7 @@ export class RoomORM implements RoomRepository {
     }
     async getAllRooms(hotelId: number): Promise<any> {
         try {
-            const rooms = await Room.findAll({
+            const rooms = await RoomModel.findAll({
                 where: { hotelId: hotelId, state: true },
                 include: [
                     {
@@ -104,7 +104,7 @@ export class RoomORM implements RoomRepository {
     }
     async updateRoom(roomData: any, roomId: number): Promise<any> {
         try {
-            const room: any = await Room.findByPk(roomId);
+            const room: any = await RoomModel.findByPk(roomId);
             room.name = roomData.name;
             room.price = roomData.price;
             room.details = roomData.details;
@@ -120,7 +120,7 @@ export class RoomORM implements RoomRepository {
     }
     async updateRoomCondition(roomId: number, conditionId: number): Promise<any> {
         try {
-            const room: any = await Room.findByPk(roomId);
+            const room: any = await RoomModel.findByPk(roomId);
             room.conditionId = conditionId;
             await room.save();
 
@@ -131,7 +131,7 @@ export class RoomORM implements RoomRepository {
     }
     async removeRoom(roomId: number): Promise<any> {
         try {
-            const room: any = await Room.findByPk(roomId);
+            const room: any = await RoomModel.findByPk(roomId);
             room.state = false;
             await room.save();
 

@@ -4,7 +4,7 @@ import { db as sequelize } from '../../../../../../db/connection';
 import { DataTypes } from 'sequelize';
 import { HoustingModel } from '../../../../../housting/adapters/out/persistence/housting.model';
 import { ProductModel } from '../../../../products/adapters/out/persistence/product.model';
-import { CashDatabaseModel } from '../../../../../cash/adapters/out/persistence/cash-database.model';
+import { CashModel } from '../../../../../cash/adapters/out/persistence/cash.model';
 
 @Table
 export class ProductSalesDatabaseEntity extends Model {
@@ -62,13 +62,13 @@ ProductSalesDatabaseEntity.init(
 );
 
 //cash
-CashDatabaseModel.hasOne(ProductSalesDatabaseEntity, {
+CashModel.hasOne(ProductSalesDatabaseEntity, {
     foreignKey: {
         name: 'cashId',
         allowNull: false,
     },
 });
-ProductSalesDatabaseEntity.belongsTo(CashDatabaseModel, {
+ProductSalesDatabaseEntity.belongsTo(CashModel, {
     as: 'cash',
     foreignKey: {
         name: 'cashId',
