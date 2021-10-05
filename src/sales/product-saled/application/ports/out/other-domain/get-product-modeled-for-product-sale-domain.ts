@@ -1,5 +1,5 @@
-import { ProductSaledDomain } from '../../../../domain/products-saled';
+import { ProductSaledDomain } from '../../../../domain/product-saled';
 
 export interface GetProductForProductSaleDomainPort {
-    getProductForProductSaleDomain(productId: number): Promise<ProductSaledDomain>;
+    getProductForProductSaleDomain(productId: number, ammount: number): Promise<ProductSaledDomain>;
 }

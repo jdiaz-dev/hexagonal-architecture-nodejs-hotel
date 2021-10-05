@@ -6,6 +6,9 @@ import { HotelModel } from '../../../../../managament/hotels/adapters/out/persis
 @Table
 export class ProductModel extends Model {
     @Column
+    id!: number;
+
+    @Column
     code!: string;
 
     @Column

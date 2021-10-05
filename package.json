@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start:dev": "nodemon dist/app",
-    "type":"tsc --watch"
+    "build":"tsc --watch"
   },
   "keywords": [
     "hotels"

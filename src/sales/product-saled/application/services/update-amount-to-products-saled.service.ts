@@ -4,7 +4,7 @@ import { GetProductForProductSaleDomainPort } from '../ports/out/other-domain/ge
 
 import { GetProductSaledPort } from '../ports/out/self-domain/get-product-sale.port';
 import { ProductSaledPersistenceAdapter } from '../../adapters/out/persistence/product-saled-persistence.adapter';
-import { ProductSaledDomain } from '../../domain/products-saled';
+import { ProductSaledDomain } from '../../domain/product-saled';
 import { UpdateAmountToProductSaledPort } from '../ports/out/self-domain/update-amount-to-product-saled.port';
 import { ProductPersistenceAdapter } from '../../../products/adapters/out/persistence/product-persistence.adapter';
 
@@ -31,7 +31,7 @@ export class UpdateAmountToProductsSaledService implements UpdateAmountToProduct
         this.updateAmountToProductSaledPort = productSaledPersistenceAdapter;
     }
     async updateTheAmountToProductSaled(productsSaledId: number, ammountProducts: number): Promise<any> {
-        const productsSaled = await this.getProductSaledPort.getProductSaled(productsSaledId);
+        /* const productsSaled = await this.getProductSaledPort.getProductSaled(productsSaledId);
 
         const product: ProductSaledDomain =
             await this.getProductForProductSaleDomainPort.getProductForProductSaleDomain(productsSaled.productId);
@@ -45,6 +45,7 @@ export class UpdateAmountToProductsSaledService implements UpdateAmountToProduct
             totalPrice,
         );
 
-        return newAmountProductsSaled;
+        return newAmountProductsSaled; */
+        return '';
     }
 }

@@ -44,7 +44,7 @@ INSERT INTO hotels VALUES(1, 'hotel de sol', 'jiron del hotel de sol', 1, now(),
 select * from cashes;
 select * from sale_reports;
 select * from housting_reports;
-select * from product_sales
+select * from product_sales;
 
 
 delete from product_sales;

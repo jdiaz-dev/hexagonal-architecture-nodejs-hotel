@@ -1,16 +1,17 @@
 import { Service } from 'typedi';
 
-import { CreateProductSaledRequest } from '../ports/in/create-product-saled.request';
-import { DataProductSaled } from './product-saled-data';
+import { CreateProductsSaledUseCase } from '../ports/in/create-product-saled-use-case';
 import { CreateProductSalePort } from '../ports/out/self-domain/create-product-saled';
 import { ProductSaledPersistenceAdapter } from '../../adapters/out/persistence/product-saled-persistence.adapter';
 import { GetProductService } from '../../../products/application/services/get-product.service';
 import { GetProductForProductSaleDomainPort } from '../ports/out/other-domain/get-product-modeled-for-product-sale-domain';
-import { ProductSaledDomain } from '../../domain/products-saled';
+import { ProductSaledDomain } from '../../domain/product-saled';
 import { ProductPersistenceAdapter } from '../../../products/adapters/out/persistence/product-persistence.adapter';
+import { CreateProductSaledCommand } from '../ports/in/create-products.saled.command';
+import { IProductSaledPayload } from './../ports/in/create-products.saled.command';
 
 @Service()
-export class CreateProductSaledService implements CreateProductSaledRequest {
+export class CreateProductSaledService implements CreateProductsSaledUseCase {
     //other domain
     private getProductForProductSaleDomainPort: GetProductForProductSaleDomainPort;
 
@@ -30,25 +31,20 @@ export class CreateProductSaledService implements CreateProductSaledRequest {
         //self ports
         this.createProductSalePort = productSaledPersistenceAdapter;
     }
-    async createTheProductSaled(
-        cashId: number,
-        houstingId: number,
-        productId: number,
-        productSaleData: DataProductSaled,
-    ): Promise<any> {
-        const product: ProductSaledDomain =
-            await this.getProductForProductSaleDomainPort.getProductForProductSaleDomain(productId);
+    async createTheProductsSaled(command: CreateProductSaledCommand): Promise<any> {
+        const payload: IProductSaledPayload[] = command.getPayload;
 
-        //bussines logic
-        const totalPrice: number = product.calculateTotalPrice(productSaleData.amount);
-        productSaleData.totalPrice = totalPrice;
-
-        const productSaledCreated = await this.createProductSalePort.createProductSaled(
-            cashId,
-            houstingId,
-            productId,
-            productSaleData,
-        );
-        return productSaledCreated;
+        payload.forEach(async (element: IProductSaledPayload) => {
+            const product: ProductSaledDomain =
+                await this.getProductForProductSaleDomainPort.getProductForProductSaleDomain(
+                    element.productId.value,
+                    element.ammount,
+                );
+            product.calculateTotalPrice();
+            const productSaledCreated = await this.createProductSalePort.createProductSaled(
+                product,
+                element.productSaledDTO,
+            );
+        });
     }
 }

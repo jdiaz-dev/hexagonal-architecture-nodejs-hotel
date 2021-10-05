@@ -39,7 +39,7 @@ export default class Server {
 
         //products
         products: '/jdev/products',
-        productSales: '/jdev/product-saled',
+        productSales: '/jdev/product-sales',
         cash: '/jdev/cash',
 
         //housting

@@ -4,9 +4,8 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 import { Request, Response } from 'express';
-import { CreateProductSaledRequest } from '../../../application/ports/in/create-product-saled.request';
+import { CreateProductsSaledUseCase } from '../../../application/ports/in/create-product-saled-use-case';
 import { CreateProductSaledService } from '../../../application/services/create-product-saled.service';
-import { DataProductSaled } from '../../../application/services/product-saled-data';
 
 import { UpdateAmountToProductsSaledService } from '../../../application/services/update-amount-to-products-saled.service';
 import { UpdateAmountToProductSaledUseCase } from '../../../application/ports/in/update-amount-to-product-saled.request';
@@ -20,10 +19,11 @@ import { AddMoneyToCashUseCase } from './../../../../../cash/application/ports/i
 import { AddMoneyToCashService } from '../../../../../cash/application/services/add-money-to-cash.service';
 import { AddMoneyToHoustingReportUseCase } from './../../../../../reports/housting-reports/application/ports/in/add-money-to-housting-report-use-case';
 import { AddMoneyToHoustingReportService } from '../../../../../reports/housting-reports/application/services/add-money-to-housting-report.service';
+import { CreateProductSaledCommand } from '../../../application/ports/in/create-products.saled.command';
 
 @Service()
 export class ProductSaledController {
-    private createProductSaledRequest: CreateProductSaledRequest;
+    private createProductsSaledUseCase: CreateProductsSaledUseCase;
     private updateAmountToProductSaledUseCase: UpdateAmountToProductSaledUseCase;
     private completePaymentProductSaledUseCase: CompletePaymentProductSaledUseCase;
     private getProductsSaledRequest: GetProductsSaledRequest;
@@ -44,7 +44,7 @@ export class ProductSaledController {
         addMoneyToHoustingReportService: AddMoneyToHoustingReportService,
         addMoneyToSaleReportService: AddMoneyToSaleReportService,
     ) {
-        this.createProductSaledRequest = createProductSaledService;
+        this.createProductsSaledUseCase = createProductSaledService;
         this.updateAmountToProductSaledUseCase = updateAmountToProductsSaledService;
         this.completePaymentProductSaledUseCase = completePaymentProductSaledService;
         this.getProductsSaledRequest = getProductsSaledService;
@@ -56,33 +56,24 @@ export class ProductSaledController {
     }
     createProductSaled = async (req: Request, res: Response) => {
         const { cashId, houstingId, productId } = req.params;
-        const { amount, date, time, payed } = req.body;
+        const { productsSaled } = req.body;
 
+        console.log('----------------controller productSaled', typeof productsSaled);
         const _houstingId = parseInt(houstingId),
             _cashId = parseInt(cashId),
-            productPayed = parseInt(payed) === 1 ? true : false;
+            productPayed = parseInt(productsSaled[0].payed) === 1 ? true : false;
 
-        const dataProductSaled = new DataProductSaled(
-            parseInt(amount),
-            0, //total price
-            date,
-            time,
-            productPayed,
-        );
+        const command = new CreateProductSaledCommand(productPayed);
+        const prodSaled = await this.createProductsSaledUseCase.createTheProductsSaled(command);
 
-        const productSaled = await this.createProductSaledRequest.createTheProductSaled(
-            _cashId,
-            _houstingId,
-            parseInt(productId),
-            dataProductSaled,
-        );
+        /* 
 
         if (productPayed) {
             this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productSaled.totalPrice);
             this.addMoneyToCashUseCase.addMoneyToCash(_cashId, productSaled.totalPrice);
             this.addMoneyToHoustingReportUseCase.addMoneyToHoustingReport(_houstingId, productSaled.totalPrice);
         }
-        res.json(productSaled);
+        res.json(productSaled); */
     };
     getProductsSaled = async (req: Request, res: Response) => {
         const { houstingId } = req.params;
@@ -107,7 +98,7 @@ export class ProductSaledController {
         const productSaled = await this.completePaymentProductSaledUseCase.completePaymentProductSaled(
             parseInt(productSaledId),
         );
-        console.log('----------------------productSaled', productSaled.totalPrice);
+        console.log('-------------- productSaled', productSaled.totalPrice);
         this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productSaled.totalPrice);
         this.addMoneyToCashUseCase.addMoneyToCash(parseInt(cashId), productSaled.totalPrice);
         this.addMoneyToHoustingReportUseCase.addMoneyToHoustingReport(_houstingId, productSaled.totalPrice);

@@ -1,5 +1,6 @@
-import { DataProductSaled } from "../../../services/product-saled-data";
+import { ProductSaledDomain } from '../../../../domain/product-saled';
+import { IProductSaledDTO } from './../../in/create-products.saled.command';
 
 export interface CreateProductSalePort {
-    createProductSaled(cashId:number, houstingId:number, productId:number, productSaleData:DataProductSaled):Promise<any>
+    createProductSaled(productSaled: ProductSaledDomain, productSaledDTO: IProductSaledDTO): Promise<any>;
 }

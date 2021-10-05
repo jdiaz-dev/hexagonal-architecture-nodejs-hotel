@@ -1,27 +1,25 @@
 import { Service } from 'typedi';
-import { DataProductSaled } from '../../../application/services/product-saled-data';
 import { ProductSaleRepository } from './product-saled.repository';
 import { ProductSalesDatabaseEntity } from './product-saled-database-entity';
 import { ProductModel } from '../../../../products/adapters/out/persistence/product.model';
+import { ProductSaledDomain } from '../../../domain/product-saled';
+import { IProductSaledDTO } from './../../../application/ports/in/create-products.saled.command';
 
 @Service()
 export class ProductSaledORM implements ProductSaleRepository {
-    async createProductSaled(
-        cashId: number,
-        houstingId: number,
-        productId: number,
-        productSaleData: DataProductSaled,
-    ): Promise<any> {
+    async createProductSaled(_productSaled: ProductSaledDomain, productSaledDTO: IProductSaledDTO): Promise<any> {
         try {
+            //ProductSalesDatabaseEntity.bulkCreate()
+
             const productSaled = new ProductSalesDatabaseEntity();
-            productSaled.amount = productSaleData.amount;
-            productSaled.totalPrice = productSaleData.totalPrice;
-            productSaled.date = productSaleData.date;
-            productSaled.time = productSaleData.time;
-            productSaled.payed = productSaleData.payed;
-            productSaled.cashId = cashId;
-            productSaled.houstingId = houstingId;
-            productSaled.productId = productId;
+            productSaled.amount = _productSaled.getAmmount;
+            productSaled.totalPrice = _productSaled.getTotalPrice;
+            productSaled.date = productSaledDTO.date;
+            productSaled.time = productSaledDTO.time;
+            productSaled.payed = productSaledDTO.payed;
+            productSaled.cashId = productSaledDTO.cashId;
+            productSaled.houstingId = productSaledDTO.houstingId;
+            productSaled.productId = _productSaled.getProductId.value;
 
             await productSaled.save();
 

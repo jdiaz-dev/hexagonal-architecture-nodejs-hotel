@@ -47,7 +47,7 @@ class Server {
             roomCondition: '/jdev/room-condition',
             //products
             products: '/jdev/products',
-            productSales: '/jdev/product-saled',
+            productSales: '/jdev/product-sales',
             cash: '/jdev/cash',
             //housting
             housting: '/jdev/housting',

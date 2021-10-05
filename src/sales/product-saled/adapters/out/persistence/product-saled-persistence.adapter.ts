@@ -1,6 +1,5 @@
 import { Service } from 'typedi';
 
-import { DataProductSaled } from '../../../application/services/product-saled-data';
 import { CreateProductSalePort } from '../../../application/ports/out/self-domain/create-product-saled';
 import { UpdateAmountToProductSaledPort } from '../../../application/ports/out/self-domain/update-amount-to-product-saled.port';
 import { ProductSaledORM } from './product-saled.orm';
@@ -9,6 +8,8 @@ import { GetProductSaledModeledPort } from '../../../application/ports/out/self-
 import { ProductsSaledRelationDomainEntity } from '../../../domain/products-saled-relations';
 import { UpdateProductSaledPayedPort } from '../../../application/ports/out/self-domain/upate-product-saled-payed.port';
 import { GetProductsSaledPort } from '../../../application/ports/out/self-domain/get-products-saled.port';
+import { ProductSaledDomain } from '../../../domain/product-saled';
+import { IProductSaledDTO } from './../../../application/ports/in/create-products.saled.command';
 
 @Service()
 export class ProductSaledPersistenceAdapter
@@ -22,18 +23,8 @@ export class ProductSaledPersistenceAdapter
 {
     constructor(private productSaledORM: ProductSaledORM) {}
 
-    async createProductSaled(
-        cashId: number,
-        houstingId: number,
-        productId: number,
-        productSaleData: DataProductSaled,
-    ): Promise<any> {
-        const productsSaled = await this.productSaledORM.createProductSaled(
-            cashId,
-            houstingId,
-            productId,
-            productSaleData,
-        );
+    async createProductSaled(productSaled: ProductSaledDomain, productSaledDTO: IProductSaledDTO): Promise<any> {
+        const productsSaled = await this.productSaledORM.createProductSaled(productSaled, productSaledDTO);
 
         return productsSaled;
     }
