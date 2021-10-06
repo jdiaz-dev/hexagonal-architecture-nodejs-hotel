@@ -7,7 +7,7 @@ import { ProductModel } from '../../../../products/adapters/out/persistence/prod
 import { CashModel } from '../../../../../cash/adapters/out/persistence/cash.model';
 
 @Table
-export class ProductSalesDatabaseEntity extends Model {
+export class ProductSaledModel extends Model {
     @Column
     amount!: number;
 
@@ -32,7 +32,7 @@ export class ProductSalesDatabaseEntity extends Model {
     @Column
     payed!: boolean;
 }
-ProductSalesDatabaseEntity.init(
+ProductSaledModel.init(
     {
         amount: {
             type: DataTypes.INTEGER,
@@ -62,13 +62,13 @@ ProductSalesDatabaseEntity.init(
 );
 
 //cash
-CashModel.hasOne(ProductSalesDatabaseEntity, {
+CashModel.hasOne(ProductSaledModel, {
     foreignKey: {
         name: 'cashId',
         allowNull: false,
     },
 });
-ProductSalesDatabaseEntity.belongsTo(CashModel, {
+ProductSaledModel.belongsTo(CashModel, {
     as: 'cash',
     foreignKey: {
         name: 'cashId',
@@ -77,13 +77,13 @@ ProductSalesDatabaseEntity.belongsTo(CashModel, {
 });
 
 //housting
-HoustingModel.hasOne(ProductSalesDatabaseEntity, {
+HoustingModel.hasOne(ProductSaledModel, {
     foreignKey: {
         name: 'houstingId',
         allowNull: false,
     },
 });
-ProductSalesDatabaseEntity.belongsTo(HoustingModel, {
+ProductSaledModel.belongsTo(HoustingModel, {
     as: 'housting',
     foreignKey: {
         name: 'houstingId',
@@ -92,13 +92,13 @@ ProductSalesDatabaseEntity.belongsTo(HoustingModel, {
 });
 
 //product
-ProductModel.hasOne(ProductSalesDatabaseEntity, {
+ProductModel.hasOne(ProductSaledModel, {
     foreignKey: {
         name: 'productId',
         allowNull: false,
     },
 });
-ProductSalesDatabaseEntity.belongsTo(ProductModel, {
+ProductSaledModel.belongsTo(ProductModel, {
     as: 'product',
     foreignKey: {
         name: 'productId',

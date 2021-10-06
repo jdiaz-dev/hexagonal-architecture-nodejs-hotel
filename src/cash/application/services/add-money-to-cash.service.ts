@@ -4,8 +4,11 @@ import { CashDomain } from '../../domain/cash';
 import { GetCashModeledForSelfDomainPort } from '../ports/out/self-domain/get-cash-modeled-for-self-domain.port';
 import { UpdateClosingMoneyPort } from '../ports/out/self-domain/udpate-closing-money.port';
 
+import { AddMoneyToCashDueHoustingUseCase } from '../ports/in/add-money-to-cash-due-housting-use-case';
+import { AddMoneyToCashDueProductsUseCase } from './../ports/in/add-money-to-cash-due-products-use-case';
+
 @Service()
-export class AddMoneyToCashService {
+export class AddMoneyToCashService implements AddMoneyToCashDueHoustingUseCase, AddMoneyToCashDueProductsUseCase {
     private getCashModeledForSelfDomainPort: GetCashModeledForSelfDomainPort;
     private updateClosingMoneyPort: UpdateClosingMoneyPort;
 
@@ -13,18 +16,17 @@ export class AddMoneyToCashService {
         this.getCashModeledForSelfDomainPort = cashPersistenceAdapter;
         this.updateClosingMoneyPort = cashPersistenceAdapter;
     }
-    async addMoneyToCash(cashId: number, moneyToAdd: number) {
-        /* for (let x = 2; x < 5; x++) {
-            const cash: CashDomain = await this.getCashModeledForSelfDomainPort.getCashModeledForSelfDomain(
-                cashId,
-            );
-            cash.addMoney(x);
-            console.log('--------------cash domain', cash);
-            await this.updateClosingMoneyPort.updateClosingMoney(cash);
-        } */
-
+    async addMoneyToCashDueHousting(cashId: number, moneyToAdd: number) {
         const cash: CashDomain = await this.getCashModeledForSelfDomainPort.getCashModeledForSelfDomain(cashId);
         cash.addMoney(moneyToAdd);
+        await this.updateClosingMoneyPort.updateClosingMoney(cash);
+    }
+    async addMoneyToCashDueProducts(cashId: number, productsSaled: Array<any>) {
+        const cash: CashDomain = await this.getCashModeledForSelfDomainPort.getCashModeledForSelfDomain(cashId);
+
+        for (let x = 0; x < productsSaled.length; x++) {
+            cash.addMoney(productsSaled[x].totalPrice);
+        }
         await this.updateClosingMoneyPort.updateClosingMoney(cash);
     }
 }

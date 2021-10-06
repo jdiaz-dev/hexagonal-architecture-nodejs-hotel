@@ -54,3 +54,7 @@ delete from houstings;
 
 update rooms set conditionId = 1;
 update cashes set closingMoney = 0;
+
+
+/* removing product_sales */
+delete from product_sales;

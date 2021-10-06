@@ -13,12 +13,13 @@ import { UpdateMoneyPaidService } from '../../../application/services/update-mon
 import { UpdateMoneyPaidUseCase } from '../../../application/ports/in/update-money-paid-use-case';
 import { FinishHoustingUseCase } from '../../../application/ports/in/finish-housting';
 import { FinishHoustingService } from '../../../application/services/finish-housting.service';
-import { AddMoneyToCashUseCase } from './../../../../cash/application/ports/in/add-money-to-cash-use-case';
+import { AddMoneyToCashDueHoustingUseCase } from '../../../../cash/application/ports/in/add-money-to-cash-due-housting-use-case';
 import { AddMoneyToCashService } from '../../../../cash/application/services/add-money-to-cash.service';
 import { CreateHoustingReportService } from '../../../../reports/housting-reports/application/services/create-housting-report.service';
 import { CreateHoustingReportRequest } from './../../../../reports/housting-reports/application/ports/in/create-housting-report.request';
-import { AddMoneyToHoustingReportUseCase } from './../../../../reports/housting-reports/application/ports/in/add-money-to-housting-report-use-case';
+
 import { AddMoneyToHoustingReportService } from '../../../../reports/housting-reports/application/services/add-money-to-housting-report.service';
+import { AddMoneyToHoustingReportDueHoustingUseCase } from './../../../../reports/housting-reports/application/ports/in/add-money-to-housting-report-due-housting-use-case';
 
 dayjs.extend(utc);
 
@@ -30,9 +31,9 @@ export class HoustingController {
     private finishHoustingUseCase: FinishHoustingUseCase;
 
     //other domains
-    private addMoneyToCashUseCase: AddMoneyToCashUseCase;
+    private addMoneyToCashDueHoustingUseCase: AddMoneyToCashDueHoustingUseCase;
     private createHoustingReportRequest: CreateHoustingReportRequest;
-    private addMoneyToHoustingReportUseCase: AddMoneyToHoustingReportUseCase;
+    private addMoneyToHoustingReportDueHousting: AddMoneyToHoustingReportDueHoustingUseCase;
 
     constructor(
         createHoustingService: CreateHoustingService,
@@ -51,9 +52,9 @@ export class HoustingController {
         this.finishHoustingUseCase = finishHoustingService;
 
         //other domains
-        this.addMoneyToCashUseCase = addMoneyToCashService;
+        this.addMoneyToCashDueHoustingUseCase = addMoneyToCashService;
         this.createHoustingReportRequest = createHoustingReportService;
-        this.addMoneyToHoustingReportUseCase = addMoneyToHoustingReportService;
+        this.addMoneyToHoustingReportDueHousting = addMoneyToHoustingReportService;
     }
     createHousting = async (req: Request, res: Response) => {
         const { cashId, clientId, roomId } = req.params;
@@ -72,7 +73,7 @@ export class HoustingController {
                 //dayjs(new Date()).utc(true).format()
             ),
         );
-        this.addMoneyToCashUseCase.addMoneyToCash(parseInt(cashId), newHousting.moneyPaid);
+        this.addMoneyToCashDueHoustingUseCase.addMoneyToCashDueHousting(parseInt(cashId), newHousting.moneyPaid);
         this.createHoustingReportRequest.createHoustingReport(
             parseInt(cashId),
             newHousting.id,
@@ -95,8 +96,11 @@ export class HoustingController {
             parseInt(houstingId),
             parseInt(moneyToAdd),
         );
-        this.addMoneyToCashUseCase.addMoneyToCash(parseInt(cashId), parseInt(moneyToAdd));
-        this.addMoneyToHoustingReportUseCase.addMoneyToHoustingReport(parseInt(houstingId), parseInt(moneyToAdd));
+        this.addMoneyToCashDueHoustingUseCase.addMoneyToCashDueHousting(parseInt(cashId), parseInt(moneyToAdd));
+        this.addMoneyToHoustingReportDueHousting.addMoneyToHoustingReportDueHousting(
+            parseInt(houstingId),
+            parseInt(moneyToAdd),
+        );
         res.json(newMoneyPaid);
     };
     finishHousting = async (req: Request, res: Response) => {

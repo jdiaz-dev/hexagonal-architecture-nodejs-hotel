@@ -9,7 +9,8 @@ import { ProductsSaledRelationDomainEntity } from '../../../domain/products-sale
 import { UpdateProductSaledPayedPort } from '../../../application/ports/out/self-domain/upate-product-saled-payed.port';
 import { GetProductsSaledPort } from '../../../application/ports/out/self-domain/get-products-saled.port';
 import { ProductSaledDomain } from '../../../domain/product-saled';
-import { IProductSaledDTO } from './../../../application/ports/in/create-products.saled.command';
+import { IProductSaledDTO } from '../../../application/ports/in/interfaces/product-saled-dto';
+import { ProductSaledMapper } from './product-saled.mappper';
 
 @Service()
 export class ProductSaledPersistenceAdapter
@@ -21,12 +22,15 @@ export class ProductSaledPersistenceAdapter
         UpdateAmountToProductSaledPort,
         UpdateProductSaledPayedPort
 {
-    constructor(private productSaledORM: ProductSaledORM) {}
+    constructor(private productSaledORM: ProductSaledORM, private productSaledMapper: ProductSaledMapper) {}
 
-    async createProductSaled(productSaled: ProductSaledDomain, productSaledDTO: IProductSaledDTO): Promise<any> {
-        const productsSaled = await this.productSaledORM.createProductSaled(productSaled, productSaledDTO);
+    async createProductSaled(
+        productsSaled: Array<{ _productSaledDomain: ProductSaledDomain; productSaledDTO: IProductSaledDTO }>,
+    ): Promise<any> {
+        const productsSaledMapped = this.productSaledMapper.mapToSequelizeModel(productsSaled);
+        const productsSaledCreated = await this.productSaledORM.createProductSaled(productsSaledMapped);
 
-        return productsSaled;
+        return productsSaledCreated;
     }
     async updateAmountToProductSaled(
         productsSaledId: number,

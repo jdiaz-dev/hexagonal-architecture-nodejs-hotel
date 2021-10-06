@@ -26,17 +26,18 @@ export class AddMoneyToSaleReportService implements AddMoneyToSaleReportUseCase 
         this.getSaleReportModeled = saleReportPersistenceAdapter;
     }
 
-    async addMoneyToSaleReport(houstingId: number, moneyToAdd: number) {
+    async addMoneyToSaleReport(houstingId: number, productsSaled: Array<any>) {
         let saleReport: SaleReportDomain = await this.getSaleReportModeled.getSaleReportModeledForSelfDomain(
             houstingId,
         );
 
-        // console.log('-----------saleReport', saleReport);
         if (saleReport.getSaleReportId == 0) {
             saleReport = await this.createSaleReportPort.createSaleReport(houstingId, 0);
         }
-        // console.log('-----------saleReport', saleReport);
-        saleReport.addMoney(moneyToAdd);
+
+        for (let x = 0; x < productsSaled.length; x++) {
+            saleReport.addMoney(productsSaled[x].totalPrice);
+        }
         this.updateMoneyInSaleReportPort.updateMoneyInSaleReport(saleReport);
     }
 }

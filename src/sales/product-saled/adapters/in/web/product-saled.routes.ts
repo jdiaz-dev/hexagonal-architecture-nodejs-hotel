@@ -15,22 +15,14 @@ const productSaledController = Container.get(ProductSaledController);
 const router = Router();
 
 router.post(
-    // '/:hotelId/:cashId/:houstingId/:productId'
-    '/:hotelId',
+    '/:hotelId/:cashId/:houstingId',
+    //'/:hotelId',
     [
-        /* coommonMiddlewares.validateJWT,
-        coommonMiddlewares.checkIfHotelBelongsToUserApp, */
-        /* check('amount', 'amount is required').not().isEmpty(),
-        check('date', 'date is required').not().isEmpty(),
-        check('payed', 'payed is required').not().isEmpty(), */
-        check('productsSaled.*.amount', 'amount is required').not().isEmpty(),
+        check('productsSaled.*.productId', 'product id is required').not().isEmpty(),
+        check('productsSaled.*.ammount', 'ammount is required').not().isEmpty(),
         check('productsSaled.*.date', 'date is required').not().isEmpty(),
+        check('productsSaled.*.time', 'time is required').not().isEmpty(),
         check('productsSaled.*.payed', 'payed is required').not().isEmpty(),
-
-        /* body().isArray(),
-        body('productsSaled.*.amount', 'amount is required').not().isEmpty(),
-        body('productsSaled.*.date', 'date is required').not().isEmpty(),
-        body('productsSaled.*.payed', 'payed is required').not().isEmpty(), */
         validateFields,
     ],
     productSaledController.createProductSaled,
