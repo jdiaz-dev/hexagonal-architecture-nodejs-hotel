@@ -7,18 +7,18 @@ export class CreateProductSaledCommand {
     constructor(private cashId: number, private houstingId: number, private productsSaled: any[]) {}
 
     mapToProductSaledDomain() {
-        let productId, ammount, productSaledDTO;
+        let productId, amount, productSaledDTO;
         this.productsSaled.forEach((element: any) => {
             productId = new ProductSaledDomain.ProductId(element.productId);
-            ammount = element.ammount;
+            amount = element.amount;
             productSaledDTO = {
                 date: element.date,
                 time: element.time,
-                payed: element.payed === 1 ? true : false,
+                payed: element.payed === 1 || element.payed === '1' ? true : false,
                 cashId: this.cashId,
                 houstingId: this.houstingId,
             };
-            this.payload.push({ productId, ammount, productSaledDTO });
+            this.payload.push({ productId, amount, productSaledDTO });
         });
     }
     get getPayload() {

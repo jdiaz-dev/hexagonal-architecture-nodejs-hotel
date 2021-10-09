@@ -56,8 +56,8 @@ export class ProductSaledPersistenceAdapter
         const productsSaled = await this.productSaledORM.getProductSaled(productsSaledId);
         return new ProductsSaledRelationDomainEntity(productsSaled.cashId, productsSaled.houstingId);
     }
-    async updateProductSaledPayed(productSaledId: number): Promise<any> {
-        const productPayed = await this.productSaledORM.updateProductSaledPayed(productSaledId);
+    async updateProductSaledPayed(productSaledIds: number[]): Promise<any> {
+        const productPayed = await this.productSaledORM.updateProductSaledPayed(productSaledIds);
         return productPayed;
     }
 }

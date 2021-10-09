@@ -5,11 +5,11 @@ export class ProductSaledDomain {
     constructor(
         private productId: typeof ProductSaledDomain.ProductId.prototype,
         private productPrice: number,
-        private ammount: number,
+        private amount: number,
     ) {}
 
     calculateTotalPrice() {
-        for (let x = 0; x < this.ammount; x++) {
+        for (let x = 0; x < this.amount; x++) {
             this.totalPrice += this.productPrice;
         }
     }
@@ -19,8 +19,8 @@ export class ProductSaledDomain {
     get getTotalPrice() {
         return this.totalPrice;
     }
-    get getAmmount() {
-        return this.ammount;
+    get getAmount() {
+        return this.amount;
     }
 
     static ProductId = class {

@@ -16,10 +16,11 @@ const router = Router();
 
 router.post(
     '/:hotelId/:cashId/:houstingId',
-    //'/:hotelId',
     [
+        coommonMiddlewares.validateJWT,
+        coommonMiddlewares.checkIfHotelBelongsToUserApp,
         check('productsSaled.*.productId', 'product id is required').not().isEmpty(),
-        check('productsSaled.*.ammount', 'ammount is required').not().isEmpty(),
+        check('productsSaled.*.amount', 'amount is required').not().isEmpty(),
         check('productsSaled.*.date', 'date is required').not().isEmpty(),
         check('productsSaled.*.time', 'time is required').not().isEmpty(),
         check('productsSaled.*.payed', 'payed is required').not().isEmpty(),
@@ -48,11 +49,11 @@ router.get(
 ); */
 
 router.put(
-    '/finish-payment/:hotelId/:cashId/:houstingId/:productSaledId',
+    '/finish-payment/:hotelId/:cashId/:houstingId/:productSaledIds',
     [
-        coommonMiddlewares.validateJWT,
+        /* coommonMiddlewares.validateJWT,
         coommonMiddlewares.checkIfHotelBelongsToUserApp,
-        productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment,
+        productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment, */
         validateFields,
     ],
     productSaledController.completeProductSaledPayment,

@@ -38,7 +38,9 @@ UPDATE room_categories SET price = 20 WHERE id = 2;
 INSERT INTO hotels VALUES(1, 'hotel de sol', 'jiron del hotel de sol', 1, now(), now(), 4);
 
 
+\! cls;
 
+select * from houstings;
 
 
 select * from cashes;

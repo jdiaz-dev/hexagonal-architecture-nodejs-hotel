@@ -59,8 +59,7 @@ export class ProductSaledController {
         const { productsSaled } = req.body;
 
         const _houstingId = parseInt(houstingId),
-            _cashId = parseInt(cashId),
-            productPayed = parseInt(productsSaled[0].payed) === 1 ? true : false;
+            _cashId = parseInt(cashId);
 
         const command = new CreateProductSaledCommand(_cashId, _houstingId, productsSaled);
         command.mapToProductSaledDomain();
@@ -90,19 +89,19 @@ export class ProductSaledController {
         res.json(productSaled);
     }; */
     completeProductSaledPayment = async (req: Request, res: Response) => {
-        const { houstingId, productSaledId, cashId } = req.params;
-
+        const { houstingId, productSaledIds, cashId } = req.params;
+        const _productSaledIds = productSaledIds.split(',').map((productSaledId) => parseInt(productSaledId));
         const _houstingId = parseInt(houstingId);
+        // console.log('------------------------productSaledIds', productSaledIds);
 
-        const productSaled = await this.completePaymentProductSaledUseCase.completePaymentProductSaled(
-            parseInt(productSaledId),
+        const productsSaled = await this.completePaymentProductSaledUseCase.completePaymentProductSaled(
+            _productSaledIds,
         );
-        console.log('-------------- productSaled', productSaled.totalPrice);
 
-        /* this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productSaled.totalPrice);
-        this.addMoneyToCashUseCase.addMoneyToCashDueToHousting(parseInt(cashId), productSaled.totalPrice);
-        this.addMoneyToHoustingReportUseCase.addMoneyToHoustingReport(_houstingId, productSaled.totalPrice); */
+        this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productsSaled);
+        this.addMoneyToCashDueProductsUseCase.addMoneyToCashDueProducts(parseInt(cashId), productsSaled);
+        this.addMoneyToHoustingReportDueProducts.addMoneyToHoustingReportDueProducts(_houstingId, productsSaled);
 
-        res.json(productSaled);
+        res.json(productsSaled);
     };
 }

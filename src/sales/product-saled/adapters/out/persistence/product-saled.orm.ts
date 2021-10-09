@@ -58,13 +58,17 @@ export class ProductSaledORM implements ProductSaleRepository {
             console.log('------------', error);
         }
     }
-    async updateProductSaledPayed(productSaledId: number): Promise<any> {
+    async updateProductSaledPayed(productSaledIds: number[]): Promise<any> {
         try {
-            const productSaled: any = await ProductSaledModel.findByPk(productSaledId);
-            productSaled.payed = true;
-            await productSaled.save();
+            const productsSaled: any[] = await ProductSaledModel.findAll({
+                where: { id: productSaledIds },
+            });
+            for (let x = 0; x < productsSaled.length; x++) {
+                productsSaled[x].set({ payed: true });
+                await productsSaled[x].save();
+            }
 
-            return productSaled;
+            return productsSaled;
         } catch (error) {
             console.log('------------', error);
         }

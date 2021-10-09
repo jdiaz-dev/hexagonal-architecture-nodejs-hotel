@@ -11,7 +11,7 @@ export class CompletePaymentProductSaledService implements CompletePaymentProduc
     constructor(productSaledPersistenceAdapter: ProductSaledPersistenceAdapter) {
         this.updateProductSaledPayedPort = productSaledPersistenceAdapter;
     }
-    async completePaymentProductSaled(productSaledId: number): Promise<any> {
+    async completePaymentProductSaled(productSaledId: number[]): Promise<any> {
         const productSaledPayed = await this.updateProductSaledPayedPort.updateProductSaledPayed(productSaledId);
         return productSaledPayed;
     }

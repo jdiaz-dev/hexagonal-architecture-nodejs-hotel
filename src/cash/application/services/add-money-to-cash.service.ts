@@ -27,6 +27,7 @@ export class AddMoneyToCashService implements AddMoneyToCashDueHoustingUseCase, 
         for (let x = 0; x < productsSaled.length; x++) {
             cash.addMoney(productsSaled[x].totalPrice);
         }
+
         await this.updateClosingMoneyPort.updateClosingMoney(cash);
     }
 }

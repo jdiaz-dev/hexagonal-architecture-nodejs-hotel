@@ -1,3 +1,3 @@
 export interface UpdateProductSaledPayedPort {
-    updateProductSaledPayed(productSaledId:number):Promise<any>
+    updateProductSaledPayed(productSaledIds: number[]): Promise<any>;
 }

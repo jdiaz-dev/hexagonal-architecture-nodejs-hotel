@@ -1,3 +1,3 @@
 export interface CompletePaymentProductSaledUseCase {
-    completePaymentProductSaled(productSaledId: number): Promise<any>;
+    completePaymentProductSaled(productSaledIds: number[]): Promise<any>;
 }

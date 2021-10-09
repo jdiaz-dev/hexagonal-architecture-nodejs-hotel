@@ -24,7 +24,7 @@ export class CashORM implements CashRepository {
     }
     async getCash(cashId: number): Promise<any> {
         try {
-            const cash = await CashModel.findByPk(cashId);
+            const cash = await CashModel.findOne({ where: { id: cashId, closed: false } });
             return cash;
         } catch (error) {
             console.log('------------', error);

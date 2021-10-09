@@ -44,7 +44,7 @@ export class CreateProductSaledService implements CreateProductsSaledUseCase {
             const product: ProductSaledDomain =
                 await this.getProductForProductSaleDomainPort.getProductForProductSaleDomain(
                     payload[x].productId.value,
-                    payload[x].ammount,
+                    payload[x].amount,
                 );
             product.calculateTotalPrice();
             productsSaledProcessed.push({

@@ -12,7 +12,7 @@ export class ProductSaledMapper {
 
         productSaled.forEach((element) => {
             let prodSaled = {
-                amount: element._productSaledDomain.getAmmount,
+                amount: element._productSaledDomain.getAmount,
                 totalPrice: element._productSaledDomain.getTotalPrice,
                 date: element.productSaledDTO.date,
                 time: element.productSaledDTO.time,
