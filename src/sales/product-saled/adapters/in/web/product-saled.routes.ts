@@ -53,8 +53,8 @@ router.put(
     [
         /* coommonMiddlewares.validateJWT,
         coommonMiddlewares.checkIfHotelBelongsToUserApp,
-        productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment, */
-        validateFields,
+        productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment,
+        validateFields, */
     ],
     productSaledController.completeProductSaledPayment,
 );

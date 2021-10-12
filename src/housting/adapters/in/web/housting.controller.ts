@@ -91,11 +91,12 @@ export class HoustingController {
     updateMoneyPaid = async (req: Request, res: Response) => {
         const { cashId, houstingId } = req.params;
         const { moneyToAdd } = req.body;
-
         const newMoneyPaid = await this.updateMoneyPaidUseCase.updateMoneyPaid(
             parseInt(houstingId),
             parseInt(moneyToAdd),
         );
+        console.log('---------------------------updateMoneyPaid');
+
         this.addMoneyToCashDueHoustingUseCase.addMoneyToCashDueHousting(parseInt(cashId), parseInt(moneyToAdd));
         this.addMoneyToHoustingReportDueHousting.addMoneyToHoustingReportDueHousting(
             parseInt(houstingId),
@@ -105,6 +106,7 @@ export class HoustingController {
     };
     finishHousting = async (req: Request, res: Response) => {
         const { houstingId } = req.params;
+        console.log('---------------------------finishHousting');
 
         const houstingFinished = await this.finishHoustingUseCase.finishHousting(parseInt(houstingId));
 

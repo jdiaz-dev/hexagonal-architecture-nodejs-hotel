@@ -92,16 +92,19 @@ export class ProductSaledController {
         const { houstingId, productSaledIds, cashId } = req.params;
         const _productSaledIds = productSaledIds.split(',').map((productSaledId) => parseInt(productSaledId));
         const _houstingId = parseInt(houstingId);
-        // console.log('------------------------productSaledIds', productSaledIds);
+        console.log('------------------------entering');
 
         const productsSaled = await this.completePaymentProductSaledUseCase.completePaymentProductSaled(
             _productSaledIds,
         );
 
         this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productsSaled);
+
         this.addMoneyToCashDueProductsUseCase.addMoneyToCashDueProducts(parseInt(cashId), productsSaled);
         this.addMoneyToHoustingReportDueProducts.addMoneyToHoustingReportDueProducts(_houstingId, productsSaled);
 
+        console.log('------------------------productSaledIds', productSaledIds);
+        console.log('------------------------productSaledIds', productsSaled);
         res.json(productsSaled);
     };
 }

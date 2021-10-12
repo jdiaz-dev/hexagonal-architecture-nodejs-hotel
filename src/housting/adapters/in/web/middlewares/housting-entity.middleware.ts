@@ -14,9 +14,10 @@ export class HoustingEntityMiddleware {
     }
     checkIfHoustingDomainEntityIsCompliment = async (req: Request | any, res: Response, next: NextFunction) => {
         const { cashId, houstingId, clientId, roomId } = req.params;
+        console.log('------------roomId HoustingEntityMiddleware', roomId);
         const houstingModeled: HoustingDomainEntity =
             await this.getHoustingModeledForMiddleware.getHoustingModeledForMiddleware(roomId);
-        /* console.log('------------roomId', roomId);
+        /* 
         console.log('------------cashId', cashId);
         console.log('------------houstingModeled', houstingModeled); */
         if (!houstingModeled.checkIfCashBelongsToHousting(parseInt(cashId))) {
