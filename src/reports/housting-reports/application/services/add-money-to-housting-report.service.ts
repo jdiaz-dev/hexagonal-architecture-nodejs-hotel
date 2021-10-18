@@ -25,13 +25,17 @@ export class AddMoneyToHoustingReportService
 
         this.updateMoneyInHoustingReportPort.updateMoneyInHoustingReport(houstingReport);
     }
-    async addMoneyToHoustingReportDueProducts(houstingId: number, productsSaled: Array<any>) {
+    async addMoneyToHoustingReportDueProducts(
+        houstingId: number,
+        producsSaledReportId: number,
+        productsSaled: Array<any>,
+    ) {
         const houstingReport: HoustingReportDomain =
             await this.getHoustingReportModeledPort.getHoustingReportModeledForSelfDomain(houstingId);
 
         for (let x = 0; x < productsSaled.length; x++) {
             houstingReport.addMoney(productsSaled[x].totalPrice);
         }
-        this.updateMoneyInHoustingReportPort.updateMoneyInHoustingReport(houstingReport);
+        this.updateMoneyInHoustingReportPort.updateMoneyInHoustingReport(houstingReport, producsSaledReportId);
     }
 }

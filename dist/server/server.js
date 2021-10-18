@@ -54,7 +54,7 @@ class Server {
             houstingReport: '/jdev/housting-report',
         };
         this.app = express_1.default();
-        this.port = process.env.PORT || '8080';
+        this.port = process.env.PORT || '3000';
         this.dbconnection();
         this.middlewares();
         this.security();

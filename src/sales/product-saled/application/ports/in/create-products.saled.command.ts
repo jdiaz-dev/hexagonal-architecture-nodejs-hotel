@@ -9,6 +9,7 @@ export class CreateProductSaledCommand {
     mapToProductSaledDomain() {
         let productId, amount, productSaledDTO;
         this.productsSaled.forEach((element: any) => {
+            console.log('--------------productsSaled', element);
             productId = new ProductSaledDomain.ProductId(element.productId);
             amount = element.amount;
             productSaledDTO = {

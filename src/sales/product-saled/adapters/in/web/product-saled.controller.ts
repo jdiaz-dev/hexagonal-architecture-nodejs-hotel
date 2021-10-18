@@ -66,9 +66,16 @@ export class ProductSaledController {
         const prodsSaled = await this.createProductsSaledUseCase.createTheProductsSaled(command);
 
         if (prodsSaled[0].payed) {
-            this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, prodsSaled);
             this.addMoneyToCashDueProductsUseCase.addMoneyToCashDueProducts(_cashId, prodsSaled);
-            this.addMoneyToHoustingReportDueProducts.addMoneyToHoustingReportDueProducts(_houstingId, prodsSaled);
+            const productsSaledReport = await this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(
+                _houstingId,
+                prodsSaled,
+            );
+            this.addMoneyToHoustingReportDueProducts.addMoneyToHoustingReportDueProducts(
+                _houstingId,
+                productsSaledReport.id,
+                prodsSaled,
+            );
         }
 
         res.json({ productsSaled: prodsSaled });
@@ -92,19 +99,23 @@ export class ProductSaledController {
         const { houstingId, productSaledIds, cashId } = req.params;
         const _productSaledIds = productSaledIds.split(',').map((productSaledId) => parseInt(productSaledId));
         const _houstingId = parseInt(houstingId);
-        console.log('------------------------entering');
 
         const productsSaled = await this.completePaymentProductSaledUseCase.completePaymentProductSaled(
             _productSaledIds,
         );
 
-        this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(_houstingId, productsSaled);
-
         this.addMoneyToCashDueProductsUseCase.addMoneyToCashDueProducts(parseInt(cashId), productsSaled);
-        this.addMoneyToHoustingReportDueProducts.addMoneyToHoustingReportDueProducts(_houstingId, productsSaled);
+        const productsSaledReport = await this.addMoneyToSaleReportUseCase.addMoneyToSaleReport(
+            _houstingId,
+            productsSaled,
+        );
 
-        console.log('------------------------productSaledIds', productSaledIds);
-        console.log('------------------------productSaledIds', productsSaled);
+        this.addMoneyToHoustingReportDueProducts.addMoneyToHoustingReportDueProducts(
+            _houstingId,
+            productsSaledReport.id,
+            productsSaled,
+        );
+
         res.json(productsSaled);
     };
 }

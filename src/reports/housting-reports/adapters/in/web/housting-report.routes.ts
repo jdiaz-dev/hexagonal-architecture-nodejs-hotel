@@ -11,10 +11,16 @@ const houstingReportController = Container.get(HoustingReportController);
 
 const router = Router();
 
-router.get(
+/* router.get(
     '/:hotelId/:cashId/:houstingId',
     [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     houstingReportController.getHoustingReport,
-);
+); */
 
+router.get(
+    '/:hotelId/:cashId',
+    // [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
+    [],
+    houstingReportController.getHoustingReports,
+);
 export default router;

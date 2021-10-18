@@ -29,7 +29,7 @@ export class SaleReportPersistenceAdapter
         const saleReport = await this.saleReportORM.getSaleReport(houstingId);
         return this.saleReportMapper.mapForSelfDomain(saleReport);
     }
-    async updateMoneyInSaleReport(_saleReport: SaleReportDomain) {
+    async updateMoneyInSaleReport(_saleReport: SaleReportDomain): Promise<any> {
         const saleReport = await this.saleReportORM.updateMoneyInSaleReport(_saleReport);
         return saleReport;
     }
