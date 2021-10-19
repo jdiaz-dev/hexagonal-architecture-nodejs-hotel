@@ -35,6 +35,12 @@ router.get(
     productSaledController.getProductsSaled,
 );
 
+router.get(
+    '/report/:hotelId/:cashId',
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
+    productSaledController.getProductsSaledForReport,
+);
+
 /* router.put(
     '/:hotelId/:cashId/:houstingId/:productSaledId',
     [

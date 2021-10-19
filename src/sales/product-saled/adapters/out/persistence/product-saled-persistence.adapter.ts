@@ -11,6 +11,7 @@ import { GetProductsSaledPort } from '../../../application/ports/out/self-domain
 import { ProductSaledDomain } from '../../../domain/product-saled';
 import { IProductSaledDTO } from '../../../application/ports/in/interfaces/product-saled-dto';
 import { ProductSaledMapper } from './product-saled.mappper';
+import { IGetProductsSaledForReportPort } from '../../../application/ports/out/self-domain/get-products-saled-for-report.port';
 
 @Service()
 export class ProductSaledPersistenceAdapter
@@ -20,7 +21,8 @@ export class ProductSaledPersistenceAdapter
         GetProductSaledModeledPort,
         GetProductsSaledPort,
         UpdateAmountToProductSaledPort,
-        UpdateProductSaledPayedPort
+        UpdateProductSaledPayedPort,
+        IGetProductsSaledForReportPort
 {
     constructor(private productSaledORM: ProductSaledORM, private productSaledMapper: ProductSaledMapper) {}
 
@@ -55,6 +57,10 @@ export class ProductSaledPersistenceAdapter
     async getProductSaledModeled(productsSaledId: number): Promise<ProductsSaledRelationDomainEntity> {
         const productsSaled = await this.productSaledORM.getProductSaled(productsSaledId);
         return new ProductsSaledRelationDomainEntity(productsSaled.cashId, productsSaled.houstingId);
+    }
+    async getProductsSaledForReport(cashId: number): Promise<any> {
+        const productsSaledForReport = await this.productSaledORM.getProductsSaledForReport(cashId);
+        return productsSaledForReport;
     }
     async updateProductSaledPayed(productSaledIds: number[]): Promise<any> {
         const productPayed = await this.productSaledORM.updateProductSaledPayed(productSaledIds);

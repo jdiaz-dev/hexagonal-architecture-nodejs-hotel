@@ -20,6 +20,8 @@ import { AddMoneyToHoustingReportDueProductsUseCase } from '../../../../../repor
 import { AddMoneyToHoustingReportService } from '../../../../../reports/housting-reports/application/services/add-money-to-housting-report.service';
 import { CreateProductSaledCommand } from '../../../application/ports/in/create-products.saled.command';
 import { AddMoneyToCashDueProductsUseCase } from './../../../../../cash/application/ports/in/add-money-to-cash-due-products-use-case';
+import { IGetProductsSaledForReportUseCase } from '../../../application/ports/in/get-products-saled-for-report-use-case';
+import { GetProductsSaledForReport } from '../../../application/services/get-products-saled-for-report.service';
 
 @Service()
 export class ProductSaledController {
@@ -27,6 +29,7 @@ export class ProductSaledController {
     private updateAmountToProductSaledUseCase: UpdateAmountToProductSaledUseCase;
     private completePaymentProductSaledUseCase: CompletePaymentProductSaledUseCase;
     private getProductsSaledRequest: GetProductsSaledRequest;
+    private getProductsSaledForReportUseCase: IGetProductsSaledForReportUseCase;
 
     //other domain
     private addMoneyToCashDueProductsUseCase: AddMoneyToCashDueProductsUseCase;
@@ -38,6 +41,7 @@ export class ProductSaledController {
         updateAmountToProductsSaledService: UpdateAmountToProductsSaledService,
         completePaymentProductSaledService: CompletePaymentProductSaledService,
         getProductsSaledService: GetProductsSaledService,
+        getProductsSaledForReport: GetProductsSaledForReport,
 
         //other domains
         addMoneyToCashService: AddMoneyToCashService,
@@ -48,6 +52,7 @@ export class ProductSaledController {
         this.updateAmountToProductSaledUseCase = updateAmountToProductsSaledService;
         this.completePaymentProductSaledUseCase = completePaymentProductSaledService;
         this.getProductsSaledRequest = getProductsSaledService;
+        this.getProductsSaledForReportUseCase = getProductsSaledForReport;
 
         //other domain
         this.addMoneyToCashDueProductsUseCase = addMoneyToCashService;
@@ -83,6 +88,13 @@ export class ProductSaledController {
     getProductsSaled = async (req: Request, res: Response) => {
         const { houstingId } = req.params;
         const productsSaled = await this.getProductsSaledRequest.getTheProductsSaled(parseInt(houstingId));
+        res.json(productsSaled);
+    };
+    getProductsSaledForReport = async (req: Request, res: Response) => {
+        const { cashId } = req.params;
+        const productsSaled = await this.getProductsSaledForReportUseCase.getTheProductsSaledForReport(
+            parseInt(cashId),
+        );
         res.json(productsSaled);
     };
     /* updateAmountProductSaled = async (req: Request, res: Response) => {

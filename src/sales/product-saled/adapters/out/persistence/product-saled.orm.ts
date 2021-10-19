@@ -4,6 +4,8 @@ import { ProductSaledModel } from './product-saled-model';
 import { ProductModel } from '../../../../products/adapters/out/persistence/product.model';
 import { ProductSaledDomain } from '../../../domain/product-saled';
 import { IProductSaledDTO } from '../../../application/ports/in/interfaces/product-saled-dto';
+import { HoustingModel } from '../../../../../housting/adapters/out/persistence/housting.model';
+import { RoomModel } from '../../../../../configuration-hotel/room/adapters/out/persistence/room.model';
 
 @Service()
 export class ProductSaledORM implements ProductSaleRepository {
@@ -37,6 +39,36 @@ export class ProductSaledORM implements ProductSaleRepository {
                 ],
             });
             return productSaled;
+        } catch (error) {
+            console.log('------------', error);
+        }
+    }
+    async getProductsSaledForReport(cashId: number): Promise<any> {
+        try {
+            const productsSaledReport: any = await ProductSaledModel.findAndCountAll({
+                where: { cashId },
+                attributes: ['id', 'amount', 'totalPrice', 'date', 'time'],
+                include: [
+                    {
+                        model: ProductModel,
+                        as: 'product',
+                        attributes: ['id', 'name', 'price'],
+                    },
+                    {
+                        model: HoustingModel,
+                        as: 'housting',
+                        attributes: ['id'],
+                        include: [
+                            {
+                                model: RoomModel,
+                                as: 'room',
+                                attributes: ['id', 'name'],
+                            },
+                        ],
+                    },
+                ],
+            });
+            return productsSaledReport;
         } catch (error) {
             console.log('------------', error);
         }
