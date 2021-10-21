@@ -57,10 +57,10 @@ router.get(
 router.put(
     '/finish-payment/:hotelId/:cashId/:houstingId/:productSaledIds',
     [
-        /* coommonMiddlewares.validateJWT,
+        coommonMiddlewares.validateJWT,
         coommonMiddlewares.checkIfHotelBelongsToUserApp,
         productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment,
-        validateFields, */
+        validateFields,
     ],
     productSaledController.completeProductSaledPayment,
 );

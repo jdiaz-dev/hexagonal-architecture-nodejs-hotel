@@ -19,8 +19,7 @@ const router = Router();
 
 router.get(
     '/:hotelId/:cashId',
-    // [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
-    [],
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     houstingReportController.getHoustingReports,
 );
 export default router;
