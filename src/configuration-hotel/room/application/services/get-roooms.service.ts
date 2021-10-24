@@ -10,6 +10,7 @@ import { GetRoomCategoryForRoomDomainPort } from '../ports/out/other-domain/get-
 import { RoomDomain } from '../../domain/room';
 import { LevelPersistenceAdpater } from '../../../levels/adapters/out/persistence/level-persistence.adapter';
 import { RoomCategoryPersistenceAdapter } from '../../../room-categories/adapters/out/persistence/room-category-persistence.adapter';
+import { IQueries } from '../../../../shared/interfaces/query.interface';
 
 @Service()
 export class GetRoomsService implements GetRoomsRequest {
@@ -45,8 +46,8 @@ export class GetRoomsService implements GetRoomsRequest {
         const rooms = await this.getRoomsPort.getRoomsByLevel(levelId, roomConditionId);
         return rooms;
     }
-    async getAllRooms(hotelId: number): Promise<any> {
-        const rooms = await this.getRoomsPort.getAllRooms(hotelId);
+    async getAllRooms(hotelId: number, queries: IQueries): Promise<any> {
+        const rooms = await this.getRoomsPort.getAllRooms(hotelId, queries);
         return rooms;
     }
 }

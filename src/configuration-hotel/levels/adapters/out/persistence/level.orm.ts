@@ -3,6 +3,7 @@ import { Service } from 'typedi';
 import { LevelRepository } from './level.repository';
 import { Level } from './level.model';
 import { HotelModel } from '../../../../../managament/hotels/adapters/out/persistence/hotel.model';
+import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()
 export class LevelORM implements LevelRepository {
@@ -18,9 +19,9 @@ export class LevelORM implements LevelRepository {
             console.log('------------', error);
         }
     }
-    async getLevels(hotelId: number): Promise<any> {
+    async getLevels(hotelId: number, queries: IQueries): Promise<any> {
         try {
-            const levels = await Level.findAll({
+            const levels = await Level.findAndCountAll({
                 where: { hotelId: hotelId, state: true },
                 /* include: {
                     model: HotelModel,
@@ -31,6 +32,8 @@ export class LevelORM implements LevelRepository {
                     exclude: ['hotelId', 'createdAt', 'updatedAt', 'state'],
                 },
                 order: [['number', 'ASC']],
+                limit: queries.limit,
+                offset: queries.offset,
             });
             return levels;
         } catch (error) {

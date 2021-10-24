@@ -59,7 +59,7 @@ router.put(
     [
         coommonMiddlewares.validateJWT,
         coommonMiddlewares.checkIfHotelBelongsToUserApp,
-        productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment,
+        //productsSaledMiddlewares.checkIfProductsSaledRelationsIsCompliment, //horror
         validateFields,
     ],
     productSaledController.completeProductSaledPayment,

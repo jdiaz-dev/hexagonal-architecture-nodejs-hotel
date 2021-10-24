@@ -14,6 +14,7 @@ import { RoomWithLevelCommand } from '../../../application/ports/in/room-with-le
 import { UpdateRoomCondtionRequest } from '../../../application/ports/in/update-room-condition.request';
 import { UpdateRoomConditionService } from '../../../application/services/update-room-condition.service';
 import { SETTINGS } from '../../../../../../settings/settings';
+import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()
 export class RoomController {
@@ -79,8 +80,18 @@ export class RoomController {
     };
     getAllRooms = async (req: Request | any, res: Response) => {
         const { hotelId } = req.params;
+        const {
+            limit = SETTINGS.base.queries.limit,
+            offset = SETTINGS.base.queries.offset,
+            orderby = SETTINGS.base.queries.orderBy,
+        } = req.query as unknown as IQueries;
+        const queries: IQueries = {
+            limit: Number(limit),
+            offset: Number(offset),
+            orderby,
+        };
 
-        const rooms = await this.getRoomsRequest.getAllRooms(parseInt(hotelId));
+        const rooms = await this.getRoomsRequest.getAllRooms(parseInt(hotelId), queries);
         res.json(rooms);
     };
     removeRoom = async (req: Request | any, res: Response) => {

@@ -13,6 +13,7 @@ import { RemoveHotelLevelPort } from '../../../application/ports/out/remove-hote
 import { LevelMapper } from './level.mapper';
 import { GetLevelForRoomDomainPort } from './../../../../room/application/ports/out/other-domain/get-level-for-room-domain.port';
 import { RoomDomain } from '../../../../room/domain/room';
+import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()
 export class LevelPersistenceAdpater
@@ -34,8 +35,8 @@ export class LevelPersistenceAdpater
         const level = await this.levelRepository.saveLevel(numberLevel, nameLevel, hotelId);
         return level;
     }
-    async getLevels(hotelId: number): Promise<any> {
-        const levels = await this.levelRepository.getLevels(hotelId);
+    async getLevels(hotelId: number, queries: IQueries): Promise<any> {
+        const levels = await this.levelRepository.getLevels(hotelId, queries);
         return levels;
     }
     async getLevel(levelId: number): Promise<any> {

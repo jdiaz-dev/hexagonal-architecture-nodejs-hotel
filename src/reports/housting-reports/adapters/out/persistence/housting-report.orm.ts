@@ -50,7 +50,7 @@ export class HoustingReportORM implements HoustingReportRepository {
                     {
                         model: HoustingModel,
                         as: 'housting',
-                        attributes: ['id'],
+                        attributes: ['id', 'moneyPaid', 'entryDate', 'entryTime', 'outputDate', 'outputTime'],
                         include: [
                             {
                                 model: RoomModel,

@@ -5,6 +5,7 @@ import { Level } from '../../../../levels/adapters/out/persistence/level.model';
 import { RoomCategory } from '../../../../room-categories/adapters/out/persistence/room-category.model';
 import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapters/out/persistence/room-condition-mysql.database-entity';
 import { SETTINGS } from '../../../../../../settings/settings';
+import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()
 export class RoomORM implements RoomRepository {
@@ -74,9 +75,9 @@ export class RoomORM implements RoomRepository {
             console.log('-------------------', error);
         }
     }
-    async getAllRooms(hotelId: number): Promise<any> {
+    async getAllRooms(hotelId: number, queries: IQueries): Promise<any> {
         try {
-            const rooms = await RoomModel.findAll({
+            const rooms = await RoomModel.findAndCountAll({
                 where: { hotelId: hotelId, state: true },
                 include: [
                     {
@@ -96,6 +97,8 @@ export class RoomORM implements RoomRepository {
                 ],
                 attributes: ['id', 'name', 'price', 'details'],
                 order: [['name', 'ASC']],
+                limit: queries.limit,
+                offset: queries.offset,
             });
             return rooms;
         } catch (error) {

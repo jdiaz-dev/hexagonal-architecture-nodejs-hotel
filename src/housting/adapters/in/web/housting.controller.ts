@@ -14,12 +14,14 @@ import { UpdateMoneyPaidUseCase } from '../../../application/ports/in/update-mon
 import { FinishHoustingUseCase } from '../../../application/ports/in/finish-housting';
 import { FinishHoustingService } from '../../../application/services/finish-housting.service';
 import { AddMoneyToCashDueHoustingUseCase } from '../../../../cash/application/ports/in/add-money-to-cash-due-housting-use-case';
-import { AddMoneyToCashService } from '../../../../cash/application/services/add-money-to-cash.service';
+import { AddMoneyToCashService } from '../../../../cash/application/services/add-money-to-cash-due-housting.service';
 import { CreateHoustingReportService } from '../../../../reports/housting-reports/application/services/create-housting-report.service';
 import { CreateHoustingReportRequest } from './../../../../reports/housting-reports/application/ports/in/create-housting-report.request';
 
 import { AddMoneyToHoustingReportService } from '../../../../reports/housting-reports/application/services/add-money-to-housting-report.service';
 import { AddMoneyToHoustingReportDueHoustingUseCase } from './../../../../reports/housting-reports/application/ports/in/add-money-to-housting-report-due-housting-use-case';
+import { IAddMoneyToDailyReportDueHoustingUseCase } from '../../../../reports/daily-reports/application/ports/in/add-money-to-daily-report-due-housting-use-case';
+import { AddMoneyToDailyReportDueHoustingService } from './../../../../reports/daily-reports/application/services/add-money-to-daily-report-due-housting.service';
 
 dayjs.extend(utc);
 
@@ -34,6 +36,7 @@ export class HoustingController {
     private addMoneyToCashDueHoustingUseCase: AddMoneyToCashDueHoustingUseCase;
     private createHoustingReportRequest: CreateHoustingReportRequest;
     private addMoneyToHoustingReportDueHousting: AddMoneyToHoustingReportDueHoustingUseCase;
+    private addMoneyToDailyReportDueHousting: IAddMoneyToDailyReportDueHoustingUseCase;
 
     constructor(
         createHoustingService: CreateHoustingService,
@@ -45,6 +48,7 @@ export class HoustingController {
         addMoneyToCashService: AddMoneyToCashService,
         createHoustingReportService: CreateHoustingReportService,
         addMoneyToHoustingReportService: AddMoneyToHoustingReportService,
+        addMoneyToDailyReportDueHoustingService: AddMoneyToDailyReportDueHoustingService,
     ) {
         this.createHoustingRequest = createHoustingService;
         this.getHoustingRequest = getHoustingService;
@@ -55,10 +59,13 @@ export class HoustingController {
         this.addMoneyToCashDueHoustingUseCase = addMoneyToCashService;
         this.createHoustingReportRequest = createHoustingReportService;
         this.addMoneyToHoustingReportDueHousting = addMoneyToHoustingReportService;
+        this.addMoneyToDailyReportDueHousting = addMoneyToDailyReportDueHoustingService;
     }
     createHousting = async (req: Request, res: Response) => {
-        const { cashId, clientId, roomId } = req.params;
+        const { hotelId, cashId, clientId, roomId } = req.params;
         const { moneyPaid, entryDate, entryTime, discountApplied } = req.body;
+        const _hotelId = parseInt(hotelId),
+            _cashId = parseInt(cashId);
 
         const newHousting = await this.createHoustingRequest.createTheHousting(
             parseInt(cashId),
@@ -79,6 +86,7 @@ export class HoustingController {
             newHousting.id,
             newHousting.moneyPaid,
         );
+        this.addMoneyToDailyReportDueHousting.addMoneyDueHousting(_hotelId, _cashId, newHousting.moneyPaid);
         res.json(newHousting);
     };
     getHoustingByRoom = async (req: Request, res: Response) => {
@@ -89,24 +97,27 @@ export class HoustingController {
         res.json(housting);
     };
     updateMoneyPaid = async (req: Request, res: Response) => {
-        const { cashId, houstingId } = req.params;
+        const { hotelId, cashId, houstingId } = req.params;
         const { moneyToAdd } = req.body;
+        const _hotelId = parseInt(hotelId),
+            _cashId = parseInt(cashId);
+
         const newMoneyPaid = await this.updateMoneyPaidUseCase.updateMoneyPaid(
             parseInt(houstingId),
             parseInt(moneyToAdd),
         );
-        console.log('---------------------------updateMoneyPaid');
 
         this.addMoneyToCashDueHoustingUseCase.addMoneyToCashDueHousting(parseInt(cashId), parseInt(moneyToAdd));
         this.addMoneyToHoustingReportDueHousting.addMoneyToHoustingReportDueHousting(
             parseInt(houstingId),
             parseInt(moneyToAdd),
         );
+        this.addMoneyToDailyReportDueHousting.addMoneyDueHousting(_hotelId, _cashId, moneyToAdd);
+
         res.json(newMoneyPaid);
     };
     finishHousting = async (req: Request, res: Response) => {
         const { houstingId } = req.params;
-        console.log('---------------------------finishHousting');
 
         const houstingFinished = await this.finishHoustingUseCase.finishHousting(parseInt(houstingId));
 

@@ -31,6 +31,7 @@ const room_routes_2 = __importDefault(require("../src/configuration-hotel/room/a
 const cash_routes_1 = __importDefault(require("../src/cash/adapters/in/web/cash.routes"));
 const housting_routes_1 = __importDefault(require("../src/housting/adapters/in/web/housting.routes"));
 const housting_report_routes_1 = __importDefault(require("../src/reports/housting-reports/adapters/in/web/housting-report.routes"));
+const daily_report_routes_1 = __importDefault(require("../src/reports/daily-reports/adapters/in/daily-report.routes"));
 class Server {
     constructor() {
         this.paths = {
@@ -52,6 +53,8 @@ class Server {
             //housting
             housting: '/jdev/housting',
             houstingReport: '/jdev/housting-report',
+            //reports
+            dailyReport: '/jdev/daily-reports',
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '3000';
@@ -113,6 +116,8 @@ class Server {
         //housting
         this.app.use(this.paths.housting, housting_routes_1.default);
         this.app.use(this.paths.houstingReport, housting_report_routes_1.default);
+        //reports
+        this.app.use(this.paths.dailyReport, daily_report_routes_1.default);
     }
     runServer() {
         this.app.listen(this.port, () => {

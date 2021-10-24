@@ -46,7 +46,7 @@ export class ProductSaledORM implements ProductSaleRepository {
     async getProductsSaledForReport(cashId: number): Promise<any> {
         try {
             const productsSaledReport: any = await ProductSaledModel.findAndCountAll({
-                where: { cashId },
+                where: { cashId, payed: 1 },
                 attributes: ['id', 'amount', 'totalPrice', 'date', 'time'],
                 include: [
                     {
@@ -99,7 +99,6 @@ export class ProductSaledORM implements ProductSaleRepository {
                 productsSaled[x].set({ payed: true });
                 await productsSaled[x].save();
             }
-
             return productsSaled;
         } catch (error) {
             console.log('------------', error);

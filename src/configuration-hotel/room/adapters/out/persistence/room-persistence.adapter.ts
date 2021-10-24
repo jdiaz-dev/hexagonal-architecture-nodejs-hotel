@@ -15,6 +15,7 @@ import { GetRoomForHoustingDomainPort } from '../../../../../housting/applicatio
 import { HoustingPriceDomain } from '../../../../../housting/domain/housting-price';
 import { RoomMapper } from './room.mapper';
 import { UpdateRoomConditionFromHoustingDomainPort } from '../../../../../housting/application/ports/out/other-domain/update-room-condition-from-housting-domain.port';
+import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()
 export class RoomPersistenceAdapter
@@ -68,8 +69,8 @@ export class RoomPersistenceAdapter
         const rooms = await this.roomRepository.getRoomsByLevel(levelId, roomConditionId);
         return rooms;
     }
-    async getAllRooms(hotelId: number): Promise<any> {
-        const rooms = await this.roomRepository.getAllRooms(hotelId);
+    async getAllRooms(hotelId: number, queries: IQueries): Promise<any> {
+        const rooms = await this.roomRepository.getAllRooms(hotelId, queries);
         return rooms;
     }
     async removeRoom(roomId: number): Promise<any> {

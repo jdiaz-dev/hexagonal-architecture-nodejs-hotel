@@ -18,6 +18,7 @@ import roomRoutes from '../src/configuration-hotel/room/adapters/in/web/room.rou
 import cashRoutes from '../src/cash/adapters/in/web/cash.routes';
 import houstingRoutes from '../src/housting/adapters/in/web/housting.routes';
 import houstingReport from '../src/reports/housting-reports/adapters/in/web/housting-report.routes';
+import dailyReports from '../src/reports/daily-reports/adapters/in/daily-report.routes';
 
 export default class Server {
     private app: Application;
@@ -45,6 +46,9 @@ export default class Server {
         //housting
         housting: '/jdev/housting',
         houstingReport: '/jdev/housting-report',
+
+        //reports
+        dailyReport: '/jdev/daily-reports',
     };
 
     constructor() {
@@ -113,6 +117,9 @@ export default class Server {
         //housting
         this.app.use(this.paths.housting, houstingRoutes);
         this.app.use(this.paths.houstingReport, houstingReport);
+
+        //reports
+        this.app.use(this.paths.dailyReport, dailyReports);
     }
     runServer() {
         this.app.listen(this.port, () => {
