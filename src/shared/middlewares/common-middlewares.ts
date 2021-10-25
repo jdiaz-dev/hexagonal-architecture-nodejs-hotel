@@ -21,6 +21,8 @@ export class CommonMiddlwares {
 
     validateJWT = async (req: Request | any, res: Response, next: NextFunction) => {
         const token = req.header('jdevhotel-token');
+
+        console.log('-------------------token', token);
         if (!token) {
             return res.status(400).json({
                 msg: 'There is not a token in the request',

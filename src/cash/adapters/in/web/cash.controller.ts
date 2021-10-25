@@ -11,21 +11,33 @@ import { GetCashNotClosedRequest } from '../../../application/ports/in/get-cash-
 import { GetCashNotClosedService } from '../../../application/services/get-cash-not-closed.service';
 import { ICreateDailyReportQuery } from '../../../../reports/daily-reports/application/ports/in/create-daily-report-request.';
 import { DailyReportPersistenceAdapter } from '../../../../reports/daily-reports/adapters/out/daily-report-persistence.adapter';
+import { IGetCashWithDailyReportQuery } from '../../../application/ports/in/get-cash-with-daily-report.query';
+import { CashPersistenceAdapter } from '../../out/persistence/cash-persitence.adapter';
+import { ICloseCashQuery } from './../../../../../dist/src/cash/application/ports/in/close-cash.query.d';
+import { SETTINGS } from '../../../../../settings/settings';
+import { IQueries } from '../../../../shared/interfaces/query.interface';
 
 @Service()
 export class CashController {
     private createCashRequest: CreateCashRequest;
     private getCashNotClosedRequest: GetCashNotClosedRequest;
     private createDailyReportQuery: ICreateDailyReportQuery;
+    private getCashWithDailyReportQuery: IGetCashWithDailyReportQuery;
+    private closeCashQuery: ICloseCashQuery;
 
     constructor(
         createCashService: CreateCashService,
         getCashNotClosedService: GetCashNotClosedService,
         dailyReportPersistenceAdapter: DailyReportPersistenceAdapter,
+        cashPersistenceAdapter: CashPersistenceAdapter,
     ) {
         this.createCashRequest = createCashService;
         this.getCashNotClosedRequest = getCashNotClosedService;
         this.createDailyReportQuery = dailyReportPersistenceAdapter;
+
+        //persistence
+        this.getCashWithDailyReportQuery = cashPersistenceAdapter;
+        this.closeCashQuery = cashPersistenceAdapter;
     }
     createCash = async (req: Request, res: Response) => {
         const { hotelId } = req.params;
@@ -46,8 +58,34 @@ export class CashController {
     };
     getCashNotClosed = async (req: Request, res: Response) => {
         const { hotelId } = req.params;
-        console.log('----------------cash ', hotelId);
         const cashNotClosed = await this.getCashNotClosedRequest.getTheCashNotClosed(parseInt(hotelId));
         res.json(cashNotClosed);
+    };
+
+    getCashWithDailyReport = async (req: Request, res: Response) => {
+        const { hotelId } = req.params;
+        const {
+            limit = SETTINGS.base.queries.limit,
+            offset = SETTINGS.base.queries.offset,
+            orderby = SETTINGS.base.queries.orderBy,
+        } = req.query as unknown as IQueries;
+
+        const queries: IQueries = {
+            limit: Number(limit),
+            offset: Number(offset),
+            orderby,
+        };
+
+        console.log('----------------cash with report ', hotelId);
+        const cashWithDailyReport = await this.getCashWithDailyReportQuery.getTheCashWithDailyReport(
+            parseInt(hotelId),
+            queries,
+        );
+        res.json(cashWithDailyReport);
+    };
+    closeCash = async (req: Request, res: Response) => {
+        const { cashId } = req.params;
+        const cashClosed = await this.closeCashQuery.closeTheCash(parseInt(cashId));
+        res.json(cashClosed);
     };
 }

@@ -2,7 +2,6 @@ import { Service } from 'typedi';
 
 import { LevelRepository } from './level.repository';
 import { Level } from './level.model';
-import { HotelModel } from '../../../../../managament/hotels/adapters/out/persistence/hotel.model';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()

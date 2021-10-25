@@ -1,11 +1,14 @@
 import { Service } from 'typedi';
 import { DataCash } from '../../../application/services/data-cash';
 import { CashModel } from './cash.model';
-import { CashRepository } from './cash-repository';
+import { ICashRepository } from './cash-repository';
 import { CashDomain } from './../../../domain/cash';
+import { DailyReportModel } from './../../../../reports/daily-reports/adapters/out/daily-report.model';
+import { Sequelize as seq } from 'sequelize';
+import { IQueries } from '../../../../shared/interfaces/query.interface';
 
 @Service()
-export class CashORM implements CashRepository {
+export class CashORM implements ICashRepository {
     async createCash(hotelId: number, dataCash: DataCash): Promise<any> {
         try {
             const cash = new CashModel();
@@ -38,13 +41,46 @@ export class CashORM implements CashRepository {
             console.log('------------', error);
         }
     }
+    async getCashWithDailyReport(hotelId: number, queries: IQueries): Promise<any> {
+        try {
+            const cashWiDailyReport = await CashModel.findAndCountAll({
+                where: { hotelId: hotelId },
+                attributes: ['id', 'openingMoney', 'closingMoney', 'closed', 'createdAt', 'updatedAt'],
+                include: [
+                    {
+                        model: DailyReportModel,
+                        on: seq.where(seq.col('CashModel.id'), '=', seq.col('DailyReportModel.cashId')),
+                        attributes: ['id', 'moneyHousting', 'moneySales'],
+                    },
+                ],
+                order: [['id', 'DESC']],
+                limit: queries.limit,
+                offset: queries.offset,
+            });
+            return cashWiDailyReport;
+        } catch (error) {
+            console.log('------------', error);
+        }
+    }
     async updateClosingMoney(cash: CashDomain) {
-        console.log('------------------cash orm', cash);
         try {
             const cashNotClosed: any = await CashModel.findOne({ where: { id: cash.getId, closed: false } });
             cashNotClosed.closingMoney = cash.getClosingMoney;
             await cashNotClosed.save();
             return cashNotClosed;
+        } catch (error) {
+            console.log('------------', error);
+        }
+    }
+    async closeCash(cashId: number): Promise<any> {
+        try {
+            const cashClosed: any = await CashModel.findOne({
+                where: { id: cashId, closed: false },
+                attributes: ['id', 'closingMoney', 'closed'],
+            });
+            cashClosed.closed = 1;
+            await cashClosed.save();
+            return cashClosed;
         } catch (error) {
             console.log('------------', error);
         }

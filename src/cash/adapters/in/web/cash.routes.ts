@@ -30,4 +30,16 @@ router.get(
     cashController.getCashNotClosed,
 );
 
+router.get(
+    '/report/:hotelId',
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
+    cashController.getCashWithDailyReport,
+);
+
+router.patch(
+    '/:hotelId/:cashId',
+    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
+    cashController.closeCash,
+);
+
 export default router;
