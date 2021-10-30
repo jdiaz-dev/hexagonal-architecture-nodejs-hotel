@@ -1,6 +1,6 @@
 import { Table, Column } from 'sequelize-typescript';
 import { DataTypes, Model } from 'sequelize';
-import { db as sequelize } from '../../../../../../db/connection';
+import { db as sequelize } from '../../../../../core/db/connection';
 import { UserDatabaseEntity } from '../../../../users/adapters/out/user-database-entity';
 
 @Table

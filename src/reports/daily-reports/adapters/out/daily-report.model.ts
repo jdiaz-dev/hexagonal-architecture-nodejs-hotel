@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { Column, Table } from 'sequelize-typescript';
-import { db as sequelize } from '../../../../../db/connection';
+import { db as sequelize } from '../../../../core/db/connection';
 import { CashModel } from '../../../../cash/adapters/out/persistence/cash.model';
 import { HotelModel } from '../../../../managament/hotels/adapters/out/persistence/hotel.model';
 

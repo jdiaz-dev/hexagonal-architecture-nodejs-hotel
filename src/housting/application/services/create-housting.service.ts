@@ -8,7 +8,7 @@ import { GetCashForHoustingDomain } from '../ports/out/other-domain/get-cash-for
 import { GetCashService } from '../../../cash/application/services/get-cash.service';
 import { GetClientForHoustingDomain } from '../ports/out/other-domain/get-client-for-housting-domain';
 import { GetClientService } from '../../../clients/application/services/get-client.service';
-import { SETTINGS } from '../../../../settings/settings';
+import { SETTINGS } from '../../../shared/settings/settings';
 import { UpdateRoomConditionFromHoustingDomainPort } from '../ports/out/other-domain/update-room-condition-from-housting-domain.port';
 import { UpdateRoomConditionService } from '../../../configuration-hotel/room/application/services/update-room-condition.service';
 import { RoomPersistenceAdapter } from '../../../configuration-hotel/room/adapters/out/persistence/room-persistence.adapter';

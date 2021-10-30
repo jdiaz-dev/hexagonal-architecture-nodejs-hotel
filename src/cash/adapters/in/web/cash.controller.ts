@@ -13,9 +13,9 @@ import { ICreateDailyReportQuery } from '../../../../reports/daily-reports/appli
 import { DailyReportPersistenceAdapter } from '../../../../reports/daily-reports/adapters/out/daily-report-persistence.adapter';
 import { IGetCashWithDailyReportQuery } from '../../../application/ports/in/get-cash-with-daily-report.query';
 import { CashPersistenceAdapter } from '../../out/persistence/cash-persitence.adapter';
-import { ICloseCashQuery } from './../../../../../dist/src/cash/application/ports/in/close-cash.query.d';
-import { SETTINGS } from '../../../../../settings/settings';
+import { SETTINGS } from '../../../../shared/settings/settings';
 import { IQueries } from '../../../../shared/interfaces/query.interface';
+import { ICloseCashQuery } from '../../../application/ports/in/close-cash.query';
 
 @Service()
 export class CashController {

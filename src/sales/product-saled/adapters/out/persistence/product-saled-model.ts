@@ -1,6 +1,6 @@
 import { Model } from 'sequelize';
 import { Column, Table } from 'sequelize-typescript';
-import { db as sequelize } from '../../../../../../db/connection';
+import { db as sequelize } from '../../../../../core/db/connection';
 import { DataTypes } from 'sequelize';
 import { HoustingModel } from '../../../../../housting/adapters/out/persistence/housting.model';
 import { ProductModel } from '../../../../products/adapters/out/persistence/product.model';

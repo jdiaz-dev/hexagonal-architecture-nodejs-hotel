@@ -1,6 +1,6 @@
 import { Column, Table } from 'sequelize-typescript';
 import { Model, DataTypes } from 'sequelize';
-import { db as sequelize } from '../../../../../../db/connection';
+import { db as sequelize } from '../../../../../core/db/connection';
 import { Level } from '../../../../levels/adapters/out/persistence/level.model';
 import { RoomCategory } from '../../../../room-categories/adapters/out/persistence/room-category.model';
 import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapters/out/persistence/room-condition-mysql.database-entity';
@@ -8,6 +8,9 @@ import { HotelModel } from '../../../../../managament/hotels/adapters/out/persis
 
 @Table
 export class RoomModel extends Model {
+    @Column
+    id!: number;
+
     @Column
     name!: string;
 

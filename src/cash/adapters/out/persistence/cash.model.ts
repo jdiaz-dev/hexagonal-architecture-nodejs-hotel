@@ -1,7 +1,7 @@
 import { Column, Table } from 'sequelize-typescript';
 import { DataTypes, Model } from 'sequelize';
 
-import { db as sequelize } from '../../../../../db/connection';
+import { db as sequelize } from '../../../../core/db/connection';
 import { HotelModel } from '../../../../managament/hotels/adapters/out/persistence/hotel.model';
 
 @Table

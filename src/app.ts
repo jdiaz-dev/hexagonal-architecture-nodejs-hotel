@@ -1,7 +1,7 @@
 require('dotenv').config();
 import 'reflect-metadata';
 
-import Server from './server/server';
+import Server from './core/server';
 
 console.log('---------------------environment', process.env.PORT);
 

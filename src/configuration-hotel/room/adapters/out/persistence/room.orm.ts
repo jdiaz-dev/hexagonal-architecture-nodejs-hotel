@@ -4,7 +4,7 @@ import { RoomRepository } from './room.repository';
 import { Level } from '../../../../levels/adapters/out/persistence/level.model';
 import { RoomCategory } from '../../../../room-categories/adapters/out/persistence/room-category.model';
 import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapters/out/persistence/room-condition-mysql.database-entity';
-import { SETTINGS } from '../../../../../../settings/settings';
+import { SETTINGS } from '../../../../../shared/settings/settings';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()

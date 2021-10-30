@@ -13,7 +13,7 @@ import { RemoveRoomService } from '../../../application/services/remove-room.ser
 import { RoomWithLevelCommand } from '../../../application/ports/in/room-with-level.domain';
 import { UpdateRoomCondtionRequest } from '../../../application/ports/in/update-room-condition.request';
 import { UpdateRoomConditionService } from '../../../application/services/update-room-condition.service';
-import { SETTINGS } from '../../../../../../settings/settings';
+import { SETTINGS } from '../../../../../shared/settings/settings';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()

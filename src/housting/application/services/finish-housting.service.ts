@@ -3,7 +3,7 @@ import { FinishHoustingUseCase } from '../ports/in/finish-housting';
 import { UpdateFinishHoustingPort } from '../ports/out/self-domain/update-finish.p-houstingort';
 import { HoustingPersistenceAdapter } from '../../adapters/out/persistence/housting-persistence.adapter';
 import { UpdateRoomConditionFromHoustingDomainPort } from '../ports/out/other-domain/update-room-condition-from-housting-domain.port';
-import { SETTINGS } from './../../../../settings/settings';
+import { SETTINGS } from '../../../shared/settings/settings';
 import { RoomPersistenceAdapter } from '../../../configuration-hotel/room/adapters/out/persistence/room-persistence.adapter';
 
 @Service()

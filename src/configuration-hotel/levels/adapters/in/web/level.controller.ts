@@ -8,7 +8,7 @@ import { UpdateTheHotelLevelRequest } from '../../../application/ports/in/update
 import { HotelLevelCommand } from '../../../application/ports/in/hotel-level.command';
 import { RemoveHotelLevelRequest } from '../../../application/ports/in/remove-hotel-level.request';
 import { RemoveHotelLevelService } from '../../../application/services/remove-hotel.level.service';
-import { SETTINGS } from '../../../../../../settings/settings';
+import { SETTINGS } from '../../../../../shared/settings/settings';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
 
 @Service()

@@ -1,5 +1,5 @@
 export class RoomDomain {
-    constructor(private hotelId: number | null) {}
+    constructor(private hotelId: number | null, private condition?: number) {}
     checkIfRoomLevelBelognsToHotel(hotelId: number): boolean {
         if (hotelId !== this.hotelId) return false;
         return true;
@@ -14,5 +14,8 @@ export class RoomDomain {
     }
     get getHoteId() {
         return this.hotelId;
+    }
+    get getCondition() {
+        return this.condition;
     }
 }

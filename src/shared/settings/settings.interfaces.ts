@@ -1,6 +1,6 @@
 interface IDatabase {
     databaseName: string;
-    user: string;
+    usernameDB: string;
     password: string;
     host: string;
     dialect: string;

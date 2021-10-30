@@ -1,7 +1,7 @@
 import { Column, Table } from 'sequelize-typescript';
 import { DataTypes, Model } from 'sequelize';
 import { HotelModel } from '../../../../managament/hotels/adapters/out/persistence/hotel.model';
-import { db as sequelize } from '../../../../../db/connection';
+import { db as sequelize } from '../../../../core/db/connection';
 
 @Table
 export class ClientDatabaseEntity extends Model {

@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { Column } from 'sequelize-typescript';
 import { HotelModel } from '../../../../../managament/hotels/adapters/out/persistence/hotel.model';
-import { db as sequelize } from '../../../../../../db/connection';
+import { db as sequelize } from '../../../../../core/db/connection';
 
 export class Level extends Model {
     @Column
