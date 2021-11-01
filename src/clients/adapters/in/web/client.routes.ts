@@ -33,7 +33,7 @@ router.get(
 
 router.get(
     '/:hotelId',
-    [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
+    //[coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     clientController.getClients,
 );
 

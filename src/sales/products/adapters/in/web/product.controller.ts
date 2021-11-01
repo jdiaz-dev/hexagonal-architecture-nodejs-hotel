@@ -49,12 +49,14 @@ export class ProductController {
             limit = SETTINGS.base.queries.limit,
             offset = SETTINGS.base.queries.offset,
             orderby = SETTINGS.base.queries.orderBy,
+            searchText = '',
         } = req.query as unknown as IQueries;
 
         const queries: IQueries = {
             limit: Number(limit),
             offset: Number(offset),
             orderby,
+            searchText,
         };
         const productCreated = await this.getProductsRequest.getTheProducts(parseInt(hotelId), queries);
         res.json(productCreated);

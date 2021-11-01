@@ -60,7 +60,7 @@ export class ClientORM implements ClientRepository {
                         },
                     ],
                 },
-                order: [['id', 'ASC']],
+                order: [['id', 'DESC']],
                 limit: queries.limit,
                 offset: queries.offset,
             });

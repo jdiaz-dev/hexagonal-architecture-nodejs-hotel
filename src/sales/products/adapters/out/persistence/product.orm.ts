@@ -3,6 +3,7 @@ import { IQueries } from '../../../../../shared/interfaces/query.interface';
 import { DataProduct } from '../../../application/services/data-product';
 import { ProductModel } from './product.model';
 import { ProductRepository } from './product.repository';
+import { Op, Sequelize as seq } from 'sequelize';
 
 @Service()
 export class ProductORM implements ProductRepository {
@@ -25,14 +26,29 @@ export class ProductORM implements ProductRepository {
     async getProducts(hotelId: number, queries: IQueries): Promise<any> {
         try {
             const products = await ProductModel.findAndCountAll({
-                where: { hotelId: hotelId, state: true },
+                where: {
+                    hotelId: hotelId,
+                    state: true,
+                    [Op.or]: [
+                        {
+                            name: seq.where(
+                                seq.fn('LOWER', seq.col('name')),
+                                'LIKE',
+                                '%' + queries.searchText?.toLowerCase() + '%',
+                            ),
+                        },
+                        {
+                            brand: seq.where(
+                                seq.fn('LOWER', seq.col('brand')),
+                                'LIKE',
+                                '%' + queries.searchText?.toLowerCase() + '%',
+                            ),
+                        },
+                    ],
+                },
                 limit: queries.limit,
                 offset: queries.offset,
             });
-            /* console.log('--------------products', products);
-            if (products.count === 0) {
-                throw new Error('-------------It was impossible to get products');
-            } */
             return products;
         } catch (error) {
             console.log('------------', error);

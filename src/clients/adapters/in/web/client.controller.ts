@@ -34,13 +34,22 @@ export class ClientController {
     }
 
     createClient = async (req: Request | any, res: Response) => {
-        const { names, surnames, dni, cellphone, visitReason } = req.body;
+        const { clientId, names, surnames, dni, cellphone, visitReason } = req.body;
         const { hotelId } = req.params;
 
-        const dataClient = new DataClient(names, surnames, dni, parseInt(cellphone), visitReason);
-        const newClient = await this.createNewClientRequest.createNewClient(parseInt(hotelId), dataClient);
+        if (clientId) {
+            const client = await this.getClientRequest.getTheClient(
+                clientId,
+                new ClientCommand(parseInt(hotelId)),
+            );
 
-        res.json(newClient);
+            res.json(client);
+        } else {
+            const dataClient = new DataClient(names, surnames, dni, parseInt(cellphone), visitReason);
+            const newClient = await this.createNewClientRequest.createNewClient(parseInt(hotelId), dataClient);
+
+            res.json(newClient);
+        }
     };
     getClient = async (req: Request | any, res: Response) => {
         const { hotelId, clientId } = req.params;
@@ -56,14 +65,14 @@ export class ClientController {
             limit = SETTINGS.base.queries.limit,
             offset = SETTINGS.base.queries.offset,
             orderby = SETTINGS.base.queries.orderBy,
-            searchText = ''
+            searchText = '',
         } = req.query as unknown as IQueries;
 
         const queries: IQueries = {
             limit: Number(limit),
             offset: Number(offset),
             orderby,
-            searchText
+            searchText,
         };
 
         const client = await this.getClientsRequest.getTheClients(parseInt(hotelId), queries);
