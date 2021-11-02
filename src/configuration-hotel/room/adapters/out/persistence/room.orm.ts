@@ -6,6 +6,7 @@ import { RoomCategory } from '../../../../room-categories/adapters/out/persisten
 import { RoomConditionDatabaseEntity } from '../../../../room-condition/adapters/out/persistence/room-condition-mysql.database-entity';
 import { SETTINGS } from '../../../../../shared/settings/settings';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
+import { Op, Sequelize as seq } from 'sequelize';
 
 @Service()
 export class RoomORM implements RoomRepository {
@@ -78,7 +79,19 @@ export class RoomORM implements RoomRepository {
     async getAllRooms(hotelId: number, queries: IQueries): Promise<any> {
         try {
             const rooms = await RoomModel.findAndCountAll({
-                where: { hotelId: hotelId, state: true },
+                where: {
+                    hotelId,
+                    state: true,
+                    [Op.or]: [
+                        {
+                            name: seq.where(
+                                seq.fn('LOWER', seq.col('RoomModel.name')),
+                                'LIKE',
+                                '%' + queries.searchText?.toLowerCase() + '%',
+                            ),
+                        },
+                    ],
+                },
                 include: [
                     {
                         model: Level,

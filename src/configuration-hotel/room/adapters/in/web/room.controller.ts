@@ -84,11 +84,14 @@ export class RoomController {
             limit = SETTINGS.base.queries.limit,
             offset = SETTINGS.base.queries.offset,
             orderby = SETTINGS.base.queries.orderBy,
+            searchText = '',
         } = req.query as unknown as IQueries;
+
         const queries: IQueries = {
             limit: Number(limit),
             offset: Number(offset),
             orderby,
+            searchText,
         };
 
         const rooms = await this.getRoomsRequest.getAllRooms(parseInt(hotelId), queries);
