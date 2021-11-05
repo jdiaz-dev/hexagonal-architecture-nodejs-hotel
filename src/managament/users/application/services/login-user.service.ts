@@ -7,6 +7,7 @@ import { generateJWT } from './generate-jwt';
 import { CreateUserCommand } from '../ports/in/create-user.command';
 import { GetHotelForUsersDomain } from '../ports/out/other-domain/get-hotel-for-users-domain';
 import { GetHotelService } from '../../../hotels/application/services/get-hotel.service';
+import { SETTINGS } from '../../../../shared/settings/settings';
 
 @Service()
 export class LoginUserService implements LoginUserUseCase {
@@ -20,7 +21,9 @@ export class LoginUserService implements LoginUserUseCase {
 
     async loginUser(command: CreateUserCommand): Promise<string | any> {
         const user = await this.findUserPort.findUserWithEmail(command.getUser.getEmail);
-        console.log('--------------user', user);
+
+        if (!user) return { message: 'Forbidden to access the system' };
+
         if (user.state == false) {
             return {
                 message: 'You cannot access to the system, please speak with the admin',
@@ -32,19 +35,26 @@ export class LoginUserService implements LoginUserUseCase {
             return { message: 'Invalid password' };
         }
 
-        let hotel = undefined;
-        const emailOwner = 'admin@admin.com';
-
-        if (user.email !== emailOwner) {
-            console.log(user);
+        let hotel;
+        if (user.roleId !== SETTINGS.base.roles.adminRole) {
             hotel = await this.getHotelForUsersDomain.getHotelForUsersDomain(user.id);
         }
 
-        console.log('----------hotel', hotel);
         const token = await generateJWT(user);
+
+        if (!hotel && user.roleId !== SETTINGS.base.roles.adminRole) {
+            return { message: 'You has not an hotel registered, please request one' };
+        } else if (hotel) {
+            return {
+                token,
+                hotelId: hotel.id,
+            };
+        }
+
+        //adminn
         return {
             token,
-            hotelId: hotel !== null ? hotel.id : 'wellcome jonathan',
+            message: 'wellcome pol',
         };
     }
 }
