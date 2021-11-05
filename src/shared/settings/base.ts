@@ -2,7 +2,7 @@ import { IBase } from './settings.interfaces';
 
 export const base: IBase = {
     roles: {
-        adminRole: parseInt(process.env.ADMIN_ROLE || ''),
+        adminRoleId: parseInt(process.env.ADMIN_ROLE_ID || ''),
     },
     databaseIds: {
         busyConditionId: parseInt(process.env.CONDITION_BUSY_ID || ''),

@@ -8,7 +8,7 @@ interface IDatabase {
 
 export interface IBase {
     roles: {
-        adminRole: number;
+        adminRoleId: number;
     };
     databaseIds: {
         busyConditionId: number;

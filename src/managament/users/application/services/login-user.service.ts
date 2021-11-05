@@ -36,13 +36,13 @@ export class LoginUserService implements LoginUserUseCase {
         }
 
         let hotel;
-        if (user.roleId !== SETTINGS.base.roles.adminRole) {
+        if (user.roleId !== SETTINGS.base.roles.adminRoleId) {
             hotel = await this.getHotelForUsersDomain.getHotelForUsersDomain(user.id);
         }
 
         const token = await generateJWT(user);
 
-        if (!hotel && user.roleId !== SETTINGS.base.roles.adminRole) {
+        if (!hotel && user.roleId !== SETTINGS.base.roles.adminRoleId) {
             return { message: 'You has not an hotel registered, please request one' };
         } else if (hotel) {
             return {
