@@ -53,7 +53,7 @@ export class CreateHoustingService {
         const client = await this.getClientForHoustingDomain.getClientForHoustingDomain(clientId);
         if (!client) return { message: 'This client does not exits for this housting' };
 
-        const busyCondtionId = SETTINGS.base.databaseIds.busyConditionId;
+        const busyCondtionId = SETTINGS.base.roomConditionIds.busyConditionId;
         const conditionOfRoomUpdated = await this.updateRoomConditionFromHoustingDomainPort.updateRoomCondition(
             roomId,
             busyCondtionId,

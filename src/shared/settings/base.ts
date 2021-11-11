@@ -4,7 +4,7 @@ export const base: IBase = {
     roles: {
         adminRoleId: parseInt(process.env.ADMIN_ROLE_ID || ''),
     },
-    databaseIds: {
+    roomConditionIds: {
         busyConditionId: parseInt(process.env.CONDITION_BUSY_ID || ''),
         freeConditionId: parseInt(process.env.CONDITION_FREE_ID || ''),
         cleaningConditionId: parseInt(process.env.CONDITION_CLEANING_ID || ''),

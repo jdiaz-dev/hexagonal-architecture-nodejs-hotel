@@ -10,7 +10,7 @@ export interface IBase {
     roles: {
         adminRoleId: number;
     };
-    databaseIds: {
+    roomConditionIds: {
         busyConditionId: number;
         freeConditionId: number;
         cleaningConditionId: number;

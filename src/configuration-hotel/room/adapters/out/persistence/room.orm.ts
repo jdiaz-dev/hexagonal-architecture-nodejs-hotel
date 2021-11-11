@@ -36,7 +36,7 @@ export class RoomORM implements RoomRepository {
     async getRoomsByLevel(levelId: number, roomConditionId: number): Promise<any> {
         const query: any = { levelId: levelId, state: true };
 
-        if (roomConditionId == SETTINGS.base.databaseIds.busyConditionId) {
+        if (roomConditionId == SETTINGS.base.roomConditionIds.busyConditionId) {
             query['conditionId'] = roomConditionId;
         }
 
@@ -76,7 +76,7 @@ export class RoomORM implements RoomRepository {
             console.log('-------------------', error);
         }
     }
-    async getAllRooms(hotelId: number, queries: IQueries): Promise<any> {
+    async getAllRoomsPaged(hotelId: number, queries: IQueries): Promise<any> {
         try {
             const rooms = await RoomModel.findAndCountAll({
                 where: {
@@ -118,6 +118,21 @@ export class RoomORM implements RoomRepository {
             console.log('-------------------', error);
         }
     }
+    async getAllRooms(hotelId: number): Promise<any> {
+        try {
+            const rooms = await RoomModel.findAll({
+                where: {
+                    hotelId,
+                    state: true,
+                },
+                attributes: ['id', 'conditionId'],
+            });
+            return rooms;
+        } catch (error) {
+            console.log('-------------------', error);
+        }
+    }
+
     async updateRoom(roomData: any, roomId: number): Promise<any> {
         try {
             const room: any = await RoomModel.findByPk(roomId);

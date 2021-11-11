@@ -1,5 +1,5 @@
-import { RoomDomain } from '../../../../domain/room';
+import { RoomConditions } from '../../../../domain/room-conditions';
 
-export interface IGetRoomWithConditionPort {
-    getRoomWithCondition(roomId: number): Promise<RoomDomain>;
+export interface IGetRoomsWithConditionPort {
+    getRoomsWithCondition(roomId: number): Promise<RoomConditions>;
 }

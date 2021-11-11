@@ -29,7 +29,7 @@ export class FinishHoustingService implements FinishHoustingUseCase {
             return { message: 'A problem trying to finish housting has ocurred' };
         }
 
-        const rommConditionForCleaningId = SETTINGS.base.databaseIds.cleaningConditionId;
+        const rommConditionForCleaningId = SETTINGS.base.roomConditionIds.cleaningConditionId;
         const roomCondtionUpdated = await this.updateRoomConditionFromHoustingDomainPort.updateRoomCondition(
             houstingFinished.roomId,
             rommConditionForCleaningId,

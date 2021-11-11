@@ -27,12 +27,18 @@ router.post(
 );
 
 router.get(
-    '/:hotelId/:levelId',
+    '/:hotelId/levels/:levelId',
     [coommonMiddlewares.validateJWT, coommonMiddlewares.checkIfHotelBelongsToUserApp, validateFields],
     roomController.getRoomsByLevel,
 );
 
 router.get('/:hotelId', [coommonMiddlewares.validateJWT, validateFields], roomController.getAllRooms);
+
+router.get(
+    '/:hotelId/report',
+    // [coommonMiddlewares.validateJWT, validateFields],
+    roomController.getRoomConditionReport,
+);
 
 //put
 router.put(

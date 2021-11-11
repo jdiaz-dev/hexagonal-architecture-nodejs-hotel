@@ -16,8 +16,8 @@ import { HoustingPriceDomain } from '../../../../../housting/domain/housting-pri
 import { RoomMapper } from './room.mapper';
 import { UpdateRoomConditionFromHoustingDomainPort } from '../../../../../housting/application/ports/out/other-domain/update-room-condition-from-housting-domain.port';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
-import { IGetRoomWithConditionPort } from '../../../application/ports/out/self-domain/get-room-with-condition.port';
-import { RoomDomain } from '../../../domain/room';
+import { IGetRoomsWithConditionPort } from '../../../application/ports/out/self-domain/get-room-with-condition.port';
+import { RoomConditions } from '../../../domain/room-conditions';
 
 @Service()
 export class RoomPersistenceAdapter
@@ -30,7 +30,7 @@ export class RoomPersistenceAdapter
         RemoveRoomPort,
         GetRoomModelForSelfDomainPort,
         GetRoomForHoustingDomainPort,
-        IGetRoomWithConditionPort,
+        IGetRoomsWithConditionPort,
         UpdateRoomConditionFromHoustingDomainPort
 {
     private roomRepository: RoomRepository;
@@ -72,14 +72,14 @@ export class RoomPersistenceAdapter
         const rooms = await this.roomRepository.getRoomsByLevel(levelId, roomConditionId);
         return rooms;
     }
-    async getRoomWithCondition(roomId: number): Promise<RoomDomain> {
-        const room = await this.roomRepository.getRoom(roomId);
-        const roomWithCondition = this.roomMapper.mapForRoomDomain(room);
-        return roomWithCondition;
+    async getRoomsWithCondition(roomId: number): Promise<RoomConditions> {
+        const rooms = await this.roomRepository.getAllRooms(roomId);
+        const roomsWithCondition = this.roomMapper.mapForRoomsWithConditions(rooms);
+        return roomsWithCondition;
     }
 
     async getAllRooms(hotelId: number, queries: IQueries): Promise<any> {
-        const rooms = await this.roomRepository.getAllRooms(hotelId, queries);
+        const rooms = await this.roomRepository.getAllRoomsPaged(hotelId, queries);
         return rooms;
     }
     async removeRoom(roomId: number): Promise<any> {

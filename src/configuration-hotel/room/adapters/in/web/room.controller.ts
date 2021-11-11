@@ -15,6 +15,8 @@ import { UpdateRoomCondtionRequest } from '../../../application/ports/in/update-
 import { UpdateRoomConditionService } from '../../../application/services/update-room-condition.service';
 import { SETTINGS } from '../../../../../shared/settings/settings';
 import { IQueries } from '../../../../../shared/interfaces/query.interface';
+import { IGetRoomConditionReportUseCase } from '../../../application/ports/in/get-room-condition-report-use.case';
+import { GetRoomConditionsReportService } from '../../../application/services/get-rooms-conditions-report.service';
 
 @Service()
 export class RoomController {
@@ -23,18 +25,21 @@ export class RoomController {
     private getRoomsRequest: GetRoomsRequest;
     private removeTheRoomRequest: RemoveTheRoomRequest;
     private updateRoomCondtionRequest: UpdateRoomCondtionRequest;
+    private getRoomConditionReportUseCase: IGetRoomConditionReportUseCase;
 
     constructor(
         createAndUpdateRoomService: CreateAndUpdateRoomService,
         getRoomsService: GetRoomsService,
         removeRoomService: RemoveRoomService,
         updateRoomConditionService: UpdateRoomConditionService,
+        getRoomConditionsReportService: GetRoomConditionsReportService,
     ) {
         this.createNewRoomRequest = createAndUpdateRoomService;
         this.updateTheRoomRequest = createAndUpdateRoomService;
         this.getRoomsRequest = getRoomsService;
         this.removeTheRoomRequest = removeRoomService;
         this.updateRoomCondtionRequest = updateRoomConditionService;
+        this.getRoomConditionReportUseCase = getRoomConditionsReportService;
     }
     createRoom = async (req: Request | any, res: Response) => {
         const { name, price, details, levelId, categoryId } = req.body;
@@ -69,7 +74,7 @@ export class RoomController {
     };
     getRoomsByLevel = async (req: Request | any, res: Response) => {
         const { hotelId, levelId } = req.params;
-        const { conditionId = SETTINGS.base.databaseIds.freeConditionId } = req.query;
+        const { conditionId = SETTINGS.base.roomConditionIds.freeConditionId } = req.query;
 
         const rooms = await this.getRoomsRequest.getRoomsByLevel(
             parseInt(levelId),
@@ -96,6 +101,11 @@ export class RoomController {
 
         const rooms = await this.getRoomsRequest.getAllRooms(parseInt(hotelId), queries);
         res.json(rooms);
+    };
+    getRoomConditionReport = async (req: Request, res: Response) => {
+        const { hotelId } = req.params;
+        const report = await this.getRoomConditionReportUseCase.getTheRoomConditionReport(parseInt(hotelId));
+        res.json(report);
     };
     removeRoom = async (req: Request | any, res: Response) => {
         const { hotelId, levelId, roomId } = req.params;
