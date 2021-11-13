@@ -102,7 +102,7 @@ export class RoomController {
         const rooms = await this.getRoomsRequest.getAllRooms(parseInt(hotelId), queries);
         res.json(rooms);
     };
-    getRoomConditionReport = async (req: Request, res: Response) => {
+    getRoomConditionsReport = async (req: Request, res: Response) => {
         const { hotelId } = req.params;
         const report = await this.getRoomConditionReportUseCase.getTheRoomConditionReport(parseInt(hotelId));
         res.json(report);

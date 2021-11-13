@@ -36,8 +36,8 @@ router.get('/:hotelId', [coommonMiddlewares.validateJWT, validateFields], roomCo
 
 router.get(
     '/:hotelId/report',
-    // [coommonMiddlewares.validateJWT, validateFields],
-    roomController.getRoomConditionReport,
+    [coommonMiddlewares.validateJWT, validateFields],
+    roomController.getRoomConditionsReport,
 );
 
 //put
