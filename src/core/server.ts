@@ -91,6 +91,16 @@ export default class Server {
         });
         //this.app.use(limiter) //to limit number of request
         this.app.use(cors({}));
+        this.app.use((req, res, next) => {
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header(
+                'Access-Control-Allow-Headers',
+                'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method',
+            );
+            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+            res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+            next();
+        });
         this.app.use(helmet());
     }
 

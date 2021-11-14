@@ -32,6 +32,7 @@ export class LevelController {
         const { numberLevel, nameLevel } = req.body;
         const { hotelId } = req.params;
 
+        console.log('---------------creating level');
         const newLevel = await this.createNewHotelLevelRequest.createNewLevel(
             numberLevel,
             nameLevel,
