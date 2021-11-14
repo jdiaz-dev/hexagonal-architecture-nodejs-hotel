@@ -47,7 +47,7 @@ export class RoomPersistenceAdapter
             categoryId: roomData.getCategoryId,
             conditionId: roomData.getConditionId,
         };
-
+        console.log('-------------------data hotel', roomData, hotelId);
         const room = await this.roomRepository.createRoom(_roomData, hotelId);
         return room;
     }
