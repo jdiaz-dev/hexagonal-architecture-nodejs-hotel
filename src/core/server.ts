@@ -5,20 +5,20 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
 import { db as sequelize } from './db/connection';
-import userRoutes from '../managament/users/adapters/in/users.routes';
-import productRoutes from '../sales/products/adapters/in/web/product.routes';
-import productSaleRoutes from '../sales/product-saled/adapters/in/web/product-saled.routes';
-import clientRoutes from '../clients/adapters/in/web/client.routes';
-import rolesRoutes from '../managament/roles/adapters/in/roles.routes';
-import hotelRoutes from '../managament/hotels/adapters/in/web/hotel.routes';
-import levelRoutes from '../configuration-hotel/levels/adapters/in/web/level.routes';
-import roomConditionRoutes from '../configuration-hotel/room-condition/adapters/in/web/room.routes';
-import roomCategoryRoutes from '../configuration-hotel/room-categories/adapters/in/web/room-category.routes';
-import roomRoutes from '../configuration-hotel/room/adapters/in/web/room.routes';
-import cashRoutes from '../cash/adapters/in/web/cash.routes';
-import houstingRoutes from '../housting/adapters/in/web/housting.routes';
-import houstingReport from '../reports/housting-reports/adapters/in/web/housting-report.routes';
-import dailyReports from '../reports/daily-reports/adapters/in/daily-report.routes';
+import userRoutes from '../modules/managament/users/adapters/in/users.routes';
+import productRoutes from '../modules/sales/products/adapters/in/web/product.routes';
+import productSaleRoutes from '../modules/sales/product-saled/adapters/in/web/product-saled.routes';
+import clientRoutes from '../modules/clients/adapters/in/web/client.routes';
+import rolesRoutes from '../modules/managament/roles/adapters/in/roles.routes';
+import hotelRoutes from '../modules/managament/hotels/adapters/in/web/hotel.routes';
+import levelRoutes from '../modules/configuration-hotel/levels/adapters/in/web/level.routes';
+import roomConditionRoutes from '../modules/configuration-hotel/room-condition/adapters/in/web/room.routes';
+import roomCategoryRoutes from '../modules/configuration-hotel/room-categories/adapters/in/web/room-category.routes';
+import roomRoutes from '../modules/configuration-hotel/room/adapters/in/web/room.routes';
+import cashRoutes from '../modules/cash/adapters/in/web/cash.routes';
+import houstingRoutes from '../modules/housting/adapters/in/web/housting.routes';
+import houstingReport from '../modules/reports/housting-reports/adapters/in/web/housting-report.routes';
+import dailyReports from '../modules/reports/daily-reports/adapters/in/daily-report.routes';
 
 export default class Server {
     private app: Application;
