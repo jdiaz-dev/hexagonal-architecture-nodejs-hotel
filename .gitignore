@@ -2,5 +2,7 @@
 .env
 .env.production
 .env.development
+.env.sample
+
 /dist
 /backup_mysql_tables

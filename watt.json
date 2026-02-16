@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.platformatic.dev/@platformatic/node/3.38.1.json",
+  "application": {
+    "commands": {
+      "development": "npm run start:dev",
+      "build": "npm run build",
+      "production": "npm run start",
+      "install": "npm ci"
+    }
+  },
+  "runtime": {
+    "logger": {
+      "level": "{PLT_SERVER_LOGGER_LEVEL}"
+    },
+    "server": {
+      "hostname": "{PLT_SERVER_HOSTNAME}",
+      "port": "{PORT}"
+    },
+    "managementApi": "{PLT_MANAGEMENT_API}"
+  }
+}
