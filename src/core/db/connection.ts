@@ -13,6 +13,6 @@ export const db = new Sequelize(
     SETTINGS.database.password,
     {
         host: SETTINGS.database.host,
-        dialect: 'mysql',
+        dialect: 'postgres',
     },
 );

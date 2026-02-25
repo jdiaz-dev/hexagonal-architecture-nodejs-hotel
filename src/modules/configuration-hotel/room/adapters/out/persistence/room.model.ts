@@ -38,7 +38,7 @@ export class RoomModel extends Model {
 RoomModel.init(
     {
         name: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         price: {
