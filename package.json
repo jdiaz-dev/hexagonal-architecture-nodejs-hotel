@@ -22,7 +22,6 @@
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.5.5",
     "moment": "^2.29.1",
-    "mysql2": "^2.2.5",
     "pg": "^8.16.3",
     "platformatic": "^3.38.1",
     "reflect-metadata": "^0.1.13",
